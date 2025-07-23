@@ -86,24 +86,23 @@
         android:id="@+id/noAccountTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="44dp"
         android:text="Ещё нет аккаунта?"
         android:textColor="@color/dark_green"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.287"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginContinue" />
 
     <TextView
         android:id="@+id/tvRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
         android:text="Регистрация"
         android:textColor="@color/dark_green"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/noAccountTitle"
-        app:layout_constraintTop_toTopOf="@+id/noAccountTitle" />
+        app:layout_constraintBottom_toBottomOf="@+id/noAccountTitle"
+        app:layout_constraintStart_toEndOf="@+id/noAccountTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

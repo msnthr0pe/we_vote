@@ -11,10 +11,10 @@
 
     <style name="Button" parent="Widget.Material3.Button">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.We_vote.Button</item>
-        <item name="backgroundTint">@color/light_yellow</item>
+        <item name="backgroundTint">@color/dark_green</item>
         <item name="strokeColor">@color/dark_green</item>
         <item name="strokeWidth">2.3dp</item>
-        <item name="android:textColor">@color/dark_green</item>
+        <item name="android:textColor">@color/light_yellow</item>
         <item name="android:textSize">22sp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
