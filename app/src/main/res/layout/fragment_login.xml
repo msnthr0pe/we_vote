@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/etPasswordLogin"
         android:layout_width="351dp"
         android:layout_height="52dp"
         android:layout_marginTop="60dp"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/etPhone" />
 
     <TextView
-        android:id="@+id/phoneTitle"
+        android:id="@+id/phoneTitleLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -68,8 +68,8 @@
         android:layout_marginBottom="16dp"
         android:text="Пароль"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etPassword"
-        app:layout_constraintStart_toStartOf="@+id/etPassword" />
+        app:layout_constraintBottom_toTopOf="@+id/etPasswordLogin"
+        app:layout_constraintStart_toStartOf="@+id/etPasswordLogin" />
 
     <Button
         android:id="@+id/btnLoginContinue"
@@ -77,10 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
         android:text="Продолжить"
-        app:layout_constraintEnd_toEndOf="@+id/etPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etPasswordLogin"
         app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="@+id/etPassword"
-        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
+        app:layout_constraintStart_toStartOf="@+id/etPasswordLogin"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 
     <TextView
         android:id="@+id/noAccountTitle"
