@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="editTextWidth">350dp</dimen>
+    <dimen name="editTextHeight">52dp</dimen>
+
+    <dimen name="titleTextSize">50sp</dimen>
+</resources>

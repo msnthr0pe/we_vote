@@ -6,6 +6,8 @@
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="colorPrimary">@color/dark_green</item>
 
+        <item name="editTextBackgroundFill">@color/white</item>
+
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
 
@@ -48,6 +50,10 @@
         <item name="android:textColorHint">@color/dark_green</item>
         <item name="android:textSize">17sp</item>
         <item name="android:background">@drawable/rounded_corners</item>
+    </style>
+
+    <style name="CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 
 </resources>

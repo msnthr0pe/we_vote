@@ -35,8 +35,8 @@
 
         <EditText
             android:id="@+id/etNameRegister"
-            android:layout_width="351dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/enter_user_name" />
 
         <TextView
@@ -50,8 +50,8 @@
 
         <EditText
             android:id="@+id/etDateRegister"
-            android:layout_width="351dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/date_format" />
 
         <TextView
@@ -65,8 +65,8 @@
 
         <EditText
             android:id="@+id/etCityRegister"
-            android:layout_width="351dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/enter_city_name" />
 
         <TextView
@@ -80,8 +80,8 @@
 
         <EditText
             android:id="@+id/etPasswordRegister"
-            android:layout_width="351dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/enter_password" />
 
         <TextView
@@ -95,8 +95,8 @@
 
         <EditText
             android:id="@+id/etRepeatPasswordRegister"
-            android:layout_width="351dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/password_repeat" />
 
     </LinearLayout>

@@ -19,4 +19,7 @@
     <string name="register">Зарегистрироваться</string>
     <string name="slogan">Твой взгляд формирует завтрашний день</string>
     <string name="night_theme">Тёмная тема</string>
+    <string name="search">Поиск…</string>
+    <string name="default_recycler_text">Как Вы относитесь к идее проведения ночных киномарафонов в нашем кинотеатре?</string>
+    <string name="vote">Голосовать</string>
 </resources>

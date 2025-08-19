@@ -40,8 +40,8 @@
 
         <EditText
             android:id="@+id/etPhone"
-            android:layout_width="351dp"
-            android:layout_height="52dp"
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/enter_phone_number" />
 
         <TextView
@@ -53,7 +53,7 @@
 
         <EditText
             android:id="@+id/etPasswordLogin"
-            android:layout_width="351dp"
+            android:layout_width="350dp"
             android:layout_height="52dp"
             android:hint="@string/enter_password" />
     </LinearLayout>
