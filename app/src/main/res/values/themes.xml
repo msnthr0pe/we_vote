@@ -2,7 +2,7 @@
     <style name="Theme.We_vote" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:background">@color/light_yellow</item>
         <item name="android:textColor">@color/dark_green</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="colorPrimary">@color/dark_green</item>
 
@@ -10,8 +10,13 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
 
         <item name="materialButtonStyle">@style/Button</item>
+        <item name="android:textViewStyle">@style/TextView</item>
         <item name="editTextStyle">@style/EditText</item>
         <item name="bottomNavigationStyle">@style/LargeIconBottomNav</item>
+    </style>
+
+    <style name="TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:gravity">center</item>
     </style>
 
     <style name="LargeIconBottomNav" parent="Widget.MaterialComponents.BottomNavigationView">
@@ -27,6 +32,7 @@
         <item name="strokeWidth">2.3dp</item>
         <item name="android:textColor">@color/light_yellow</item>
         <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingStart">45dp</item>
@@ -39,7 +45,7 @@
     </style>
 
     <style name="EditText" parent="android:Widget.EditText">
-        <item name="android:textColorHint">@color/light_yellow</item>
+        <item name="android:textColorHint">@color/dark_green</item>
         <item name="android:textSize">17sp</item>
         <item name="android:background">@drawable/rounded_corners</item>
     </style>

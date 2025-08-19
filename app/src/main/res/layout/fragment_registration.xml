@@ -1,133 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingVertical="50dp">
 
     <TextView
         android:id="@+id/registerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
         android:text="Регистрация"
         android:textStyle="bold"
         android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1"/>
 
-    <EditText
-        android:id="@+id/etNameRegister"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="104dp"
-        android:hint="Введите имя пользователя..."
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintEnd_toEndOf="@+id/registerTitle"
-        app:layout_constraintStart_toStartOf="@+id/registerTitle"
-        app:layout_constraintTop_toBottomOf="@+id/registerTitle" />
-
-    <EditText
-        android:id="@+id/etDateRegister"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:hint="Формат ввода: xx.xx.xxxx"
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintStart_toStartOf="@+id/etNameRegister"
-        app:layout_constraintTop_toBottomOf="@+id/etNameRegister" />
-
-    <EditText
-        android:id="@+id/etCityRegister"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:hint="Введите название города..."
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintEnd_toEndOf="@+id/etDateRegister"
-        app:layout_constraintStart_toStartOf="@+id/etDateRegister"
-        app:layout_constraintTop_toBottomOf="@+id/etDateRegister" />
-
-    <EditText
-        android:id="@+id/etPasswordRegister"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:hint="Введите пароль..."
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintEnd_toEndOf="@+id/etCityRegister"
-        app:layout_constraintStart_toStartOf="@+id/etCityRegister"
-        app:layout_constraintTop_toBottomOf="@+id/etCityRegister" />
-
-    <EditText
-        android:id="@+id/etRepeatPasswordRegister"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="48dp"
-        android:hint="Введите пароль ещё раз..."
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintEnd_toEndOf="@+id/etPasswordRegister"
-        app:layout_constraintStart_toStartOf="@+id/etPasswordRegister"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordRegister" />
-
-    <TextView
-        android:id="@+id/nameTitle"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Имя пользователя"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etNameRegister"
-        app:layout_constraintStart_toStartOf="@+id/etNameRegister" />
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_weight="0.5">
 
-    <TextView
-        android:id="@+id/dateTitle"
+        <TextView
+            android:id="@+id/nameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Имя пользователя"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etNameRegister"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Введите имя пользователя..." />
+
+        <TextView
+            android:id="@+id/dateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Дата рождения"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etDateRegister"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Формат ввода: xx.xx.xxxx" />
+
+        <TextView
+            android:id="@+id/cityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Город"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etCityRegister"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Введите название города..." />
+
+        <TextView
+            android:id="@+id/passwordTitleRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Пароль"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etPasswordRegister"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Введите пароль..." />
+
+        <TextView
+            android:id="@+id/passwordTitleRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Подтверждение пароля"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/etRepeatPasswordRegister"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Введите пароль ещё раз..." />
+
+    </LinearLayout>
+
+    <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Дата рождения"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etDateRegister"
-        app:layout_constraintStart_toStartOf="@+id/etDateRegister" />
-
-    <TextView
-        android:id="@+id/cityTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Город"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etCityRegister"
-        app:layout_constraintStart_toStartOf="@+id/etCityRegister" />
-
-    <TextView
-        android:id="@+id/passwordTitleRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Пароль"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etPasswordRegister"
-        app:layout_constraintStart_toStartOf="@+id/etPasswordRegister" />
-
-    <TextView
-        android:id="@+id/passwordTitleRepeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Подтверждение пароля"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etRepeatPasswordRegister"
-        app:layout_constraintStart_toStartOf="@+id/etRepeatPasswordRegister" />
+        android:layout_weight="0.5"/>
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="339dp"
         android:layout_height="66dp"
-        android:layout_marginTop="48dp"
-        android:text="Зарегистрироваться"
-        app:layout_constraintEnd_toEndOf="@+id/etRepeatPasswordRegister"
-        app:layout_constraintStart_toStartOf="@+id/etRepeatPasswordRegister"
-        app:layout_constraintTop_toBottomOf="@+id/etRepeatPasswordRegister" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="40dp"
+        android:text="Зарегистрироваться" />
+</LinearLayout>

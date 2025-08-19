@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingVertical="80dp">
 
     <ImageView
         android:id="@+id/loginPic"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="128dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_weight="0.1"
         app:srcCompat="@drawable/login_pic" />
 
     <TextView
@@ -21,88 +20,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_medium"
+        android:layout_weight="0.01"
         android:text="Вход в аккаунт"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/loginPic"
-        app:layout_constraintStart_toStartOf="@+id/loginPic"
-        app:layout_constraintTop_toBottomOf="@+id/loginPic" />
+        android:textSize="30sp"/>
 
-    <EditText
-        android:id="@+id/etPhone"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="72dp"
-        android:hint="Введите номер телефона..."
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintEnd_toEndOf="@+id/loginTitle"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="@+id/loginTitle"
-        app:layout_constraintTop_toBottomOf="@+id/loginTitle" />
-
-    <EditText
-        android:id="@+id/etPasswordLogin"
-        android:layout_width="351dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="60dp"
-        android:hint="Введите пароль..."
-        android:textColorHint="@color/dark_green"
-        app:layout_constraintEnd_toEndOf="@+id/etPhone"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/etPhone"
-        app:layout_constraintTop_toBottomOf="@+id/etPhone" />
-
-    <TextView
-        android:id="@+id/phoneTitleLogin"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="Телефон"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etPhone"
-        app:layout_constraintStart_toStartOf="@+id/etPhone" />
+        android:orientation="vertical"
+        android:layout_weight="0.1"
+        android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/passwordTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Пароль"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/etPasswordLogin"
-        app:layout_constraintStart_toStartOf="@+id/etPasswordLogin" />
+        <TextView
+            android:id="@+id/phoneTitleLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="Телефон"/>
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Введите номер телефона..." />
+
+        <TextView
+            android:id="@+id/passwordTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:text="Пароль"/>
+
+        <EditText
+            android:id="@+id/etPasswordLogin"
+            android:layout_width="351dp"
+            android:layout_height="52dp"
+            android:hint="Введите пароль..." />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnLoginContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
         android:text="Продолжить"
-        app:layout_constraintEnd_toEndOf="@+id/etPasswordLogin"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="@+id/etPasswordLogin"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
+        android:layout_marginVertical="10dp"/>
 
-    <TextView
-        android:id="@+id/noAccountTitle"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="44dp"
-        android:text="Ещё нет аккаунта?"
-        android:textColor="@color/dark_green"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginContinue" />
+        android:padding="8dp"
+        android:layout_weight="0.1">
 
-    <TextView
-        android:id="@+id/tvRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Регистрация"
-        android:textColor="@color/dark_green"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/noAccountTitle"
-        app:layout_constraintStart_toEndOf="@+id/noAccountTitle" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/noAccountTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ещё нет аккаунта?"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Регистрация"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
