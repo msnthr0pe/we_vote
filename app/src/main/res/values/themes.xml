@@ -5,6 +5,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="colorPrimary">@color/dark_green</item>
+        <item name="colorSecondary">@color/light_yellow</item>
 
         <item name="editTextBackgroundFill">@color/white</item>
 

@@ -28,4 +28,6 @@
     <string name="change_password">Изменить пароль</string>
     <string name="log_out">Выйти</string>
     <string name="profile">Профиль</string>
+    <string name="poll">Опрос</string>
+    <string name="cast_a_vote">Проголосовать</string>
 </resources>
