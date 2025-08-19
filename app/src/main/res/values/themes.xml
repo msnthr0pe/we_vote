@@ -1,13 +1,23 @@
 <resources>
-    <style name="Base.Theme.We_vote" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.We_vote" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:background">@color/light_yellow</item>
         <item name="android:textColor">@color/dark_green</item>
         <item name="android:textSize">24sp</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="colorPrimary">@color/dark_green</item>
 
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
         <item name="materialButtonStyle">@style/Button</item>
         <item name="editTextStyle">@style/EditText</item>
+        <item name="bottomNavigationStyle">@style/LargeIconBottomNav</item>
+    </style>
+
+    <style name="LargeIconBottomNav" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconSize">48dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_gravity">bottom</item>
     </style>
 
     <style name="Button" parent="Widget.Material3.Button">
@@ -21,7 +31,6 @@
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingStart">45dp</item>
         <item name="android:paddingEnd">45dp</item>
-
     </style>
 
     <style name="ShapeAppearance.We_vote.Button" parent="ShapeAppearance.MaterialComponents.SmallComponent">
@@ -35,5 +44,4 @@
         <item name="android:background">@drawable/rounded_corners</item>
     </style>
 
-    <style name="Theme.We_vote" parent="Base.Theme.We_vote" />
 </resources>
