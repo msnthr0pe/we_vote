@@ -1,3 +1,22 @@
 <resources>
-    <string name="app_name">we_vote</string>
+    <string name="app_name">WE VOTE</string>
+    <string name="sign_in">Вход в аккаунт</string>
+    <string name="phone">Телефон</string>
+    <string name="enter_phone_number">Введите номер телефона…</string>
+    <string name="password">Пароль</string>
+    <string name="enter_password">Введите пароль…</string>
+    <string name="continue_to">Продолжить</string>
+    <string name="no_account_yet">Ещё нет аккаунта?</string>
+    <string name="registration">Регистрация</string>
+    <string name="user_name">Имя пользователя</string>
+    <string name="enter_user_name">Введите имя пользователя…</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="date_format">Формат ввода: xx.xx.xxxx</string>
+    <string name="city">Город</string>
+    <string name="enter_city_name">Введите название города…</string>
+    <string name="password_confirmation">Подтверждение пароля</string>
+    <string name="password_repeat">Введите пароль ещё раз…</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="slogan">Твой взгляд формирует завтрашний день</string>
+    <string name="night_theme">Тёмная тема</string>
 </resources>

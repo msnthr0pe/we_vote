@@ -12,7 +12,7 @@
         android:id="@+id/registerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Регистрация"
+        android:text="@string/registration"
         android:textStyle="bold"
         android:textSize="35sp"
         android:layout_weight="1"/>
@@ -28,7 +28,7 @@
             android:id="@+id/nameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Имя пользователя"
+            android:text="@string/user_name"
             android:layout_weight="1"
             android:gravity="bottom"
             android:layout_marginBottom="10dp"/>
@@ -37,13 +37,13 @@
             android:id="@+id/etNameRegister"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Введите имя пользователя..." />
+            android:hint="@string/enter_user_name" />
 
         <TextView
             android:id="@+id/dateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Дата рождения"
+            android:text="@string/date_of_birth"
             android:layout_weight="1"
             android:gravity="bottom"
             android:layout_marginBottom="10dp"/>
@@ -52,13 +52,13 @@
             android:id="@+id/etDateRegister"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Формат ввода: xx.xx.xxxx" />
+            android:hint="@string/date_format" />
 
         <TextView
             android:id="@+id/cityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Город"
+            android:text="@string/city"
             android:layout_weight="1"
             android:gravity="bottom"
             android:layout_marginBottom="10dp"/>
@@ -67,13 +67,13 @@
             android:id="@+id/etCityRegister"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Введите название города..." />
+            android:hint="@string/enter_city_name" />
 
         <TextView
             android:id="@+id/passwordTitleRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Пароль"
+            android:text="@string/password"
             android:layout_weight="1"
             android:gravity="bottom"
             android:layout_marginBottom="10dp"/>
@@ -82,13 +82,13 @@
             android:id="@+id/etPasswordRegister"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Введите пароль..." />
+            android:hint="@string/enter_password" />
 
         <TextView
             android:id="@+id/passwordTitleRepeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Подтверждение пароля"
+            android:text="@string/password_confirmation"
             android:layout_weight="1"
             android:gravity="bottom"
             android:layout_marginBottom="10dp"/>
@@ -97,7 +97,7 @@
             android:id="@+id/etRepeatPasswordRegister"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Введите пароль ещё раз..." />
+            android:hint="@string/password_repeat" />
 
     </LinearLayout>
 
@@ -111,5 +111,5 @@
         android:layout_width="339dp"
         android:layout_height="66dp"
         android:layout_marginBottom="40dp"
-        android:text="Зарегистрироваться" />
+        android:text="@string/register" />
 </LinearLayout>

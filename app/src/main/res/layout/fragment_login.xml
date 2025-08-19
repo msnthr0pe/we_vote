@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_medium"
         android:layout_weight="0.01"
-        android:text="Вход в аккаунт"
+        android:text="@string/sign_in"
         android:textSize="30sp"/>
 
     <LinearLayout
@@ -36,33 +36,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:text="Телефон"/>
+            android:text="@string/phone"/>
 
         <EditText
             android:id="@+id/etPhone"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Введите номер телефона..." />
+            android:hint="@string/enter_phone_number" />
 
         <TextView
             android:id="@+id/passwordTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:text="Пароль"/>
+            android:text="@string/password"/>
 
         <EditText
             android:id="@+id/etPasswordLogin"
             android:layout_width="351dp"
             android:layout_height="52dp"
-            android:hint="Введите пароль..." />
+            android:hint="@string/enter_password" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btnLoginContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Продолжить"
+        android:text="@string/continue_to"
         android:layout_marginVertical="10dp"/>
 
     <LinearLayout
@@ -75,14 +75,14 @@
             android:id="@+id/noAccountTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ещё нет аккаунта?"
+            android:text="@string/no_account_yet"
             android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tvRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Регистрация"
+            android:text="@string/registration"
             android:textSize="16sp"
             android:textStyle="bold" />
 

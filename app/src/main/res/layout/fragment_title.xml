@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="WE VOTE"
+        android:text="@string/app_name"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
-        android:text="Твой взгляд формирует завтрашний день"
+        android:text="@string/slogan"
         android:textSize="24sp"
         android:textAlignment="center" />
 
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.4"
         android:checked="false"
-        android:text="Тёмная тема"
+        android:text="@string/night_theme"
         android:textSize="18sp"
         app:thumbTint="?attr/colorPrimary" />
 
@@ -48,6 +48,6 @@
         android:id="@+id/btnContinue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Продолжить"/>
+        android:text="@string/continue_to"/>
 
 </LinearLayout>
