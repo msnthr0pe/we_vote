@@ -42,7 +42,7 @@
         android:checked="false"
         android:text="Тёмная тема"
         android:textSize="18sp"
-        app:thumbTint="@color/dark_green" />
+        app:thumbTint="?attr/colorPrimary" />
 
     <Button
         android:id="@+id/btnContinue"
