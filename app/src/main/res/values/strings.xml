@@ -22,4 +22,10 @@
     <string name="search">Поиск…</string>
     <string name="default_recycler_text">Как Вы относитесь к идее проведения ночных киномарафонов в нашем кинотеатре?</string>
     <string name="vote">Голосовать</string>
+    <string name="polls">Опросы</string>
+    <string name="default_value">default</string>
+    <string name="polls_completed">Пройдено опросов:</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="log_out">Выйти</string>
+    <string name="profile">Профиль</string>
 </resources>

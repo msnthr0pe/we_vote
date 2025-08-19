@@ -4,4 +4,6 @@
     <dimen name="editTextHeight">52dp</dimen>
 
     <dimen name="titleTextSize">50sp</dimen>
+
+    <dimen name="cardPadding">15dp</dimen>
 </resources>
