@@ -6,5 +6,6 @@
     <dimen name="titleTextSize">50sp</dimen>
 
     <dimen name="layoutPadding">16dp</dimen>
+    <dimen name="MediumLayoutPadding">20dp</dimen>
     <dimen name="bigLayoutPadding">32dp</dimen>
 </resources>

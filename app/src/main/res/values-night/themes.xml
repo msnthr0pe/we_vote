@@ -23,7 +23,7 @@
     </style>
 
     <style name="LargeIconBottomNav" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="itemIconSize">48dp</item>
+        <item name="itemIconSize">44dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:layout_gravity">bottom</item>
     </style>
