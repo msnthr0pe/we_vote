@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:padding="@dimen/smallLayoutPadding"
         android:orientation="vertical"
         android:gravity="center">
 
@@ -134,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/change_password"/>
+                    android:text="@string/change_personal_info"/>
 
                 <Button
                     android:id="@+id/btnLoginContinue"
@@ -142,6 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="@string/log_out"
+                    android:textColor="@color/white"
                     android:backgroundTint="@color/red"/>
 
 

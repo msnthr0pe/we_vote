@@ -25,7 +25,7 @@
     <string name="surveys">Опросы</string>
     <string name="default_value">default</string>
     <string name="surveys_completed">Пройдено опросов:</string>
-    <string name="change_password">Изменить пароль</string>
+    <string name="change_personal_info">Изменить данные</string>
     <string name="log_out">Выйти</string>
     <string name="profile">Профиль</string>
     <string name="survey">Опрос</string>
@@ -47,4 +47,6 @@
     <string name="end_survey">Завершеить опрос</string>
     <string name="completed_survey">Завершённый\nопрос</string>
     <string name="percent">%</string>
+    <string name="personal_info_change">Изменение\nданных</string>
+    <string name="confirm">Подтвердить</string>
 </resources>
