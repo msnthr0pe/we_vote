@@ -46,4 +46,5 @@
     <string name="default_percent">65%</string>
     <string name="end_survey">Завершеить опрос</string>
     <string name="completed_survey">Завершённый\nопрос</string>
+    <string name="percent">%</string>
 </resources>

@@ -5,12 +5,14 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.withStyledAttributes
 
-class SurveyProgressBar @JvmOverloads constructor(
+class RelationBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -21,15 +23,22 @@ class SurveyProgressBar @JvmOverloads constructor(
             field = if (value > 100) {100; return} else value
             field = if (value < 5 && value != 0) {5} else value
         }
+
+    private var titleText: String = context.getString(R.string.default_value)
+
+    private var percentText: String = context.getString(R.string.default_percent)
     private var progressColor: Int = Color.BLACK
     private var spaceColor: Int = Color.WHITE
     private var cornerRadiusDp: Float = 8f
 
+    private lateinit var titleTextView: TextView
+    private lateinit var percentTextView: TextView
     private lateinit var progressView: View
     private lateinit var emptyView: View
 
     init {
-        orientation = HORIZONTAL
+        orientation = VERTICAL
+        layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, 74)
         setupView()
 
         val typedValue = TypedValue()
@@ -40,27 +49,72 @@ class SurveyProgressBar @JvmOverloads constructor(
         val hasColorSecondary = theme.resolveAttribute(R.attr.ViewBackgroundFill, typedValue, true)
         val colorSecondary = if (hasColorSecondary) typedValue.data else Color.WHITE
 
-
         attrs?.let {
-            context.withStyledAttributes(it, R.styleable.SurveyProgressBar, 0, 0) {
-                progress = getInt(R.styleable.SurveyProgressBar_progress, 65)
-                progressColor = getColor(R.styleable.SurveyProgressBar_progressColor, colorPrimary)
-                spaceColor = getColor(R.styleable.SurveyProgressBar_spaceColor, colorSecondary)
-                cornerRadiusDp = getDimension(R.styleable.SurveyProgressBar_cornerRadius, dpToPx(8f).toFloat())
+            context.withStyledAttributes(it, R.styleable.RelationBar, 0, 0) {
+                percentText = getInt(R.styleable.RelationBar_progress, 65).toString()
+                progressColor = getColor(R.styleable.RelationBar_progressColor, colorPrimary)
+                titleText = getString(R.styleable.RelationBar_text) ?: context.getString(R.string.default_value)
+                spaceColor = getColor(R.styleable.RelationBar_spaceColor, colorSecondary)
+                cornerRadiusDp = getDimension(R.styleable.RelationBar_cornerRadius, dpToPx(8f).toFloat())
             }
-            foreground = ContextCompat.getDrawable(context, R.drawable.transparent_frame)
+            progress = percentText.toInt()
             setPadding(0, 0, 0, 0)
         }
 
-//        if (isInEditMode) {
-//            setPreviewData(65, colorPrimary, colorSecondary)
-//        } else {
-//            updateView()
-//        }
         updateView()
     }
 
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val fixedHeight = dpToPx(74f)
+        val newHeightSpec = MeasureSpec.makeMeasureSpec(fixedHeight, MeasureSpec.EXACTLY)
+        super.onMeasure(widthMeasureSpec, newHeightSpec)
+    }
+
+
     private fun setupView() {
+        val textLayout = LinearLayout(context).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            orientation = HORIZONTAL
+        }
+
+        titleTextView = TextView(
+            ContextThemeWrapper(context, R.style.Theme_We_vote),
+            null,
+            0
+        ).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            val titleText = getTitleTextFormat(titleText)
+            text = titleText
+        }
+
+        percentTextView = TextView(
+            ContextThemeWrapper(context, R.style.Theme_We_vote),
+            null,
+            0
+        ).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            text = percentText
+        }
+
+        val percentSymbolTextView = TextView(
+            ContextThemeWrapper(context, R.style.Theme_We_vote),
+            null,
+            0
+        ).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            text = "%"
+        }
+
+        textLayout.addView(titleTextView)
+        textLayout.addView(percentTextView)
+        textLayout.addView(percentSymbolTextView)
+
+        val progressLayout = LinearLayout(context).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            orientation = HORIZONTAL
+            foreground = ContextCompat.getDrawable(context, R.drawable.transparent_frame)
+        }
+
         emptyView = View(context).apply {
             layoutParams = LayoutParams(0, LayoutParams.MATCH_PARENT, 100f)
             background = createFullRoundDrawable(spaceColor)
@@ -71,8 +125,11 @@ class SurveyProgressBar @JvmOverloads constructor(
             background = createRoundedDrawable(progressColor, isLeftSide = false)
         }
 
-        addView(progressView)
-        addView(emptyView)
+        progressLayout.addView(progressView)
+        progressLayout.addView(emptyView)
+
+        addView(textLayout)
+        addView(progressLayout)
     }
 
     private fun updateView() {
@@ -85,6 +142,9 @@ class SurveyProgressBar @JvmOverloads constructor(
         progressView.layoutParams = progressParams
         emptyView.layoutParams = emptyParams
 
+        percentTextView.text = percentText
+        titleTextView.text = getTitleTextFormat(titleText)
+
         if (progress == 100 || progress == 0) {
             progressView.background = createFullRoundDrawable(progressColor)
             emptyView.background = createFullRoundDrawable(spaceColor)
@@ -94,17 +154,6 @@ class SurveyProgressBar @JvmOverloads constructor(
         }
 
         requestLayout()
-    }
-
-    fun setData(progress: Int, color: Int, spaceColor: Int) {
-        this.progress = progress
-        this.progressColor = color
-        this.spaceColor = spaceColor
-        updateView()
-    }
-
-    private fun setPreviewData(progress: Int, color: Int, spaceColor: Int) {
-        setData(progress, color, spaceColor)
     }
 
     private fun createRoundedDrawable(color: Int, isLeftSide: Boolean): GradientDrawable {
@@ -139,4 +188,8 @@ class SurveyProgressBar @JvmOverloads constructor(
 
     private fun dpToPx(dp: Float): Int =
         (dp * resources.displayMetrics.density).toInt()
+
+    private fun getTitleTextFormat(text: String): String {
+        return "$text: "
+    }
 }
