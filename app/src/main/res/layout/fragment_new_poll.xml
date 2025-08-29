@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/new_poll"
+        android:text="@string/new_survey"
         android:textSize="@dimen/titleTextSize"
         android:textStyle="bold"/>
 
@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/poll_contents"
+                android:text="@string/survey_contents"
                 android:paddingVertical="10dp"
                 android:gravity="bottom"
                 android:layout_gravity="start"/>
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:lines="4"
                 android:maxLines="4"
-                android:hint="@string/enter_poll_contents"/>
+                android:hint="@string/enter_survey_contents"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -22,17 +22,17 @@
     <string name="search">Поиск…</string>
     <string name="default_recycler_text">Как Вы относитесь к идее проведения ночных киномарафонов в нашем кинотеатре?</string>
     <string name="vote">Голосовать</string>
-    <string name="polls">Опросы</string>
+    <string name="surveys">Опросы</string>
     <string name="default_value">default</string>
-    <string name="polls_completed">Пройдено опросов:</string>
+    <string name="surveys_completed">Пройдено опросов:</string>
     <string name="change_password">Изменить пароль</string>
     <string name="log_out">Выйти</string>
     <string name="profile">Профиль</string>
-    <string name="poll">Опрос</string>
+    <string name="survey">Опрос</string>
     <string name="cast_a_vote">Проголосовать</string>
-    <string name="new_poll">Новый опрос</string>
-    <string name="poll_contents">Содержание опроса</string>
-    <string name="enter_poll_contents">Введите содержание опроса…</string>
+    <string name="new_survey">Новый опрос</string>
+    <string name="survey_contents">Содержание опроса</string>
+    <string name="enter_survey_contents">Введите содержание опроса…</string>
     <string name="first_choice">Первый вариант ответа</string>
     <string name="enter_first_choice">Введите первый вариант ответа…</string>
     <string name="second_choice">Второй вариант ответа</string>
@@ -45,4 +45,5 @@
     <string name="archive">Архив</string>
     <string name="default_percent">65%</string>
     <string name="end_survey">Завершеить опрос</string>
+    <string name="completed_survey">Завершённый\nопрос</string>
 </resources>

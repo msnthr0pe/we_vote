@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/polls_completed"
+                        android:text="@string/surveys_completed"
                         android:background="@android:color/transparent"
                         android:layout_marginEnd="@dimen/layoutPadding"/>
 

@@ -17,6 +17,10 @@ class SurveyProgressBar @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     private var progress: Int = 0
+        set(value) {
+            field = if (value > 100) {100; return} else value
+            field = if (value < 5 && value != 0) {5} else value
+        }
     private var progressColor: Int = Color.BLACK
     private var spaceColor: Int = Color.WHITE
     private var cornerRadiusDp: Float = 8f
@@ -30,26 +34,30 @@ class SurveyProgressBar @JvmOverloads constructor(
 
         val typedValue = TypedValue()
         val theme = context.theme
-        var success = theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)
-        val colorPrimary = if (success) typedValue.data else R.color.light_yellow
-        context.theme.resolveAttribute(R.attr.ViewBackgroundFill, typedValue, true)
-        val colorSecondary = typedValue.data
+        val hasColorPrimary = theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)
+        val colorPrimary = if (hasColorPrimary) typedValue.data else ContextCompat.getColor(context, R.color.light_yellow)
+
+        val hasColorSecondary = theme.resolveAttribute(R.attr.ViewBackgroundFill, typedValue, true)
+        val colorSecondary = if (hasColorSecondary) typedValue.data else Color.WHITE
+
 
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.SurveyProgressBar, 0, 0) {
-                progress = getInt(R.styleable.SurveyProgressBar_progress, 0)
-                progressColor = getColor(R.styleable.SurveyProgressBar_progressColor, Color.BLACK)
+                progress = getInt(R.styleable.SurveyProgressBar_progress, 65)
+                progressColor = getColor(R.styleable.SurveyProgressBar_progressColor, colorPrimary)
+                spaceColor = getColor(R.styleable.SurveyProgressBar_spaceColor, colorSecondary)
                 cornerRadiusDp = getDimension(R.styleable.SurveyProgressBar_cornerRadius, dpToPx(8f).toFloat())
             }
             foreground = ContextCompat.getDrawable(context, R.drawable.transparent_frame)
             setPadding(0, 0, 0, 0)
         }
 
-        if (isInEditMode) {
-            setPreviewData(65, colorPrimary, colorSecondary)
-        } else {
-            updateView()
-        }
+//        if (isInEditMode) {
+//            setPreviewData(65, colorPrimary, colorSecondary)
+//        } else {
+//            updateView()
+//        }
+        updateView()
     }
 
     private fun setupView() {
@@ -77,8 +85,13 @@ class SurveyProgressBar @JvmOverloads constructor(
         progressView.layoutParams = progressParams
         emptyView.layoutParams = emptyParams
 
-        progressView.background = createRoundedDrawable(progressColor, isLeftSide = true)
-        emptyView.background = createRoundedDrawable(spaceColor, isLeftSide = false)
+        if (progress == 100 || progress == 0) {
+            progressView.background = createFullRoundDrawable(progressColor)
+            emptyView.background = createFullRoundDrawable(spaceColor)
+        } else {
+            progressView.background = createRoundedDrawable(progressColor, isLeftSide = true)
+            emptyView.background = createRoundedDrawable(spaceColor, isLeftSide = false)
+        }
 
         requestLayout()
     }

@@ -6,6 +6,7 @@
     <declare-styleable name="SurveyProgressBar">
         <attr name="progress" format="integer" />
         <attr name="progressColor" format="color" />
+        <attr name="spaceColor" format="color" />
         <attr name="cornerRadius" format="dimension"/>
     </declare-styleable>
 
