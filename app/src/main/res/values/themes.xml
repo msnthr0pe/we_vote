@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/dark_green</item>
         <item name="colorSecondary">@color/light_yellow</item>
 
-        <item name="editTextBackgroundFill">@color/white</item>
+        <item name="ViewBackgroundFill">@color/white</item>
 
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -44,7 +44,7 @@
 
     <style name="ShapeAppearance.We_vote.Button" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">19dp</item>
+        <item name="cornerSize">20dp</item>
     </style>
 
     <style name="EditText" parent="android:Widget.EditText">

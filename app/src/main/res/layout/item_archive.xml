@@ -7,7 +7,7 @@
     app:cardCornerRadius="20dp"
     app:strokeColor="?attr/colorPrimary"
     app:strokeWidth="2dp"
-    app:cardBackgroundColor="?attr/editTextBackgroundFill">
+    app:cardBackgroundColor="?attr/ViewBackgroundFill">
 
     <LinearLayout
         android:layout_width="match_parent"

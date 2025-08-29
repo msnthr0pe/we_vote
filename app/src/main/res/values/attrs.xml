@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="editTextBackgroundFill" format="color"/>
+    <attr name="ViewBackgroundFill" format="color"/>
+
+    <declare-styleable name="SurveyProgressBar">
+        <attr name="progress" format="integer" />
+        <attr name="progressColor" format="color" />
+        <attr name="cornerRadius" format="dimension"/>
+    </declare-styleable>
 
 </resources>

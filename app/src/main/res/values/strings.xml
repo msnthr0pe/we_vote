@@ -43,4 +43,6 @@
     <string name="results">Результат</string>
     <string name="delete_from_archive">Удалить из архива</string>
     <string name="archive">Архив</string>
+    <string name="default_percent">65%</string>
+    <string name="end_survey">Завершеить опрос</string>
 </resources>
