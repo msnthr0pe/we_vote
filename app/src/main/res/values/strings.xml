@@ -40,4 +40,7 @@
     <string name="third_choice">Третий вариант ответа</string>
     <string name="enter_third_choice">Введите третий вариант ответа…</string>
     <string name="publish">Опубликовать</string>
+    <string name="results">Результат</string>
+    <string name="delete_from_archive">Удалить из архива</string>
+    <string name="archive">Архив</string>
 </resources>
