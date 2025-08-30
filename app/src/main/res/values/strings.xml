@@ -14,8 +14,6 @@
     <string name="date_format">Формат ввода: xx.xx.xxxx</string>
     <string name="city">Город</string>
     <string name="enter_city_name">Введите название города…</string>
-    <string name="password_confirmation">Подтверждение пароля</string>
-    <string name="password_repeat">Введите пароль ещё раз…</string>
     <string name="register">Зарегистрироваться</string>
     <string name="slogan">Твой взгляд формирует завтрашний день</string>
     <string name="night_theme">Тёмная тема</string>
@@ -49,4 +47,6 @@
     <string name="percent">%</string>
     <string name="personal_info_change">Изменение\nданных</string>
     <string name="confirm">Подтвердить</string>
+    <string name="email">Электронная почта</string>
+    <string name="enter_email">Введите электронную почту…</string>
 </resources>

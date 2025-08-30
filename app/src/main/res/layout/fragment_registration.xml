@@ -41,7 +41,7 @@
             android:id="@+id/dateTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date_of_birth"
+            android:text="@string/email"
             android:layout_weight="1"
             android:gravity="bottom"
             android:layout_marginBottom="10dp"/>
@@ -50,7 +50,22 @@
             android:id="@+id/etDateRegister"
             android:layout_width="@dimen/editTextWidth"
             android:layout_height="@dimen/editTextHeight"
-            android:hint="@string/date_format" />
+            android:hint="@string/enter_email" />
+
+        <TextView
+            android:id="@+id/passwordTitleRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_of_birth"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:layout_width="@dimen/editTextWidth"
+            android:layout_height="@dimen/editTextHeight"
+            android:hint="@string/date_format"
+            android:inputType="textPassword" />
 
         <TextView
             android:id="@+id/cityTitle"
@@ -81,22 +96,6 @@
             android:layout_width="@dimen/editTextWidth"
             android:layout_height="@dimen/editTextHeight"
             android:hint="@string/enter_password"
-            android:inputType="textPassword" />
-
-        <TextView
-            android:id="@+id/passwordTitleRepeat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/password_confirmation"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:layout_marginBottom="10dp"/>
-
-        <EditText
-            android:id="@+id/etRepeatPasswordRegister"
-            android:layout_width="@dimen/editTextWidth"
-            android:layout_height="@dimen/editTextHeight"
-            android:hint="@string/password_repeat"
             android:inputType="textPassword" />
 
     </LinearLayout>
