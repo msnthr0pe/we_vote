@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/titleFragment">
+
+    <fragment
+        android:id="@+id/titleFragment"
+        android:name="com.example.we_vote.TitleFragment"
+        tools:layout="@layout/fragment_title">
+        <action
+            android:id="@+id/action_titleFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.example.we_vote.ArchiveFragment"
+        android:label="ArchiveFragment"
+        tools:layout="@layout/fragment_archive">
+        <action
+            android:id="@+id/action_archiveFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_to_archivePollFragment"
+            app:destination="@id/archivePollFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/archivePollFragment"
+        android:name="com.example.we_vote.ArchivePollFragment"
+        android:label="ArchivePollFragment"
+        tools:layout="@layout/fragment_archive_poll"/>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.we_vote.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainScreenFragment"
+        android:name="com.example.we_vote.MainScreenFragment"
+        android:label="MainScreenFragment"
+        tools:layout="@layout/fragment_main_screen">
+        <action
+            android:id="@+id/action_mainScreenFragment_to_votingFragment"
+            app:destination="@id/votingFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPollFragment"
+        android:name="com.example.we_vote.NewPollFragment"
+        android:label="NewPollFragment"
+        tools:layout="@layout/fragment_new_poll">
+        <action
+            android:id="@+id/action_newPollFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_newPollFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_newPollFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalInfoChangeFragment"
+        android:name="com.example.we_vote.PersonalInfoChangeFragment"
+        android:label="PersonalInfoChangeFragment"
+        tools:layout="@layout/fragment_personal_info_change"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.we_vote.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_personalInfoChangeFragment"
+            app:destination="@id/personalInfoChangeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.example.we_vote.RegistrationFragment"
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration"/>
+    <fragment
+        android:id="@+id/votingFragment"
+        android:name="com.example.we_vote.VotingFragment"
+        android:label="VotingFragment"
+        tools:layout="@layout/fragment_voting"/>
+
+</navigation>
