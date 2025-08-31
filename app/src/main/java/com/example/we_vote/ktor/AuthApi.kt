@@ -11,5 +11,7 @@ interface AuthApi {
     @POST("getuser")
     suspend fun getUser(@Body email: DTOs.CredentialsDTO): DTOs.UserDTO
 
+    @POST("register")
+    fun register(@Body request: DTOs.UserDTO): Call<Void>
 
 }
