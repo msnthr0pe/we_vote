@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -42,7 +41,8 @@
         android:checked="false"
         android:text="@string/night_theme"
         android:textSize="18sp"
-        app:thumbTint="?attr/colorPrimary" />
+        app:thumbTint="?attr/colorSecondary"
+        app:trackTint="?attr/colorPrimary"/>
 
     <Button
         android:id="@+id/btnContinue"
