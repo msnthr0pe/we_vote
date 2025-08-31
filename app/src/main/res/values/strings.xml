@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">WE VOTE</string>
     <string name="sign_in">Вход в аккаунт</string>
-    <string name="phone">Телефон</string>
-    <string name="enter_phone_number">Введите номер телефона…</string>
     <string name="password">Пароль</string>
     <string name="enter_password">Введите пароль…</string>
     <string name="continue_to">Продолжить</string>
