@@ -24,7 +24,6 @@ class ArchiveFragment : Fragment() {
             Context.MODE_PRIVATE)
         val access = prefs.getString("access", "user")
         VotingUtil.setBottomBar(access, binding.bottomNav)
-        binding.bottomNav.menu.findItem(R.id.nav_archive).isChecked = true
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -49,6 +48,11 @@ class ArchiveFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNav.menu.findItem(R.id.nav_archive).isChecked = true
     }
 
     override fun onDestroyView() {
