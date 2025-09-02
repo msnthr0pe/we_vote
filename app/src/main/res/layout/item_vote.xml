@@ -17,6 +17,7 @@
         android:background="@android:color/transparent">
 
         <TextView
+            android:id="@+id/voting_card_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -25,6 +26,7 @@
             android:textAlignment="textStart" />
 
         <Button
+            android:id="@+id/vote_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vote"
@@ -33,6 +35,7 @@
             android:layout_gravity="end"/>
 
         <Button
+            android:id="@+id/voting_delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/end_survey"

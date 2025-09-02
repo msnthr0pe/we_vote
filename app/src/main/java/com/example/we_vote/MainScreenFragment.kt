@@ -73,18 +73,24 @@ class MainScreenFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(activity)
         lifecycleScope.launch {
             try {
-                recyclerView.visibility = View.VISIBLE
 
                 val surveys = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getSurveys()
                 }
 
-                adapter = SurveyAdapter(surveys, access)
+                adapter = SurveyAdapter(surveys, access) { survey ->
+                    val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
+                        title = survey.title,
+                        firstChoice = survey.firstChoice,
+                        secondChoice = survey.secondChoice,
+                        thirdChoice = survey.thirdChoice
+                    )
+                    findNavController().navigate(action)
+                }
                 recyclerView.adapter = adapter
 
             } catch (e: Exception) {
                 Log.e("CLIENT", "Ошибка: ${e.message}")
-                recyclerView.visibility = View.GONE
             }
             binding.progressBarMain.isVisible = false
         }

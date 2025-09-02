@@ -29,36 +29,43 @@
             android:src="@drawable/voting_pic"/>
 
         <TextView
+            android:id="@+id/voting_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:maxLines="4"
-            android:gravity="start"
+            android:gravity="center"
             android:text="@string/default_recycler_text" />
 
         <CheckBox
+            android:id="@+id/first_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/custom_checkbox"
             android:padding="4dp"
+            android:layout_marginStart="50dp"
             android:layout_gravity="start"
             android:text="@string/default_value"
             android:layout_weight="1"/>
 
         <CheckBox
+            android:id="@+id/second_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/custom_checkbox"
             android:padding="4dp"
+            android:layout_marginStart="50dp"
             android:layout_gravity="start"
             android:text="@string/default_value"
             android:layout_weight="1"/>
 
         <CheckBox
+            android:id="@+id/third_checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/custom_checkbox"
             android:padding="4dp"
+            android:layout_marginStart="50dp"
             android:layout_gravity="start"
             android:text="@string/default_value"
             android:layout_weight="1"/>

@@ -128,6 +128,27 @@
         android:id="@+id/votingFragment"
         android:name="com.example.we_vote.VotingFragment"
         android:label="VotingFragment"
-        tools:layout="@layout/fragment_voting"/>
+        tools:layout="@layout/fragment_voting">
+
+        <argument
+            android:name="title"
+            android:defaultValue="default"
+            app:argType="string" />
+
+        <argument
+            android:name="first_choice"
+            android:defaultValue="default"
+            app:argType="string" />
+
+        <argument
+            android:name="second_choice"
+            android:defaultValue="default"
+            app:argType="string" />
+
+        <argument
+            android:name="third_choice"
+            android:defaultValue="default"
+            app:argType="string" />
+    </fragment>
 
 </navigation>
