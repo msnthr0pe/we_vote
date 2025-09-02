@@ -15,7 +15,7 @@ interface AuthApi {
     @POST("register")
     fun register(@Body request: DTOs.UserDTO): Call<Void>
 
-    @GET("getnews")
-    suspend fun getNews(): List<DTOs.SurveyDTO>
+    @GET("getsurveys")
+    suspend fun getSurveys(): List<DTOs.SurveyDTO>
 
 }

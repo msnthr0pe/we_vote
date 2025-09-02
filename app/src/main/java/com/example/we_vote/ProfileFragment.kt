@@ -20,6 +20,10 @@ class ProfileFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
+        binding.btnLogout.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_titleFragment)
+        }
+
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
         val access = prefs.getString("access", "user")
