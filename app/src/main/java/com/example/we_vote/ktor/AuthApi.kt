@@ -2,6 +2,7 @@ package com.example.we_vote.ktor
 
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -13,5 +14,8 @@ interface AuthApi {
 
     @POST("register")
     fun register(@Body request: DTOs.UserDTO): Call<Void>
+
+    @GET("getnews")
+    suspend fun getNews(): List<DTOs.SurveyDTO>
 
 }

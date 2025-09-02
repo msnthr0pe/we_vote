@@ -18,4 +18,12 @@ class DTOs {
         val password: String,
         val access: String,
     )
+
+    @Serializable
+    data class SurveyDTO (
+        val title: String,
+        val firstChoice: String,
+        val secondChoice: String,
+        val thirdChoice: String,
+    )
 }

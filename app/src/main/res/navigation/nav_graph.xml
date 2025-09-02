@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_archiveFragment_to_archivePollFragment"
             app:destination="@id/archivePollFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_self"
+            app:destination="@id/archiveFragment" />
     </fragment>
     <fragment
         android:id="@+id/archivePollFragment"
@@ -65,6 +68,9 @@
         <action
             android:id="@+id/action_mainScreenFragment_to_archiveFragment"
             app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_self"
+            app:destination="@id/mainScreenFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPollFragment"
@@ -80,6 +86,9 @@
         <action
             android:id="@+id/action_newPollFragment_to_archiveFragment"
             app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_newPollFragment_self"
+            app:destination="@id/newPollFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalInfoChangeFragment"
@@ -103,6 +112,9 @@
         <action
             android:id="@+id/action_profileFragment_to_personalInfoChangeFragment"
             app:destination="@id/personalInfoChangeFragment" />
+        <action
+            android:id="@+id/action_profileFragment_self"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
