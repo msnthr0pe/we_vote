@@ -47,4 +47,6 @@
     <string name="confirm">Подтвердить</string>
     <string name="email">Электронная почта</string>
     <string name="enter_email">Введите электронную почту…</string>
+    <string name="voting_error">Ошибка голосования</string>
+    <string name="successful_voting_message">Вы успешно проголосовали!</string>
 </resources>

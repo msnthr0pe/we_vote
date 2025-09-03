@@ -80,6 +80,7 @@ class MainScreenFragment : Fragment() {
 
                 adapter = SurveyAdapter(surveys, access) { survey ->
                     val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
+                        id = survey.id,
                         title = survey.title,
                         firstChoice = survey.firstChoice,
                         secondChoice = survey.secondChoice,

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/votingFragment">
+    app:startDestination="@id/titleFragment">
 
     <fragment
         android:id="@+id/titleFragment"
@@ -129,6 +129,11 @@
         android:name="com.example.we_vote.VotingFragment"
         android:label="VotingFragment"
         tools:layout="@layout/fragment_voting">
+
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer" />
 
         <argument
             android:name="title"

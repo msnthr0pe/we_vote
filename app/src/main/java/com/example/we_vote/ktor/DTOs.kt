@@ -32,5 +32,6 @@ class DTOs {
     data class UsersSurveysDTO (
         val userEmail: String,
         val surveyId: Int,
+        val vote: Int,
     )
 }

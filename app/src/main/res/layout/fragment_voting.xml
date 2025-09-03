@@ -1,97 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:paddingTop="44dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/survey"
-        android:textSize="@dimen/titleTextSize"
-        android:textStyle="bold"/>
-
+    android:layout_height="match_parent">
     <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/mediumLayoutPadding"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            android:layout_weight="1"
-            android:src="@drawable/voting_pic"/>
+        android:gravity="center"
+        android:paddingTop="44dp">
 
         <TextView
-            android:id="@+id/voting_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/survey"
+            android:textSize="@dimen/titleTextSize"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:maxLines="4"
-            android:gravity="center"
-            android:text="@string/default_recycler_text" />
+            android:orientation="vertical"
+            android:padding="@dimen/mediumLayoutPadding"
+            android:gravity="center">
 
-        <CheckBox
-            android:id="@+id/first_checkbox"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="240dp"
+                android:layout_height="240dp"
+                android:layout_weight="1"
+                android:src="@drawable/voting_pic"/>
+
+            <TextView
+                android:id="@+id/voting_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="4"
+                android:gravity="center"
+                android:text="@string/default_recycler_text" />
+
+            <CheckBox
+                android:id="@+id/first_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/custom_checkbox"
+                android:padding="4dp"
+                android:layout_marginStart="50dp"
+                android:layout_gravity="start"
+                android:text="@string/default_value"
+                android:layout_weight="1"/>
+
+            <CheckBox
+                android:id="@+id/second_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/custom_checkbox"
+                android:padding="4dp"
+                android:layout_marginStart="50dp"
+                android:layout_gravity="start"
+                android:text="@string/default_value"
+                android:layout_weight="1"/>
+
+            <CheckBox
+                android:id="@+id/third_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/custom_checkbox"
+                android:padding="4dp"
+                android:layout_marginStart="50dp"
+                android:layout_gravity="start"
+                android:text="@string/default_value"
+                android:layout_weight="1"/>
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/send_vote_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cast_a_vote"
+                app:icon="@drawable/ic_accept"
+                app:iconSize="30dp"
+                app:iconTint="?attr/colorSecondary"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav"
+            app:itemRippleColor="@android:color/transparent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@drawable/custom_checkbox"
-            android:padding="4dp"
-            android:layout_marginStart="50dp"
-            android:layout_gravity="start"
-            android:text="@string/default_value"
-            android:layout_weight="1"/>
-
-        <CheckBox
-            android:id="@+id/second_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/custom_checkbox"
-            android:padding="4dp"
-            android:layout_marginStart="50dp"
-            android:layout_gravity="start"
-            android:text="@string/default_value"
-            android:layout_weight="1"/>
-
-        <CheckBox
-            android:id="@+id/third_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/custom_checkbox"
-            android:padding="4dp"
-            android:layout_marginStart="50dp"
-            android:layout_gravity="start"
-            android:text="@string/default_value"
-            android:layout_weight="1"/>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cast_a_vote"
-            app:icon="@drawable/ic_accept"
-            app:iconSize="30dp"
-            app:iconTint="?attr/colorSecondary"/>
-
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu_bottom_nav_user"
+            android:layout_gravity="bottom" />
     </LinearLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
-        app:itemRippleColor="@android:color/transparent"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBarVoting"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/menu_bottom_nav_user"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="?attr/colorPrimary"
+        android:visibility="gone"
+        android:background="@android:color/transparent" />
 
-</LinearLayout>
+</FrameLayout>
