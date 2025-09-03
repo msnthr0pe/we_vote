@@ -46,25 +46,11 @@ class MainScreenFragment : Fragment() {
         VotingUtil.setBottomBar(access, binding.bottomNav)
         binding.bottomNav.menu.findItem(R.id.nav_home).isChecked = true
         binding.bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    findNavController().navigate(R.id.action_mainScreenFragment_self)
-                    true
-                }
-                R.id.nav_new_poll -> {
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_newPollFragment)
-                    true
-                }
-                R.id.nav_profile -> {
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_profileFragment)
-                    true
-                }
-                R.id.nav_archive -> {
-                    findNavController().navigate(R.id.action_mainScreenFragment_to_archiveFragment)
-                    true
-                }
-                else -> false
-            }
+            VotingUtil.setupNavigation(this, item.itemId,
+                R.id.action_mainScreenFragment_self,
+                R.id.action_mainScreenFragment_to_newPollFragment,
+                R.id.action_mainScreenFragment_to_profileFragment,
+                R.id.action_mainScreenFragment_to_archiveFragment)
         }
     }
 

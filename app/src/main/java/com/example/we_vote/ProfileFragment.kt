@@ -31,28 +31,19 @@ class ProfileFragment : Fragment() {
         binding.bottomNav.menu.findItem(R.id.nav_profile).isChecked = true
 
         binding.bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    findNavController().navigate(R.id.action_profileFragment_to_mainScreenFragment)
-                    true
-                }
-                R.id.nav_new_poll -> {
-                    findNavController().navigate(R.id.action_profileFragment_to_newPollFragment)
-                    true
-                }
-                R.id.nav_profile -> {
-                    findNavController().navigate(R.id.action_profileFragment_self)
-                    true
-                }
-                R.id.nav_archive -> {
-                    findNavController().navigate(R.id.action_profileFragment_to_archiveFragment)
-                    true
-                }
-                else -> false
-            }
+            VotingUtil.setupNavigation(this, item.itemId,
+                R.id.action_profileFragment_to_mainScreenFragment,
+                R.id.action_profileFragment_to_newPollFragment,
+                R.id.action_profileFragment_self,
+                R.id.action_profileFragment_to_archiveFragment)
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNav.menu.findItem(R.id.nav_profile).isChecked = true
     }
 
     override fun onDestroyView() {

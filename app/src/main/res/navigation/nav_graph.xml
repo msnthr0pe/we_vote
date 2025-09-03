@@ -154,6 +154,18 @@
             android:name="third_choice"
             android:defaultValue="default"
             app:argType="string" />
+        <action
+            android:id="@+id/action_votingFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_votingFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_votingFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_votingFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
     </fragment>
 
 </navigation>

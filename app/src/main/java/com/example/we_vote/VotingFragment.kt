@@ -37,6 +37,7 @@ class VotingFragment : Fragment() {
             binding.thirdCheckbox,
         )
 
+        setupNavigation()
         getArgs()
         configureCheckboxLogic()
         binding.sendVoteBtn.setOnClickListener {
@@ -49,6 +50,45 @@ class VotingFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    private fun setupNavigation() {
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            VotingUtil.setupNavigation(this, item.itemId,
+                R.id.action_votingFragment_to_mainScreenFragment,
+                R.id.action_votingFragment_to_newPollFragment,
+                R.id.action_votingFragment_to_profileFragment,
+                R.id.action_votingFragment_to_archiveFragment)
+        }
+    }
+
+    private fun getArgs() {
+        val args by navArgs<VotingFragmentArgs>()
+
+        surveyId = args.id
+        binding.votingTitle.text = args.title
+        binding.firstCheckbox.text = args.firstChoice
+        binding.secondCheckbox.text = args.secondChoice
+        binding.thirdCheckbox.text = args.thirdChoice
+    }
+
+    private fun configureCheckboxLogic() {
+        checkBoxes.forEachIndexed {index, element ->
+            element.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    currentVoteId = index + 1
+                    uncheckOtherCheckboxes(index)
+                }
+            }
+        }
+    }
+
+    private fun uncheckOtherCheckboxes(index: Int) {
+        checkBoxes.forEachIndexed { id, box ->
+            if (index != id) {
+                box.isChecked = false
+            }
+        }
     }
 
     private fun uploadVote() {
@@ -85,38 +125,13 @@ class VotingFragment : Fragment() {
         })
     }
 
-    private fun configureCheckboxLogic() {
-        checkBoxes.forEachIndexed {index, element ->
-            element.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    currentVoteId = index + 1
-                    uncheckOtherCheckboxes(index)
-                }
-            }
-        }
-    }
-
-
-    private fun uncheckOtherCheckboxes(index: Int) {
-        checkBoxes.forEachIndexed { id, box ->
-            if (index != id) {
-                box.isChecked = false
-            }
-        }
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNav.menu.findItem(R.id.nav_home).isChecked = true
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun getArgs() {
-        val args by navArgs<VotingFragmentArgs>()
-
-        surveyId = args.id
-        binding.votingTitle.text = args.title
-        binding.firstCheckbox.text = args.firstChoice
-        binding.secondCheckbox.text = args.secondChoice
-        binding.thirdCheckbox.text = args.thirdChoice
     }
 }

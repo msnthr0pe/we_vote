@@ -19,6 +19,10 @@ class ArchivePollFragment : Fragment() {
         _binding = FragmentArchivePollBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNav.menu.findItem(R.id.nav_archive).isChecked = true
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

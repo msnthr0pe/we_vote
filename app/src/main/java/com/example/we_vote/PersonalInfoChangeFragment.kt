@@ -20,6 +20,11 @@ class PersonalInfoChangeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.bottomNav.menu.findItem(R.id.nav_profile).isChecked = true
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
