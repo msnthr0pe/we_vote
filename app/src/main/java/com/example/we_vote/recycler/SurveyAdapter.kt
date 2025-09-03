@@ -29,13 +29,6 @@ class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: Strin
             }
         }
 
-        init {
-            voteBtn.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    onVoteClick(surveys[adapterPosition])
-                }
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SurveyViewHolder {

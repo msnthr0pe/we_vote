@@ -21,9 +21,16 @@ class DTOs {
 
     @Serializable
     data class SurveyDTO (
+        val id: Int,
         val title: String,
         val firstChoice: String,
         val secondChoice: String,
         val thirdChoice: String,
+    )
+
+    @Serializable
+    data class UsersSurveysDTO (
+        val userEmail: String,
+        val surveyId: Int,
     )
 }

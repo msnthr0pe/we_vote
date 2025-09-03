@@ -1,5 +1,6 @@
 package com.example.we_vote
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.navigation.fragment.navArgs
 import com.example.we_vote.databinding.FragmentVotingBinding
+import com.example.we_vote.ktor.ApiClient
+import com.example.we_vote.ktor.AuthApi
+import com.example.we_vote.ktor.DTOs
 
 class VotingFragment : Fragment() {
 
@@ -24,6 +28,19 @@ class VotingFragment : Fragment() {
         configureCheckboxLogic()
 
         return binding.root
+    }
+
+    private fun uploadVote() {
+        val prefs = requireContext().getSharedPreferences(
+            "credentials",
+            Context.MODE_PRIVATE
+        )
+
+        /*val call = ApiClient.authApi.addUserSurvey(
+            DTOs.UsersSurveysDTO(
+
+            )
+        )*/
     }
 
     private fun configureCheckboxLogic() {

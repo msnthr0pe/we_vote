@@ -18,4 +18,7 @@ interface AuthApi {
     @GET("getsurveys")
     suspend fun getSurveys(): List<DTOs.SurveyDTO>
 
+    @POST("addusersurvey")
+    fun addUserSurvey(@Body request: DTOs.UsersSurveysDTO): Call<Void>
+
 }
