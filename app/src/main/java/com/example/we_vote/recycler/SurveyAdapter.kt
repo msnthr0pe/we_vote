@@ -11,18 +11,23 @@ import com.example.we_vote.R
 import com.example.we_vote.ktor.DTOs
 
 class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: String?,
-    private val onVoteClick: (DTOs.SurveyDTO) -> Unit) :
+    private val onVoteClick: (DTOs.SurveyDTO) -> Unit,
+    private val onArchiveClick: (DTOs.SurveyDTO, Int, Int) -> Unit) :
     RecyclerView.Adapter<SurveyAdapter.SurveyViewHolder>() {
 
     inner class SurveyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleText: TextView = itemView.findViewById(R.id.voting_card_title)
         val voteBtn: TextView = itemView.findViewById(R.id.vote_btn)
-        val deleteBtn: Button = itemView.findViewById(R.id.voting_delete_btn)
+        val deleteBtn: Button = itemView.findViewById(R.id.voting_archive_btn)
 
-        fun bind(item: DTOs.SurveyDTO) {
+        fun bind(item: DTOs.SurveyDTO, position: Int) {
             this.titleText.text = item.title
             if (access == "user") {
                 this.deleteBtn.isVisible = false
+            } else {
+                deleteBtn.setOnClickListener {
+                    onArchiveClick(item, position, itemCount)
+                }
             }
             voteBtn.setOnClickListener {
                 onVoteClick.invoke(item)
@@ -38,7 +43,7 @@ class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: Strin
     }
 
     override fun onBindViewHolder(holder: SurveyViewHolder, position: Int) {
-        holder.bind(surveys[position])
+        holder.bind(surveys[position], position)
     }
 
     override fun getItemCount(): Int = surveys.size

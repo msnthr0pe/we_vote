@@ -1,5 +1,6 @@
 package com.example.we_vote
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -64,7 +66,7 @@ class MainScreenFragment : Fragment() {
                     ApiClient.authApi.getSurveys()
                 }
 
-                adapter = SurveyAdapter(surveys, access) { survey ->
+                adapter = SurveyAdapter(surveys, access, { survey ->
                     val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
                         id = survey.id,
                         title = survey.title,
@@ -73,7 +75,7 @@ class MainScreenFragment : Fragment() {
                         thirdChoice = survey.thirdChoice
                     )
                     findNavController().navigate(action)
-                }
+                }, {survey, position, surveyAmount -> showEditDialog(position, surveyAmount) })
                 recyclerView.adapter = adapter
 
             } catch (e: Exception) {
@@ -82,6 +84,32 @@ class MainScreenFragment : Fragment() {
             binding.progressBarMain.isVisible = false
         }
 
+    }
+
+    private fun showEditDialog(position: Int, surveyAmount: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
+        val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        btnConfirm.setOnClickListener {
+            dialog.dismiss()
+            adapter.notifyItemRemoved(position)
+            adapter.notifyItemRangeChanged(position, surveyAmount)
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        /*dialog.window?.setBackgroundDrawable(
+            ContextCompat.getDrawable(requireContext(), R.drawable.bg_edittext_dialog)
+        )*/
+
+        dialog.show()
     }
 
     override fun onResume() {

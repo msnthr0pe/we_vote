@@ -21,4 +21,7 @@ interface AuthApi {
     @POST("addusersurvey")
     fun addUserSurvey(@Body request: DTOs.UsersSurveysDTO): Call<Void>
 
+    @POST("archivesurvey")
+    fun archiveSurvey(@Body request: DTOs.TitleDTO): Call<Void>
+
 }
