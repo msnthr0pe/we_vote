@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -27,6 +28,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.widget.doOnTextChanged
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 
 class MainScreenFragment : Fragment() {
 
@@ -36,6 +44,8 @@ class MainScreenFragment : Fragment() {
     private lateinit var adapter: SurveyAdapter
     private lateinit var access: String
     private lateinit var surveys: MutableList<DTOs.SurveyDTO>
+    private val searchQuery = MutableStateFlow("")
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +55,66 @@ class MainScreenFragment : Fragment() {
 
         setupNavigation()
         setupRecycler()
+        setupSearch()
 
         return binding.root
     }
+
+    @OptIn(FlowPreview::class)
+    private fun setupSearch() {
+        val clearButton = binding.btnClearSearch
+        clearButton.setOnClickListener {
+            binding.searchEditText.text.clear()
+            clearButton.visibility = View.GONE
+            hideKeyboard()
+        }
+        binding.searchEditText.doOnTextChanged { s, start, before, count ->
+            lifecycleScope.launch {
+                Thread.sleep(300)
+                searchQuery.value = s.toString()
+                searchQuery
+                    .debounce(300)
+                    .distinctUntilChanged()
+                    .flowOn(Dispatchers.Default)
+                    .collectLatest { query ->
+                        //filterCards(query)
+                    }
+            }
+            clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
+    }
+
+    /*
+    private fun filterCards(query: String) {
+        val filtered = if (query.isEmpty()) {
+            originalNews
+        } else {
+            originalNews.filter { it.title.contains(query, ignoreCase = true) }
+        }
+
+        if (query.isNotEmpty()) {
+            val history = loadSearchHistory()
+            history.remove(query)
+            history.add(0, query)
+            val trimmed = history.take(10)
+            saveSearchHistory(trimmed)
+        }
+
+        try {
+            newsAdapter.updateList(filtered)
+            noResultsTextView.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
+            recyclerView.visibility = if (filtered.isEmpty()) View.GONE else View.VISIBLE
+        } catch (e: Exception) {
+            Log.e("VETUSLUGI", "Exception occurred")
+        }
+        binding.progressBar.visibility = View.GONE
+    }
+     */
 
     private fun setupNavigation() {
         val prefs = requireActivity().getSharedPreferences("credentials",
@@ -67,6 +134,16 @@ class MainScreenFragment : Fragment() {
     private fun setupRecycler() {
         recyclerView = binding.mainRecycler
         recyclerView.layoutManager = LinearLayoutManager(activity)
+        getSurveysForRecycler()
+
+        binding.btnRetry.setOnClickListener {
+            getSurveysForRecycler()
+        }
+
+    }
+
+    private fun getSurveysForRecycler() {
+        binding.progressBarMain.isVisible = true
         lifecycleScope.launch {
             try {
 
@@ -85,13 +162,14 @@ class MainScreenFragment : Fragment() {
                     findNavController().navigate(action)
                 }, {survey, position, surveyAmount -> showEditDialog(survey, position, surveyAmount) })
                 recyclerView.adapter = adapter
+                binding.layoutError.visibility = View.GONE
 
             } catch (e: Exception) {
-                Log.e("CLIENT", "Ошибка: ${e.message}")
+                Log.e("WE_VOTE", "Ошибка: ${e.message}")
+                binding.layoutError.visibility = View.VISIBLE
             }
             binding.progressBarMain.isVisible = false
         }
-
     }
 
     private fun showEditDialog(survey: DTOs.SurveyDTO, position: Int, surveyAmount: Int) {
