@@ -2,6 +2,7 @@ package com.example.we_vote
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -29,12 +30,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.widget.doOnTextChanged
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
+import androidx.core.content.edit
 
 class MainScreenFragment : Fragment() {
 
@@ -54,10 +58,16 @@ class MainScreenFragment : Fragment() {
         _binding = FragmentMainScreenBinding.inflate(layoutInflater, container, false)
 
         setupNavigation()
-        setupRecycler()
+        setupMainRecycler()
         setupSearch()
+        setupSearchHistory()
 
         return binding.root
+    }
+
+    private fun setupSearchHistory() {
+        val historyRecycler = binding.historyRecycler
+        historyRecycler.layoutManager = LinearLayoutManager(activity)
     }
 
     @OptIn(FlowPreview::class)
@@ -97,13 +107,17 @@ class MainScreenFragment : Fragment() {
             surveys.filter { it.title.contains(query, ignoreCase = true) }
         }
 
-        /*if (query.isNotEmpty()) {
+        if (query.isNotEmpty()) {
+            binding.btnHistory.setOnClickListener {
+                binding.mainRecycler.isVisible = false
+            }
+            binding.btnHistory.isVisible = true
             val history = loadSearchHistory()
             history.remove(query)
             history.add(0, query)
             val trimmed = history.take(10)
             saveSearchHistory(trimmed)
-        }*/
+        }
 
         try {
             adapter.updateList(filtered)
@@ -130,7 +144,7 @@ class MainScreenFragment : Fragment() {
         }
     }
 
-    private fun setupRecycler() {
+    private fun setupMainRecycler() {
         recyclerView = binding.mainRecycler
         recyclerView.layoutManager = LinearLayoutManager(activity)
         getSurveysForRecycler()
@@ -193,10 +207,6 @@ class MainScreenFragment : Fragment() {
             dialog.dismiss()
         }
 
-        /*dialog.window?.setBackgroundDrawable(
-            ContextCompat.getDrawable(requireContext(), R.drawable.bg_edittext_dialog)
-        )*/
-
         dialog.show()
     }
 
@@ -217,6 +227,24 @@ class MainScreenFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun getHistoryPrefs(): SharedPreferences {
+        return requireContext().getSharedPreferences("search_history", Context.MODE_PRIVATE)
+    }
+
+    private fun loadSearchHistory(): MutableList<String> {
+        val json = getHistoryPrefs().getString("history", null) ?: return mutableListOf()
+        return Gson().fromJson(json, object : TypeToken<MutableList<String>>() {}.type)
+    }
+
+    private fun saveSearchHistory(history: List<String>) {
+        val json = Gson().toJson(history)
+        getHistoryPrefs().edit { putString("history", json) }
+    }
+
+    private fun clearSearchHistory() {
+        getHistoryPrefs().edit { remove("history") }
     }
 
     override fun onResume() {
