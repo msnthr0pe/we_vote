@@ -77,7 +77,7 @@ class MainScreenFragment : Fragment() {
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
                     .collectLatest { query ->
-                        //filterCards(query)
+                        filterCards(query)
                     }
             }
             clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
@@ -89,32 +89,31 @@ class MainScreenFragment : Fragment() {
         imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0)
     }
 
-    /*
+
     private fun filterCards(query: String) {
         val filtered = if (query.isEmpty()) {
-            originalNews
+            surveys
         } else {
-            originalNews.filter { it.title.contains(query, ignoreCase = true) }
+            surveys.filter { it.title.contains(query, ignoreCase = true) }
         }
 
-        if (query.isNotEmpty()) {
+        /*if (query.isNotEmpty()) {
             val history = loadSearchHistory()
             history.remove(query)
             history.add(0, query)
             val trimmed = history.take(10)
             saveSearchHistory(trimmed)
-        }
+        }*/
 
         try {
-            newsAdapter.updateList(filtered)
-            noResultsTextView.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
+            adapter.updateList(filtered)
+            binding.noResults.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
             recyclerView.visibility = if (filtered.isEmpty()) View.GONE else View.VISIBLE
-        } catch (e: Exception) {
-            Log.e("VETUSLUGI", "Exception occurred")
+        } catch (_: Exception) {
+            Log.e("WE_VOTE", "Exception occurred")
         }
-        binding.progressBar.visibility = View.GONE
     }
-     */
+
 
     private fun setupNavigation() {
         val prefs = requireActivity().getSharedPreferences("credentials",
