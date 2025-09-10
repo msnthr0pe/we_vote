@@ -16,7 +16,7 @@ interface AuthApi {
     fun register(@Body request: DTOs.UserDTO): Call<Void>
 
     @GET("getsurveys")
-    suspend fun getSurveys(): List<DTOs.SurveyDTO>
+    suspend fun getSurveys(): MutableList<DTOs.SurveyDTO>
 
     @POST("addusersurvey")
     fun addUserSurvey(@Body request: DTOs.UsersSurveysDTO): Call<Void>
