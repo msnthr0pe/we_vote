@@ -24,6 +24,12 @@ class RegistrationFragment : Fragment() {
     ): View? {
         _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
 
+        setupUserCreation()
+
+        return binding.root
+    }
+
+    private fun setupUserCreation() {
         binding.btnRegister.setOnClickListener {
             with(binding) {
                 val name = etNameRegister.text.toString()
@@ -46,8 +52,6 @@ class RegistrationFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
 
     private fun registerNewUser(
@@ -67,15 +71,17 @@ class RegistrationFragment : Fragment() {
             ) {
                 binding.progressBar.visibility = View.GONE
                 if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Учётная запись создана", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.account_created), Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
                 } else {
-                    Toast.makeText(requireContext(), "Ошибка создания учётной записи", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.account_creation_error), Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void?>, t: Throwable) {
-                Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.network_error)} ${t.message}", Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE
             }
 
