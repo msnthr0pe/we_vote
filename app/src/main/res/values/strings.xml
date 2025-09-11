@@ -56,4 +56,6 @@
     <string name="data_load_error">Ошибка загрузки данных</string>
     <string name="retry_load">Обновить</string>
     <string name="clear">Очистить</string>
+    <string name="clear_search_history">Очистить историю</string>
+    <string name="search_history_empty">История запросов пуста</string>
 </resources>

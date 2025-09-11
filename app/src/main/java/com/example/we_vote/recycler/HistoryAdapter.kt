@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.core.graphics.toColorInt
 import com.example.we_vote.R
 
 class HistoryAdapter(
@@ -14,7 +13,7 @@ class HistoryAdapter(
 ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val text: TextView = view.findViewById(R.id.text1)
+        val text: TextView = view.findViewById(R.id.history_item_text)
 
         init {
             view.setOnClickListener {
@@ -25,7 +24,7 @@ class HistoryAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.simple_list_item, parent, false)
+            .inflate(R.layout.item_history, parent, false)
         return ViewHolder(view)
     }
 
@@ -33,8 +32,5 @@ class HistoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.text.text = items[position]
-        holder.text.setTextColor(
-            "#0066B3".toColorInt()
-        )
     }
 }
