@@ -202,7 +202,6 @@ class MainScreenFragment : Fragment() {
         binding.btnRetry.setOnClickListener {
             getSurveysForRecycler()
         }
-
     }
 
     private fun getSurveysForRecycler() {
