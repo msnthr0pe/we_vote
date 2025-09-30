@@ -63,4 +63,8 @@
     <string name="network_error">Ошибка сети:</string>
     <string name="account_created">Учётная запись создана</string>
     <string name="account_creation_error">Ошибка создания учётной записи</string>
+    <string name="login_error">Ошибка входа</string>
+    <string name="user_data_error">Ошибка при получении пользователя: %1$s</string>
+    <string name="enter_new_password">Введите новый пароль…</string>
+    <string name="account_updated">Данные обновлены</string>
 </resources>

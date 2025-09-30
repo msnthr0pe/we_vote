@@ -20,10 +20,38 @@ class ProfileFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
+        setupNavigation()
+        setupButtons()
+        getUserData()
+
+        return binding.root
+    }
+
+    private fun getUserData() {
+        val prefs = requireActivity().getSharedPreferences("credentials",
+            Context.MODE_PRIVATE)
+        val name = prefs.getString("name", "")
+        val dob = prefs.getString("dob", "")
+        val city = prefs.getString("city", "")
+
+        with (binding) {
+            nameUser.text = name
+            birthDate.text = dob
+            userCity.text = city
+        }
+    }
+
+    private fun setupButtons() {
         binding.btnLogout.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_titleFragment)
         }
 
+        binding.alterData.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_personalInfoChangeFragment)
+        }
+    }
+
+    private fun setupNavigation() {
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
         val access = prefs.getString("access", "user")
@@ -37,8 +65,6 @@ class ProfileFragment : Fragment() {
                 R.id.action_profileFragment_self,
                 R.id.action_profileFragment_to_archiveFragment)
         }
-
-        return binding.root
     }
 
     override fun onResume() {

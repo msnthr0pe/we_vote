@@ -52,6 +52,7 @@
                     android:layout_weight="1"/>
 
                 <TextView
+                    android:id="@+id/name_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/user_name"
@@ -73,9 +74,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/date_of_birth"
                         android:background="@android:color/transparent"
-                        android:layout_marginEnd="@dimen/layoutPadding"/>
+                        android:layout_marginEnd="@dimen/smallLayoutPadding"/>
 
                     <TextView
+                        android:id="@+id/birth_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/default_value"
@@ -97,9 +99,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/city"
                         android:background="@android:color/transparent"
-                        android:layout_marginEnd="@dimen/layoutPadding"/>
+                        android:layout_marginEnd="@dimen/smallLayoutPadding"/>
 
                     <TextView
+                        android:id="@+id/user_city"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/default_value"
@@ -108,6 +111,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
@@ -132,6 +136,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/alter_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

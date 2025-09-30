@@ -82,18 +82,19 @@ class LoginFragment : Fragment() {
                             findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
 
                         } catch (e: Exception) {
-                            Log.e("MYCLIENT", "Ошибка при получении пользователя: ${e.message}")
+                            Log.e("MYCLIENT", getString(R.string.user_data_error, e.message))
                             binding.progressBar.visibility = View.GONE
                         }
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Ошибка входа", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.login_error), Toast.LENGTH_SHORT).show()
                     binding.progressBar.visibility = View.GONE
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.network_error)  } ${t.message}", Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE
             }
         })

@@ -94,7 +94,20 @@
         android:id="@+id/personalInfoChangeFragment"
         android:name="com.example.we_vote.PersonalInfoChangeFragment"
         android:label="PersonalInfoChangeFragment"
-        tools:layout="@layout/fragment_personal_info_change"/>
+        tools:layout="@layout/fragment_personal_info_change">
+        <action
+            android:id="@+id/action_personalInfoChangeFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_personalInfoChangeFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_personalInfoChangeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_personalInfoChangeFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.we_vote.ProfileFragment"
