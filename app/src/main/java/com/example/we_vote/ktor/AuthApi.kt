@@ -18,6 +18,9 @@ interface AuthApi {
     @GET("getsurveys")
     suspend fun getSurveys(): MutableList<DTOs.SurveyDTO>
 
+    @GET("getarchivedsurveys")
+    suspend fun getArchivedSurveys(): MutableList<DTOs.SurveyDTO>
+
     @POST("addusersurvey")
     fun addUserSurvey(@Body request: DTOs.UsersSurveysDTO): Call<Void>
 

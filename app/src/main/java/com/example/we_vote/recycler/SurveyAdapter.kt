@@ -11,25 +11,29 @@ import com.example.we_vote.R
 import com.example.we_vote.ktor.DTOs
 
 class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: String?,
+    private val greenButtonText: String,
+    private val redButtonText: String,
     private val onVoteClick: (DTOs.SurveyDTO) -> Unit,
     private val onArchiveClick: (DTOs.SurveyDTO, Int, Int) -> Unit) :
     RecyclerView.Adapter<SurveyAdapter.SurveyViewHolder>() {
 
     inner class SurveyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleText: TextView = itemView.findViewById(R.id.voting_card_title)
-        val voteBtn: TextView = itemView.findViewById(R.id.vote_btn)
-        val deleteBtn: Button = itemView.findViewById(R.id.voting_archive_btn)
+        val greenBtn: TextView = itemView.findViewById(R.id.vote_btn)
+        val redBtn: Button = itemView.findViewById(R.id.voting_archive_btn)
 
         fun bind(item: DTOs.SurveyDTO, position: Int) {
             this.titleText.text = item.title
+            greenBtn.text = greenButtonText
+            redBtn.text = redButtonText
             if (access == "user") {
-                this.deleteBtn.isVisible = false
+                this.redBtn.isVisible = false
             } else {
-                deleteBtn.setOnClickListener {
+                redBtn.setOnClickListener {
                     onArchiveClick(item, position, itemCount)
                 }
             }
-            voteBtn.setOnClickListener {
+            greenBtn.setOnClickListener {
                 onVoteClick.invoke(item)
             }
         }

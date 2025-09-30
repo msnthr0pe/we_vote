@@ -213,7 +213,8 @@ class MainScreenFragment : Fragment() {
                     ApiClient.authApi.getSurveys()
                 }
 
-                adapter = SurveyAdapter(surveys, access, { survey ->
+                adapter = SurveyAdapter(surveys, access, getString(R.string.vote),
+                    getString(R.string.end_survey),{ survey ->
                     val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
                         id = survey.id,
                         title = survey.title,

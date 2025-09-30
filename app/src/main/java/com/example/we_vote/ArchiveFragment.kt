@@ -32,7 +32,6 @@ class ArchiveFragment : Fragment() {
     private lateinit var adapter: SurveyAdapter
     private lateinit var access: String
     private lateinit var surveys: MutableList<DTOs.SurveyDTO>
-    private lateinit var votePercentages: DTOs.SurveyVotesDTO
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,10 +71,11 @@ class ArchiveFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 surveys = withContext(Dispatchers.IO) {
-                    ApiClient.authApi.getSurveys()
+                    ApiClient.authApi.getArchivedSurveys()
                 }
 
-                adapter = SurveyAdapter(surveys, access, { survey ->
+                adapter = SurveyAdapter(surveys, access, getString(R.string.results),
+                    getString(R.string.delete_from_archive),{ survey ->
 
                     var votingStatistics: DTOs.SurveyVotesDTO? = null
                     getVotingStatistics(survey) {

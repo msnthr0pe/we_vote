@@ -17,8 +17,22 @@ class ArchivePollFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentArchivePollBinding.inflate(layoutInflater, container, false)
+
+        setupNavigation()
+
         return binding.root
     }
+
+    private fun setupNavigation() {
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            VotingUtil.setupNavigation(this, item.itemId,
+                R.id.action_archivePollFragment_to_mainScreenFragment,
+                R.id.action_archivePollFragment_to_newPollFragment,
+                R.id.action_archivePollFragment_to_profileFragment,
+                R.id.action_archivePollFragment_to_archiveFragment)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         binding.bottomNav.menu.findItem(R.id.nav_archive).isChecked = true
