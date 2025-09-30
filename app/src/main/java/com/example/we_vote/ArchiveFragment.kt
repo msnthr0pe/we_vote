@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.we_vote.databinding.FragmentArchiveBinding
@@ -18,6 +20,9 @@ import com.example.we_vote.recycler.SurveyAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ArchiveFragment : Fragment() {
 
@@ -27,6 +32,7 @@ class ArchiveFragment : Fragment() {
     private lateinit var adapter: SurveyAdapter
     private lateinit var access: String
     private lateinit var surveys: MutableList<DTOs.SurveyDTO>
+    private lateinit var votePercentages: DTOs.SurveyVotesDTO
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,6 +77,22 @@ class ArchiveFragment : Fragment() {
 
                 adapter = SurveyAdapter(surveys, access, { survey ->
 
+                    var votingStatistics: DTOs.SurveyVotesDTO? = null
+                    getVotingStatistics(survey) {
+                        votingStatistics = it
+                    }
+
+                    val action = ArchiveFragmentDirections.actionArchiveFragmentToArchivePollFragment(
+                        id = survey.id,
+                        title = survey.title,
+                        firstChoice = survey.firstChoice,
+                        firstChoiceValue = votingStatistics?.votesPercentage?.get(1) ?: 0,
+                        secondChoice = survey.secondChoice,
+                        secondChoiceValue = votingStatistics?.votesPercentage?.get(2) ?: 0,
+                        thirdChoice = survey.thirdChoice,
+                        thirdChoiceValue = votingStatistics?.votesPercentage?.get(3) ?: 0,
+                    )
+                    findNavController().navigate(action)
                 }, {survey, position, surveyAmount ->  })
                 recyclerView.adapter = adapter
 
@@ -79,6 +101,31 @@ class ArchiveFragment : Fragment() {
             }
             binding.archiveProgressBar.isVisible = false
         }
+    }
+
+    private fun getVotingStatistics(surveyDTO: DTOs.SurveyDTO, onResult: (DTOs.SurveyVotesDTO?) -> Unit) {
+        val call = ApiClient.authApi.getSurveyVotes(DTOs.SurveyIdRequest(surveyDTO.id))
+
+        call.enqueue(object : Callback<DTOs.SurveyVotesDTO>{
+            override fun onResponse(
+                call: Call<DTOs.SurveyVotesDTO?>,
+                response: Response<DTOs.SurveyVotesDTO?>,
+            ) {
+                if (response.isSuccessful) {
+                    onResult(response.body())
+                } else {
+                    onResult(null)
+                }
+            }
+
+            override fun onFailure(
+                call: Call<DTOs.SurveyVotesDTO?>,
+                t: Throwable,
+            ) {
+                Toast.makeText(activity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
+                onResult(null)
+            }
+        })
     }
 
     override fun onResume() {

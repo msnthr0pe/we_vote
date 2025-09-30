@@ -38,7 +38,53 @@
         android:id="@+id/archivePollFragment"
         android:name="com.example.we_vote.ArchivePollFragment"
         android:label="ArchivePollFragment"
-        tools:layout="@layout/fragment_archive_poll"/>
+        tools:layout="@layout/fragment_archive_poll">
+
+        <argument
+            android:name="id"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="title"
+            android:defaultValue="default"
+            app:argType="string" />
+        <argument
+            android:name="first_choice"
+            android:defaultValue="default"
+            app:argType="string" />
+        <argument
+            android:name="first_choice_value"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="second_choice"
+            android:defaultValue="default"
+            app:argType="string" />
+        <argument
+            android:name="second_choice_value"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="third_choice"
+            android:defaultValue="default"
+            app:argType="string" />
+        <argument
+            android:name="third_choice_value"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_archivePollFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_archivePollFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_archivePollFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_archivePollFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.we_vote.LoginFragment"
@@ -147,22 +193,18 @@
             android:name="id"
             android:defaultValue="0"
             app:argType="integer" />
-
         <argument
             android:name="title"
             android:defaultValue="default"
             app:argType="string" />
-
         <argument
             android:name="first_choice"
             android:defaultValue="default"
             app:argType="string" />
-
         <argument
             android:name="second_choice"
             android:defaultValue="default"
             app:argType="string" />
-
         <argument
             android:name="third_choice"
             android:defaultValue="default"

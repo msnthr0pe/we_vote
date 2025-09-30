@@ -39,4 +39,15 @@ class DTOs {
         val surveyId: Int,
         val vote: Int,
     )
+
+    @Serializable
+    data class SurveyVotesDTO (
+        val votes: Map<Int, Int>,
+        val votesPercentage: Map<Int, Int>
+    )
+
+    @Serializable
+    data class SurveyIdRequest(
+        val id: Int
+    )
 }
