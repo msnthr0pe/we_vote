@@ -18,13 +18,21 @@ class RelationBar @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private var progress: Int = 0
+    var progress: Int = 0
         set(value) {
             field = if (value > 100) {100; return} else value
             field = if (value < 5 && value != 0) {5} else value
+            percentText = field.toString()
+
+            updateView()
         }
 
-    private var titleText: String = context.getString(R.string.default_value)
+    var titleText: String = context.getString(R.string.default_value)
+        set(value) {
+            field = value
+
+            updateView()
+        }
 
     private var percentText: String = context.getString(R.string.default_percent)
     private var progressColor: Int = Color.BLACK

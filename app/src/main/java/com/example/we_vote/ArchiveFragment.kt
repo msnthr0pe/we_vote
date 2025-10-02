@@ -77,22 +77,20 @@ class ArchiveFragment : Fragment() {
                 adapter = SurveyAdapter(surveys, access, getString(R.string.results),
                     getString(R.string.delete_from_archive),{ survey ->
 
-                    var votingStatistics: DTOs.SurveyVotesDTO? = null
-                    getVotingStatistics(survey) {
-                        votingStatistics = it
+                    getVotingStatistics(survey) { votingStatistics ->
+                        val action = ArchiveFragmentDirections.actionArchiveFragmentToArchivePollFragment(
+                            id = survey.id,
+                            title = survey.title,
+                            firstChoice = survey.firstChoice,
+                            firstChoiceValue = votingStatistics?.votesPercentage?.get(1) ?: 0,
+                            secondChoice = survey.secondChoice,
+                            secondChoiceValue = votingStatistics?.votesPercentage?.get(2) ?: 0,
+                            thirdChoice = survey.thirdChoice,
+                            thirdChoiceValue = votingStatistics?.votesPercentage?.get(3) ?: 0,
+                        )
+                        findNavController().navigate(action)
                     }
 
-                    val action = ArchiveFragmentDirections.actionArchiveFragmentToArchivePollFragment(
-                        id = survey.id,
-                        title = survey.title,
-                        firstChoice = survey.firstChoice,
-                        firstChoiceValue = votingStatistics?.votesPercentage?.get(1) ?: 0,
-                        secondChoice = survey.secondChoice,
-                        secondChoiceValue = votingStatistics?.votesPercentage?.get(2) ?: 0,
-                        thirdChoice = survey.thirdChoice,
-                        thirdChoiceValue = votingStatistics?.votesPercentage?.get(3) ?: 0,
-                    )
-                    findNavController().navigate(action)
                 }, {survey, position, surveyAmount ->  })
                 recyclerView.adapter = adapter
 

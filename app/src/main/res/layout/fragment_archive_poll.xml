@@ -36,6 +36,7 @@
             app:cardBackgroundColor="?attr/ViewBackgroundFill">
 
             <TextView
+                android:id="@+id/archived_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -53,6 +54,7 @@
             android:layout_weight="0.5"/>
 
         <com.example.we_vote.RelationBar
+            android:id="@+id/archived_first_choice"
             android:layout_width="match_parent"
             android:layout_height="74dp"
             app:text="@string/first_choice"
@@ -60,6 +62,7 @@
             android:layout_marginTop="4dp"/>
 
         <com.example.we_vote.RelationBar
+            android:id="@+id/archived_second_choice"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:text="@string/second_choice"
@@ -67,6 +70,7 @@
             android:layout_marginTop="4dp"/>
 
         <com.example.we_vote.RelationBar
+            android:id="@+id/archived_third_choice"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             app:text="@string/third_choice"
