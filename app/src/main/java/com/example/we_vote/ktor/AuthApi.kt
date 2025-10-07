@@ -36,4 +36,7 @@ interface AuthApi {
     @POST("getsurveyvotes")
     fun getSurveyVotes(@Body request: DTOs.SurveyIdRequest): Call<DTOs.SurveyVotesDTO>
 
+    @POST("deletesurveyinfo")
+    fun deleteSurveyInfo(@Body request: DTOs.SurveyIdRequest): Call<Void>
+
 }
