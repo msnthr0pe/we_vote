@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.we_vote.databinding.FragmentArchivePollBinding
@@ -49,6 +50,7 @@ class ArchivePollFragment : Fragment() {
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
         access = prefs.getString("access", "user").toString()
+        binding.archivePollDelete.isVisible = access == "admin"
         VotingUtil.setBottomBar(access, binding.bottomNav)
 
         binding.bottomNav.setOnItemSelectedListener { item ->
