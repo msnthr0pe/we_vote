@@ -1,13 +1,17 @@
 package com.example.we_vote
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -91,7 +95,7 @@ class ArchiveFragment : Fragment() {
                         findNavController().navigate(action)
                     }
 
-                }, {survey, position, surveyAmount ->  })
+                }, {survey, position, surveyAmount ->  showEditDialog(survey, position, surveyAmount)})
                 recyclerView.adapter = adapter
 
             } catch (e: Exception) {
@@ -99,6 +103,50 @@ class ArchiveFragment : Fragment() {
             }
             binding.archiveProgressBar.isVisible = false
         }
+    }
+
+    private fun showEditDialog(survey: DTOs.SurveyDTO, position: Int, surveyAmount: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
+        val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+
+        btnConfirm.setOnClickListener {
+            dialog.dismiss()
+            deleteSurvey(survey.id)
+            surveys.removeAt(position)
+            adapter.notifyItemRemoved(position)
+            adapter.notifyItemRangeChanged(position, surveyAmount)
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun deleteSurvey(idSurvey: Int) {
+        val call = ApiClient.authApi.deleteSurveyInfo(DTOs.SurveyIdRequest(idSurvey))
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(
+                call: Call<Void?>,
+                response: Response<Void?>,
+            ) {
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Опрос удалён", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void?>, t: Throwable) {
+                Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     private fun getVotingStatistics(surveyDTO: DTOs.SurveyDTO, onResult: (DTOs.SurveyVotesDTO?) -> Unit) {

@@ -11,10 +11,10 @@ import com.example.we_vote.R
 import com.example.we_vote.ktor.DTOs
 
 class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: String?,
-    private val greenButtonText: String,
-    private val redButtonText: String,
-    private val onVoteClick: (DTOs.SurveyDTO) -> Unit,
-    private val onArchiveClick: (DTOs.SurveyDTO, Int, Int) -> Unit) :
+                    private val greenButtonText: String,
+                    private val redButtonText: String,
+                    private val onGreenButtonClick: (DTOs.SurveyDTO) -> Unit,
+                    private val onRedButtonClick: (DTOs.SurveyDTO, Int, Int) -> Unit) :
     RecyclerView.Adapter<SurveyAdapter.SurveyViewHolder>() {
 
     inner class SurveyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -30,11 +30,11 @@ class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: Strin
                 this.redBtn.isVisible = false
             } else {
                 redBtn.setOnClickListener {
-                    onArchiveClick(item, position, itemCount)
+                    onRedButtonClick(item, position, itemCount)
                 }
             }
             greenBtn.setOnClickListener {
-                onVoteClick.invoke(item)
+                onGreenButtonClick.invoke(item)
             }
         }
 

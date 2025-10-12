@@ -113,6 +113,7 @@ class ArchivePollFragment : Fragment() {
                 response: Response<Void?>,
             ) {
                 if (response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Опрос удалён", Toast.LENGTH_SHORT).show()
                     val action = ArchivePollFragmentDirections.actionArchivePollFragmentToArchiveFragment()
                     findNavController().navigate(action)
                 }
