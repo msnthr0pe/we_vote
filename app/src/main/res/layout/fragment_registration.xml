@@ -68,8 +68,7 @@
                 android:singleLine="true"
                 android:layout_width="@dimen/editTextWidth"
                 android:layout_height="@dimen/editTextHeight"
-                android:hint="@string/date_format"
-                android:inputType="textPassword" />
+                android:hint="@string/date_format" />
 
             <TextView
                 android:layout_width="wrap_content"
