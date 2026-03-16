@@ -31,17 +31,21 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
+//        binding.btnLoginContinue.setOnClickListener {
+//            with(binding) {
+//                val login = etEmail.text.toString()
+//                val password = etPasswordLogin.text.toString()
+//                if (login.isNotEmpty() && password.isNotEmpty()) {
+//                    binding.progressBar.visibility = View.VISIBLE
+//                    loginUser(login, password)
+//                } else {
+//                    Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+
         binding.btnLoginContinue.setOnClickListener {
-            with(binding) {
-                val login = etEmail.text.toString()
-                val password = etPasswordLogin.text.toString()
-                if (login.isNotEmpty() && password.isNotEmpty()) {
-                    binding.progressBar.visibility = View.VISIBLE
-                    loginUser(login, password)
-                } else {
-                    Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
-                }
-            }
+            findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
         }
 
         binding.tvRegister.setOnClickListener {

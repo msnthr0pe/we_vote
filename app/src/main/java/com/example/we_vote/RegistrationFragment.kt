@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.we_vote.databinding.FragmentRegistrationBinding
 import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.DTOs
@@ -25,6 +26,11 @@ class RegistrationFragment : Fragment() {
         _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
 
         setupUserCreation()
+        
+        // Обработка кнопки Назад
+        binding.btBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         return binding.root
     }
@@ -73,7 +79,7 @@ class RegistrationFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(),
                         getString(R.string.account_created), Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
+                    findNavController().navigateUp()
                 } else {
                     Toast.makeText(requireContext(),
                         getString(R.string.account_creation_error), Toast.LENGTH_SHORT).show()

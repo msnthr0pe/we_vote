@@ -1,130 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
+    android:background="@drawable/back">
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:paddingVertical="50dp">
+        android:background="#66000000" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/registration"
-            android:textStyle="bold"
-            android:textSize="@dimen/titleTextSize"
-            android:layout_weight="1"/>
+    <ImageButton
+        android:id="@+id/bt_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/bt_back"
+        app:layout_constraintBottom_toTopOf="@+id/materialCardView4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- MaterialCardView с верхними скруглениями -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="1.0"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/TopRoundedCard"
+        app:strokeWidth="0dp">
+
+        <!-- Контент внутри CardView -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_weight="0.5">
+            android:padding="15dp"
+            android:paddingTop="32dp">
 
+            <!-- Заголовок -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_name"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:layout_marginBottom="10dp"/>
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="18dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Регистрация"
+                android:textColor="#000000"
+                android:textSize="24sp" />
+
+            <!-- Поле Имя пользователя -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Имя пользователя"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etNameRegister"
-                android:singleLine="true"
-                android:layout_width="@dimen/editTextWidth"
-                android:layout_height="@dimen/editTextHeight"
-                android:hint="@string/enter_user_name" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_stroke"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Введите имя пользователя..."
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#000000"
+                android:textSize="12sp" />
 
+            <!-- Поле Адрес электронной почты -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Адрес электронной почты"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etEmailRegister"
-                android:singleLine="true"
-                android:layout_width="@dimen/editTextWidth"
-                android:layout_height="@dimen/editTextHeight"
-                android:hint="@string/enter_email" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_stroke"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Введите адрес электронной почты..."
+                android:inputType="textEmailAddress"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#000000"
+                android:textSize="12sp" />
 
+            <!-- Поле Дата Рождения -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_of_birth"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Дата Рождения"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etDateRegister"
-                android:singleLine="true"
-                android:layout_width="@dimen/editTextWidth"
-                android:layout_height="@dimen/editTextHeight"
-                android:hint="@string/date_format" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_stroke"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="дд.мм.гггг"
+                android:inputType="date"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#000000"
+                android:textSize="12sp" />
 
+            <!-- Поле Город -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/city"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Город"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etCityRegister"
-                android:singleLine="true"
-                android:layout_width="@dimen/editTextWidth"
-                android:layout_height="@dimen/editTextHeight"
-                android:hint="@string/enter_city_name" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_text_stroke"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Введите название города..."
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#000000"
+                android:textSize="12sp" />
 
+            <!-- Поле Пароль -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/password"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Пароль"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/etPasswordRegister"
-                android:singleLine="true"
-                android:layout_width="@dimen/editTextWidth"
-                android:layout_height="@dimen/editTextHeight"
-                android:hint="@string/enter_password"
-                android:inputType="textPassword" />
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/edit_text_stroke"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Введите пароль..."
+                android:inputType="textPassword"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+
+            <!-- Кнопка Зарегистрироваться -->
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="18dp"
+                android:backgroundTint="#011314"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Зарегистрироваться"
+                android:textColor="#AEAF50"
+                android:textSize="18sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="?attr/colorPrimary"
+                android:visibility="gone"
+                android:background="@android:color/transparent" />
 
         </LinearLayout>
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"/>
+    </com.google.android.material.card.MaterialCardView>
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="340dp"
-            android:layout_height="66dp"
-            android:layout_marginBottom="40dp"
-            android:text="@string/register" />
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:indeterminateTint="?attr/colorPrimary"
-        android:visibility="gone"
-        android:background="@android:color/transparent" />
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
