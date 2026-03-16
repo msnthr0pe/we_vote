@@ -1,50 +1,54 @@
 package com.example.we_vote
 
-import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.we_vote.databinding.FragmentTitleBinding
 
 class TitleFragment : Fragment() {
 
-    private var _binding: FragmentTitleBinding? = null
-    private val binding get() = _binding!!
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-
-        _binding = FragmentTitleBinding.inflate(layoutInflater, container, false)
-
-        val isDarkTheme = requireContext().resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-        if (isDarkTheme) {
-            binding.isNightTheme.isChecked = true
-        }
-
-        binding.isNightTheme.setOnCheckedChangeListener {_, isNightTheme ->
-            if (isNightTheme) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
-
-        binding.btnContinue.setOnClickListener {
-            findNavController().navigate(R.id.action_titleFragment_to_loginFragment)
-        }
-
-        return binding.root
+        return inflater.inflate(R.layout.fragment_title, container, false)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val titleTextView = view.findViewById<TextView>(R.id.titleText)
+        val fullText = "Твой взгляд формирует завтрашний день"
+        val spannableString = SpannableString(fullText)
+
+        val wordToColor = "формирует"
+        val startIndex = fullText.indexOf(wordToColor)
+        if (startIndex != -1) {
+            val endIndex = startIndex + wordToColor.length
+            val color = Color.parseColor("#AEAF50")
+            spannableString.setSpan(
+                ForegroundColorSpan(color),
+                startIndex,
+                endIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        titleTextView.text = spannableString
+
+        // Если вы хотите, чтобы TitleFragment тоже висел какое-то время и переходил на Login:
+        view.postDelayed({
+            if (isAdded) {
+                findNavController().navigate(R.id.action_titleFragment_to_loginFragment)
+            }
+        }, 3000)
     }
 }

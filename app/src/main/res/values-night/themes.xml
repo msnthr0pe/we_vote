@@ -1,10 +1,10 @@
 <resources>
     <style name="Theme.We_vote" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:background">@color/dark_green</item>
-        <item name="android:textColor">@color/light_yellow</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="colorPrimary">@color/light_yellow</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorSecondary">@color/dark_green</item>
 
         <item name="ViewBackgroundFill">@color/dark_green</item>
@@ -31,12 +31,12 @@
 
     <style name="Button" parent="Widget.Material3.Button">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.We_vote.Button</item>
-        <item name="backgroundTint">@color/light_yellow</item>
-        <item name="strokeColor">@color/light_yellow</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="strokeColor">@color/white</item>
         <item name="strokeWidth">2.3dp</item>
         <item name="android:textColor">@color/dark_green</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:fontFamily">@font/montserrat_regular</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:paddingStart">45dp</item>
@@ -49,7 +49,7 @@
     </style>
 
     <style name="EditText" parent="android:Widget.EditText">
-        <item name="android:textColorHint">@color/light_yellow</item>
+        <item name="android:textColorHint">@color/white</item>
         <item name="android:textSize">17sp</item>
         <item name="android:background">@drawable/rounded_corners</item>
         <item name="android:textCursorDrawable">@drawable/custom_cursor</item>

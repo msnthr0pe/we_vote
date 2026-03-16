@@ -3,6 +3,6 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/amethysta</item>
         <item>@font/montserrat</item>
-        <item>@font/montserrat_medium</item>
+        <item>@font/montserrat_regular</item>
     </array>
 </resources>

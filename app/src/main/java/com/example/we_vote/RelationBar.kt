@@ -52,7 +52,7 @@ class RelationBar @JvmOverloads constructor(
         val typedValue = TypedValue()
         val theme = context.theme
         val hasColorPrimary = theme.resolveAttribute(androidx.appcompat.R.attr.colorPrimary, typedValue, true)
-        val colorPrimary = if (hasColorPrimary) typedValue.data else ContextCompat.getColor(context, R.color.light_yellow)
+        val colorPrimary = if (hasColorPrimary) typedValue.data else ContextCompat.getColor(context, R.color.white)
 
         val hasColorSecondary = theme.resolveAttribute(R.attr.ViewBackgroundFill, typedValue, true)
         val colorSecondary = if (hasColorSecondary) typedValue.data else Color.WHITE
