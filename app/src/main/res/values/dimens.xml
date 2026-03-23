@@ -3,7 +3,7 @@
     <dimen name="editTextWidth">350dp</dimen>
     <dimen name="editTextHeight">52dp</dimen>
 
-    <dimen name="titleTextSize">50sp</dimen>
+    <dimen name="titleTextSize">24sp</dimen>
 
     <dimen name="smallLayoutPadding">8dp</dimen>
     <dimen name="layoutPadding">16dp</dimen>

@@ -1,177 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:paddingTop="44dp">
+    android:background="#011314">
 
-    <TextView
+    <!-- Логотип (ID из дизайна) -->
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/surveys"
-        android:textSize="@dimen/titleTextSize"
-        android:textStyle="bold"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
-    <LinearLayout
+    <!-- Поисковая строка (ID из дизайна) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/main_screen_pic"/>
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#011314"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo">
 
         <LinearLayout
+            android:id="@+id/searchLine"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/search_background"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingHorizontal="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
+            <!-- Иконка поиска (из дизайна, но в основе была ic_search) -->
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/search" />
+
+            <!-- Поле ввода (ID ИЗ ОСНОВЫ - search_edit_text) -->
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_search"
-                android:paddingEnd="16dp"/>
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white_50"
+                android:textSize="12sp" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/search_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/search"/>
-
-                <ImageButton
-                    android:id="@+id/btn_clear_search"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_gravity="end"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@string/clear"
-                    android:src="@drawable/ic_cancel"
-                    android:visibility="gone"/>
-            </FrameLayout>
+            <!-- Кнопка очистки (ID ИЗ ОСНОВЫ - btn_clear_search) -->
+            <ImageButton
+                android:id="@+id/btn_clear_search"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/clear"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone" />
 
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/btn_history"
+    <!-- Текст под поиском (ID из дизайна) -->
+    <TextView
+        android:id="@+id/text_bellow_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_thin"
+        android:text="Поиск осуществляется по ключевым словам"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <!-- Кнопка истории (ID ИЗ ОСНОВЫ - btn_history) -->
+    <Button
+        android:id="@+id/btn_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-12dp"
+        android:text="@string/search_history"
+        android:textSize="14dp"
+        android:visibility="gone"
+        android:fontFamily="@font/montserrat_semibold"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@null"
+        android:textColor="#AEAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_bellow_search" />
+
+    <!-- Основной контейнер с RecyclerView и всеми состояниями -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_history">
+
+        <!-- RecyclerView для опросов (ID ИЗ ОСНОВЫ - main_recycler) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="2dp"
+            tools:listitem="@layout/item_vote" />
+
+        <!-- ProgressBar (ID ИЗ ОСНОВЫ - progressBarMain) -->
+        <ProgressBar
+            android:id="@+id/progressBarMain"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="@string/search_history"
-            android:textSize="20sp"
-            android:visibility="gone"/>
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:indeterminate="true"
+            android:indeterminateTint="#AEAF50"
+            android:visibility="visible" />
 
-        <FrameLayout
+        <!-- Нет результатов (ID ИЗ ОСНОВЫ - no_results) -->
+        <TextView
+            android:id="@+id/no_results"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/nothing_found"
+            android:visibility="gone" />
+
+        <!-- Ошибка загрузки (ID ИЗ ОСНОВЫ - layout_error, tv_error, btn_retry) -->
+        <LinearLayout
+            android:id="@+id/layout_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="@color/white_50"
+                android:text="@string/data_load_error" />
+
+            <Button
+                android:id="@+id/btn_retry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-12dp"
+                android:textSize="16dp"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/retry_load" />
+        </LinearLayout>
+
+        <!-- История поиска (ID ИЗ ОСНОВЫ - history_layout, history_recycler, clear_search_history) -->
+        <LinearLayout
+            android:id="@+id/history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/main_recycler"
+                android:id="@+id/history_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_vote" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
-            <ProgressBar
-                android:id="@+id/progressBarMain"
-                style="?android:attr/progressBarStyleLarge"
+            <Button
+                android:id="@+id/clear_search_history"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:indeterminateTint="?attr/colorPrimary"
-                android:visibility="visible"
-                android:background="@android:color/transparent" />
+                android:layout_height="54dp"
+                android:textSize="12dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/clear_search_history" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/no_results"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/nothing_found"
-                android:visibility="gone"/>
+        <!-- Placeholder истории (ID ИЗ ОСНОВЫ - history_placeholder) -->
+        <TextView
+            android:id="@+id/history_placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search_history_empty"
+            android:visibility="gone" />
 
-            <LinearLayout
-                android:id="@+id/layout_error"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etSearch">
+    </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tv_error"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/data_load_error" />
-
-                <Button
-                    android:id="@+id/btn_retry"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/retry_load" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/history_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/history_recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/clear_search_history"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/clear_search_history"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/history_placeholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:text="@string/search_history_empty"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
-
+    <!-- Нижняя навигация -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        app:itemRippleColor="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:background="#01292B"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/white"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_bottom_nav_user"
-        android:layout_gravity="bottom"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,14 +6,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="#011314"
     android:paddingTop="44dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/archive"
+        android:textColor="@color/white"
         android:textSize="@dimen/titleTextSize"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/montserrat_semibold" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,11 +43,14 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        app:itemRippleColor="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:labelVisibilityMode="unlabeled"
+        android:layout_height="50dp"
+        android:background="#01292B"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/white"
         app:menu="@menu/menu_bottom_nav_user"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled"
         android:layout_gravity="bottom"/>
 
 </LinearLayout>

@@ -38,9 +38,9 @@
     <string name="publish">Опубликовать</string>
     <string name="results">Результат</string>
     <string name="delete_from_archive">Удалить из архива</string>
-    <string name="archive">Архив</string>
+    <string name="archive">Результаты</string>
     <string name="default_percent">65%</string>
-    <string name="end_survey">Завершеить опрос</string>
+    <string name="end_survey">Завершить опрос</string>
     <string name="completed_survey">Завершённый\nопрос</string>
     <string name="percent">%</string>
     <string name="personal_info_change">Изменение\nданных</string>

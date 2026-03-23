@@ -53,8 +53,6 @@ class MainScreenFragment : Fragment() {
     private lateinit var historyRecycler: RecyclerView
     var isHistory = true
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -74,34 +72,42 @@ class MainScreenFragment : Fragment() {
         historyRecycler.layoutManager = LinearLayoutManager(activity)
 
         binding.clearSearchHistory.setOnClickListener {
-            binding.historyPlaceholder.visibility = View.GONE
-            clearSearchHistory()
-            makeMainRecyclerVisible()
+            if (_binding != null) {
+                binding.historyPlaceholder.visibility = View.GONE
+                clearSearchHistory()
+                makeMainRecyclerVisible()
+            }
         }
 
         binding.btnHistory.setOnClickListener {
-            if (isHistory) {
-                binding.btnHistory.text = getString(R.string.surveys)
-                setupHistory()
-                binding.historyLayout.visibility = View.VISIBLE
-                binding.mainRecycler.isVisible = false
-                isHistory = false
-            } else {
-                makeMainRecyclerVisible()
+            if (_binding != null) {
+                if (isHistory) {
+                    binding.btnHistory.text = getString(R.string.surveys)
+                    setupHistory()
+                    binding.historyLayout.visibility = View.VISIBLE
+                    binding.mainRecycler.isVisible = false
+                    isHistory = false
+                } else {
+                    makeMainRecyclerVisible()
+                }
             }
         }
         binding.btnHistory.visibility = View.VISIBLE
     }
 
     private fun makeMainRecyclerVisible() {
-        binding.historyPlaceholder.visibility = View.GONE
-        binding.historyLayout.visibility = View.GONE
-        binding.btnHistory.text = getString(R.string.search_history)
-        binding.mainRecycler.isVisible = true
-        isHistory = true
+        if (_binding != null) {
+            binding.historyPlaceholder.visibility = View.GONE
+            binding.historyLayout.visibility = View.GONE
+            binding.btnHistory.text = getString(R.string.search_history)
+            binding.mainRecycler.isVisible = true
+            isHistory = true
+        }
     }
 
     private fun setupHistory() {
+        if (_binding == null) return
+
         val searchEditText = binding.searchEditText
         val history = loadSearchHistory()
         if (history.isNotEmpty()) {
@@ -122,10 +128,13 @@ class MainScreenFragment : Fragment() {
     private fun setupSearch() {
         val clearButton = binding.btnClearSearch
         clearButton.setOnClickListener {
-            binding.searchEditText.text.clear()
-            clearButton.visibility = View.GONE
-            hideKeyboard()
+            if (_binding != null) {
+                binding.searchEditText.text.clear()
+                clearButton.visibility = View.GONE
+                hideKeyboard()
+            }
         }
+
         binding.searchEditText.doOnTextChanged { s, start, before, count ->
             lifecycleScope.launch {
                 searchQuery.value = s.toString()
@@ -134,14 +143,19 @@ class MainScreenFragment : Fragment() {
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
                     .collectLatest { query ->
-                        filterCards(query)
-                        binding.btnHistory.text = getString(R.string.search_history)
-                        binding.historyLayout.visibility = View.GONE
-                        isHistory = true
-                        binding.historyPlaceholder.visibility = View.GONE
+                        // Проверяем, жив ли фрагмент
+                        if (isAdded && _binding != null) {
+                            filterCards(query)
+                            binding.btnHistory.text = getString(R.string.search_history)
+                            binding.historyLayout.visibility = View.GONE
+                            isHistory = true
+                            binding.historyPlaceholder.visibility = View.GONE
+                        }
                     }
             }
-            clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+            if (_binding != null) {
+                clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+            }
         }
     }
 
@@ -161,6 +175,9 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun filterCards(query: String) {
+        // Проверяем, что фрагмент еще активен
+        if (!isAdded || _binding == null) return
+
         val filtered = if (query.isEmpty()) {
             surveys
         } else {
@@ -178,13 +195,15 @@ class MainScreenFragment : Fragment() {
         }
     }
 
-
     private fun setupNavigation() {
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
         access = prefs.getString("access", "user") ?: "user"
         VotingUtil.setBottomBar(access, binding.bottomNav)
-        binding.bottomNav.menu.findItem(R.id.nav_home).isChecked = true
+
+        // Безопасно устанавливаем checked состояние
+        binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
+
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_mainScreenFragment_self,
@@ -205,37 +224,51 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun getSurveysForRecycler() {
+        // Проверяем, что фрагмент еще активен
+        if (!isAdded || _binding == null) return
+
         binding.progressBarMain.isVisible = true
         lifecycleScope.launch {
             try {
-
                 surveys = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getSurveys()
                 }
 
+                // Проверяем, что фрагмент еще активен после получения данных
+                if (!isAdded || _binding == null) return@launch
+
                 adapter = SurveyAdapter(surveys, access, getString(R.string.vote),
                     getString(R.string.end_survey),{ survey ->
-                    val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
-                        id = survey.id,
-                        title = survey.title,
-                        firstChoice = survey.firstChoice,
-                        secondChoice = survey.secondChoice,
-                        thirdChoice = survey.thirdChoice,
-                    )
-                    findNavController().navigate(action)
-                }, {survey, position, surveyAmount -> showEditDialog(survey, position, surveyAmount) })
+                        val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
+                            id = survey.id,
+                            title = survey.title,
+                            firstChoice = survey.firstChoice,
+                            secondChoice = survey.secondChoice,
+                            thirdChoice = survey.thirdChoice,
+                        )
+                        findNavController().navigate(action)
+                    }, {survey, position, surveyAmount -> showEditDialog(survey, position, surveyAmount) })
+
                 recyclerView.adapter = adapter
                 binding.layoutError.visibility = View.GONE
 
             } catch (e: Exception) {
-                Log.e("WE_VOTE", "Ошибка: ${e.message}")
-                binding.layoutError.visibility = View.VISIBLE
+                // Проверяем, что фрагмент еще активен
+                if (isAdded && _binding != null) {
+                    Log.e("WE_VOTE", "Ошибка: ${e.message}")
+                    binding.layoutError.visibility = View.VISIBLE
+                }
+            } finally {
+                if (isAdded && _binding != null) {
+                    binding.progressBarMain.isVisible = false
+                }
             }
-            binding.progressBarMain.isVisible = false
         }
     }
 
     private fun showEditDialog(survey: DTOs.SurveyDTO, position: Int, surveyAmount: Int) {
+        if (!isAdded) return
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
         val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
         val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
@@ -299,7 +332,9 @@ class MainScreenFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.bottomNav.menu.findItem(R.id.nav_home).isChecked = true
+        if (_binding != null) {
+            binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
+        }
     }
 
     override fun onDestroyView() {
