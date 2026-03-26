@@ -53,6 +53,11 @@ class VotingFragment : Fragment() {
     }
 
     private fun setupNavigation() {
+        val prefs = requireActivity().getSharedPreferences("credentials",
+            Context.MODE_PRIVATE)
+        val access = prefs.getString("access", "user")
+        VotingUtil.setBottomBar(access, binding.bottomNav)
+
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_votingFragment_to_mainScreenFragment,
@@ -127,7 +132,9 @@ class VotingFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.bottomNav.menu.findItem(R.id.nav_home).isChecked = true
+        if (_binding != null) {
+            binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
+        }
     }
 
     override fun onDestroyView() {

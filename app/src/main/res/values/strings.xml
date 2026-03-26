@@ -27,9 +27,9 @@
     <string name="survey">Опрос</string>
     <string name="cast_a_vote">Проголосовать</string>
     <string name="new_survey">Новый опрос</string>
-    <string name="survey_contents">Содержание опроса</string>
+    <string name="survey_contents">Вопрос</string>
     <string name="enter_survey_contents">Введите содержание опроса…</string>
-    <string name="first_choice">Первый вариант ответа</string>
+    <string name="choice">Варианты ответов </string>
     <string name="enter_first_choice">Введите первый вариант ответа…</string>
     <string name="second_choice">Второй вариант ответа</string>
     <string name="enter_second_choice">Введите второй вариант ответа…</string>
@@ -68,4 +68,7 @@
     <string name="user_data_error">Ошибка при получении пользователя: %1$s</string>
     <string name="enter_new_password">Введите новый пароль…</string>
     <string name="account_updated">Данные обновлены</string>
+    <string name="my_requests">Мои заявки</string>
+    <string name="theme_app">Тема приложения</string>
+    <string name="first_choice">Первый вариант ответа</string>
 </resources>

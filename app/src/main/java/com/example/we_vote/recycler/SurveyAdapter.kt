@@ -26,18 +26,17 @@ class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: Strin
             this.titleText.text = item.title
             greenBtn.text = greenButtonText
             redBtn.text = redButtonText
-            if (access == "user") {
-                this.redBtn.isVisible = false
-            } else {
-                redBtn.setOnClickListener {
-                    onRedButtonClick(item, position, itemCount)
-                }
+            
+            // Теперь кнопка архивации доступна всем (и админу, и пользователю)
+            redBtn.isVisible = true
+            redBtn.setOnClickListener {
+                onRedButtonClick(item, position, itemCount)
             }
+            
             greenBtn.setOnClickListener {
                 onGreenButtonClick.invoke(item)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SurveyViewHolder {

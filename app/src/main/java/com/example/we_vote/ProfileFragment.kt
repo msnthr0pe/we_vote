@@ -31,12 +31,12 @@ class ProfileFragment : Fragment() {
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
         val name = prefs.getString("name", "")
-        val dob = prefs.getString("dob", "")
+//        val dob = prefs.getString("dob", "")
         val city = prefs.getString("city", "")
 
         with (binding) {
             nameUser.text = name
-            birthDate.text = dob
+//            birthDate.text = dob
             userCity.text = city
         }
     }
@@ -56,7 +56,9 @@ class ProfileFragment : Fragment() {
             Context.MODE_PRIVATE)
         val access = prefs.getString("access", "user")
         VotingUtil.setBottomBar(access, binding.bottomNav)
-        binding.bottomNav.menu.findItem(R.id.nav_profile).isChecked = true
+        
+        // Безопасно устанавливаем состояние checked
+      //  binding.bottomNav.menu.findItem(R.id.nav_profile)?.isChecked = true
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
@@ -69,7 +71,9 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.bottomNav.menu.findItem(R.id.nav_profile).isChecked = true
+        if (_binding != null) {
+            binding.bottomNav.menu.findItem(R.id.nav_profile)?.isChecked = true
+        }
     }
 
     override fun onDestroyView() {
