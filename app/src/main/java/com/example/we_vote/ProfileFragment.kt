@@ -30,14 +30,17 @@ class ProfileFragment : Fragment() {
     private fun getUserData() {
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
-        val name = prefs.getString("name", "")
-//        val dob = prefs.getString("dob", "")
-        val city = prefs.getString("city", "")
-
-        with (binding) {
-            nameUser.text = name
-//            birthDate.text = dob
-            userCity.text = city
+        val access = prefs.getString("access", "user")
+        
+        if (access == "developer") {
+            // Тестовые данные для разработчика
+            binding.nameUser.text = "Dev Test User"
+            binding.userCity.text = "Test City"
+        } else {
+            val name = prefs.getString("name", "")
+            val city = prefs.getString("city", "")
+            binding.nameUser.text = name
+            binding.userCity.text = city
         }
     }
 
@@ -57,9 +60,6 @@ class ProfileFragment : Fragment() {
         val access = prefs.getString("access", "user")
         VotingUtil.setBottomBar(access, binding.bottomNav)
         
-        // Безопасно устанавливаем состояние checked
-      //  binding.bottomNav.menu.findItem(R.id.nav_profile)?.isChecked = true
-
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_profileFragment_to_mainScreenFragment,

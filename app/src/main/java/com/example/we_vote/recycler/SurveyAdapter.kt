@@ -3,7 +3,7 @@ package com.example.we_vote.recycler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -20,15 +20,15 @@ class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: Strin
     inner class SurveyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleText: TextView = itemView.findViewById(R.id.voting_card_title)
         val greenBtn: TextView = itemView.findViewById(R.id.vote_btn)
-        val redBtn: Button = itemView.findViewById(R.id.voting_archive_btn)
+        val redBtn: ImageButton = itemView.findViewById(R.id.voting_archive_btn)
 
         fun bind(item: DTOs.SurveyDTO, position: Int) {
             this.titleText.text = item.title
             greenBtn.text = greenButtonText
-            redBtn.text = redButtonText
             
-            // Теперь кнопка архивации доступна всем (и админу, и пользователю)
+            // Гарантируем видимость кнопки архивации
             redBtn.isVisible = true
+            
             redBtn.setOnClickListener {
                 onRedButtonClick(item, position, itemCount)
             }

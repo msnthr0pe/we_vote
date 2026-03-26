@@ -47,7 +47,8 @@
                 android:text="@string/default_recycler_text" />
             <TextView
                 android:id="@+id/voting_title_2"
-                android:textSize="16dp"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
@@ -65,7 +66,6 @@
                 android:layout_height="30dp"
                 android:button="@drawable/custom_checkbox"
                 android:padding="4dp"
-                android:layout_marginStart="50dp"
                 android:layout_gravity="start"
                 android:text="@string/default_value"
                 android:layout_weight="1"/>
@@ -77,7 +77,6 @@
                 android:textColor="@color/white"
                 android:button="@drawable/custom_checkbox"
                 android:padding="4dp"
-                android:layout_marginStart="50dp"
                 android:layout_gravity="start"
                 android:text="@string/default_value"
                 android:layout_weight="1"
@@ -91,16 +90,12 @@
                 android:textColor="@color/white"
                 android:button="@drawable/custom_checkbox"
                 android:padding="4dp"
-                android:layout_marginStart="50dp"
                 android:layout_gravity="start"
                 android:text="@string/default_value"
                 android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/send_vote_btn"
-                app:icon="@drawable/ic_accept"
-                app:iconSize="30dp"
-                app:iconTint="@color/dark"
                 android:layout_width="wrap_content"
                 android:layout_height="54dp"
                 app:strokeWidth="0dp"
@@ -115,18 +110,6 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_nav"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#01292B"
-            app:itemIconSize="20dp"
-            app:itemIconTint="@color/white"
-            app:menu="@menu/menu_bottom_nav_user"
-            app:itemRippleColor="@android:color/transparent"
-            app:labelVisibilityMode="unlabeled"
-            android:layout_gravity="bottom"/>
-
     </LinearLayout>
 
     <ProgressBar
@@ -136,7 +119,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
-        android:indeterminateTint="?attr/colorPrimary"
         android:visibility="gone"
         android:background="@android:color/transparent" />
 

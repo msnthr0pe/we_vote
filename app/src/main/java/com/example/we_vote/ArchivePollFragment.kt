@@ -108,6 +108,7 @@ class ArchivePollFragment : Fragment() {
     }
 
     private fun deleteSurvey() {
+        /*
         val call = ApiClient.authApi.deleteSurveyInfo(DTOs.SurveyIdRequest(currentIdSurvey.toInt()))
         call.enqueue(object : Callback<Void> {
             override fun onResponse(
@@ -126,6 +127,10 @@ class ArchivePollFragment : Fragment() {
             }
 
         })
+        */
+        Toast.makeText(requireContext(), "Опрос удалён (тестовый режим)", Toast.LENGTH_SHORT).show()
+        val action = ArchivePollFragmentDirections.actionArchivePollFragmentToArchiveFragment()
+        findNavController().navigate(action)
     }
 
     override fun onResume() {

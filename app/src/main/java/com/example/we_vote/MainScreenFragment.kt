@@ -230,9 +230,18 @@ class MainScreenFragment : Fragment() {
         binding.progressBarMain.isVisible = true
         lifecycleScope.launch {
             try {
-                surveys = withContext(Dispatchers.IO) {
-                    ApiClient.authApi.getSurveys()
-                }
+                // surveys = withContext(Dispatchers.IO) {
+                //    ApiClient.authApi.getSurveys()
+                // }
+                
+                // Тестовые данные
+                surveys = mutableListOf(
+                    DTOs.SurveyDTO(1, "Какое ваше любимое время года? И еще очень мнооооооооооооооооооооооооооооооооооооого других слов для теста", "Зимаааааааааааааааааааааааааааааааааааааааааа", "Весна", "Лето"),
+                    DTOs.SurveyDTO(2, "Какой язык программирования лучше?", "Kotlin", "Java", "Python"),
+                    DTOs.SurveyDTO(3, "Что вы предпочитаете на завтрак?", "Каша", "Яичница", "Блины"),
+                    DTOs.SurveyDTO(4, "Ваш любимый вид спорта?", "Футбол", "Баскетбол", "Теннис"),
+                    DTOs.SurveyDTO(5, "Где лучше отдыхать?", "На море", "В горах", "В лесу")
+                )
 
                 // Проверяем, что фрагмент еще активен после получения данных
                 if (!isAdded || _binding == null) return@launch
@@ -294,6 +303,7 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun archiveSurvey(title: String) {
+        /*
         val call = ApiClient.authApi.archiveSurvey(DTOs.TitleDTO(title))
         call.enqueue(object : Callback<Void> {
             override fun onResponse(
@@ -310,6 +320,8 @@ class MainScreenFragment : Fragment() {
             }
 
         })
+        */
+        Toast.makeText(requireContext(), "Опрос перенесен в архив (тестовый режим)", Toast.LENGTH_SHORT).show()
     }
 
     private fun getHistoryPrefs(): SharedPreferences {

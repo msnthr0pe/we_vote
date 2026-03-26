@@ -37,35 +37,35 @@ class VotingFragment : Fragment() {
             binding.thirdCheckbox,
         )
 
-        setupNavigation()
-        getArgs()
-        configureCheckboxLogic()
-        binding.sendVoteBtn.setOnClickListener {
-            if (currentVoteId == 0) {
-                Toast.makeText(activity, "Выберите один из вариантов", Toast.LENGTH_SHORT).show()
-            } else {
-                binding.progressBarVoting.isVisible = true
-                uploadVote()
-                binding.progressBarVoting.isVisible = false
-            }
-        }
+//        setupNavigation()
+//        getArgs()
+//        configureCheckboxLogic()
+//        binding.sendVoteBtn.setOnClickListener {
+//            if (currentVoteId == 0) {
+//                Toast.makeText(activity, "Выберите один из вариантов", Toast.LENGTH_SHORT).show()
+//            } else {
+//                binding.progressBarVoting.isVisible = true
+//                uploadVote()
+//                binding.progressBarVoting.isVisible = false
+//            }
+//        }
         return binding.root
     }
 
-    private fun setupNavigation() {
-        val prefs = requireActivity().getSharedPreferences("credentials",
-            Context.MODE_PRIVATE)
-        val access = prefs.getString("access", "user")
-        VotingUtil.setBottomBar(access, binding.bottomNav)
-
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            VotingUtil.setupNavigation(this, item.itemId,
-                R.id.action_votingFragment_to_mainScreenFragment,
-                R.id.action_votingFragment_to_newPollFragment,
-                R.id.action_votingFragment_to_profileFragment,
-                R.id.action_votingFragment_to_archiveFragment)
-        }
-    }
+//    private fun setupNavigation() {
+//        val prefs = requireActivity().getSharedPreferences("credentials",
+//            Context.MODE_PRIVATE)
+//        val access = prefs.getString("access", "user")
+//        VotingUtil.setBottomBar(access, binding.bottomNav)
+//
+//        binding.bottomNav.setOnItemSelectedListener { item ->
+//            VotingUtil.setupNavigation(this, item.itemId,
+//                R.id.action_votingFragment_to_mainScreenFragment,
+//                R.id.action_votingFragment_to_newPollFragment,
+//                R.id.action_votingFragment_to_profileFragment,
+//                R.id.action_votingFragment_to_archiveFragment)
+//        }
+//    }
 
     private fun getArgs() {
         val args by navArgs<VotingFragmentArgs>()
@@ -97,6 +97,7 @@ class VotingFragment : Fragment() {
     }
 
     private fun uploadVote() {
+        /*
         val prefs = requireContext().getSharedPreferences(
             "credentials",
             Context.MODE_PRIVATE
@@ -128,14 +129,17 @@ class VotingFragment : Fragment() {
             }
 
         })
+        */
+        Toast.makeText(activity, getString(R.string.successful_voting_message) + " (тестовый режим)", Toast.LENGTH_SHORT).show()
+        parentFragmentManager.popBackStack()
     }
-
-    override fun onResume() {
-        super.onResume()
-        if (_binding != null) {
-            binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
-        }
-    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        if (_binding != null) {
+//            binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

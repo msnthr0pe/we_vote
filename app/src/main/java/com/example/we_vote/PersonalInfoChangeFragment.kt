@@ -96,6 +96,7 @@ class PersonalInfoChangeFragment : Fragment() {
     }
 
     private fun executeQuery(userDTO: DTOs.UserDTO) {
+        /*
         val call = ApiClient.authApi.updateUser(userDTO)
         call.enqueue(object : Callback<Void> {
             override fun onResponse(
@@ -116,6 +117,10 @@ class PersonalInfoChangeFragment : Fragment() {
             }
 
         })
+        */
+        updatePrefs(userDTO)
+        Toast.makeText(requireContext(), getString(R.string.account_updated) + " (тестовый режим)", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_personalInfoChangeFragment_to_profileFragment)
     }
 
     override fun onResume() {

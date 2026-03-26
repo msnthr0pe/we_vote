@@ -6,9 +6,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 object VotingUtil {
     fun setBottomBar(access: String?, bottomNav: BottomNavigationView) {
-        // Очищаем и инфлейтим общее меню. Теперь Профиль доступен всем.
         bottomNav.menu.clear()
-        bottomNav.inflateMenu(R.menu.menu_bottom_nav_admin)
+        // В данном проекте меню для всех ролей содержит одинаковые базовые элементы,
+        // включая профиль (ic_settings_off).
+        when (access) {
+            "admin", "developer" -> bottomNav.inflateMenu(R.menu.menu_bottom_nav_admin)
+            else -> bottomNav.inflateMenu(R.menu.menu_bottom_nav_user)
+        }
     }
 
     fun setupNavigation(fragment: Fragment, itemId: Int, vararg actionIdInOrder: Int): Boolean {
@@ -25,8 +29,6 @@ object VotingUtil {
     }
 
     private fun navigate(fragment: Fragment, id: Int): Boolean {
-        // Предотвращаем повторный переход на тот же фрагмент, если это не предусмотрено логикой "self"
-        // Но в данном проекте используются action_..._self, поэтому вызываем напрямую
         try {
             fragment.findNavController().navigate(id)
         } catch (e: Exception) {

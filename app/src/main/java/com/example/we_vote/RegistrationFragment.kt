@@ -67,6 +67,7 @@ class RegistrationFragment : Fragment() {
         city: String,
         password: String
     ) {
+        /*
         val call = ApiClient.authApi.register(DTOs.UserDTO(
             name, email, dob, city, password, "user")
         )
@@ -92,6 +93,10 @@ class RegistrationFragment : Fragment() {
             }
 
         })
+        */
+        binding.progressBar.visibility = View.GONE
+        Toast.makeText(requireContext(), getString(R.string.account_created) + " (тестовый режим)", Toast.LENGTH_SHORT).show()
+        findNavController().navigateUp()
     }
 
     override fun onDestroyView() {

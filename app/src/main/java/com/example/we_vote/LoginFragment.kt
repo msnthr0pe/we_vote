@@ -45,6 +45,19 @@ class LoginFragment : Fragment() {
 //        }
 
         binding.btnLoginContinue.setOnClickListener {
+            // Тестовые данные пользователя для входа
+            val prefs = requireContext().getSharedPreferences(
+                "credentials",
+                Context.MODE_PRIVATE
+            )
+            prefs.edit {
+                putString("email", "test@example.com")
+                putString("name", "Тестовый Пользователь")
+                putString("dob", "01.01.2000")
+                putString("city", "Москва")
+                putString("access", "admin") // или "user"
+                apply()
+            }
             findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
         }
 
@@ -56,6 +69,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser(login: String, password: String) {
+        /*
         val call =
             ApiClient.authApi.login(DTOs.CredentialsDTO(login, password))
 
@@ -102,6 +116,7 @@ class LoginFragment : Fragment() {
                 binding.progressBar.visibility = View.GONE
             }
         })
+        */
     }
 
     override fun onDestroyView() {
