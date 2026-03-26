@@ -52,6 +52,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/survey_contents"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginTop="20dp"
                             android:layout_gravity="center"
                             android:textSize="16sp"
                             android:fontFamily="@font/montserrat_medium"
@@ -72,7 +73,8 @@
                             android:layout_height="wrap_content"
                             android:text="@string/choice"
                             android:textSize="16sp"
-                            android:fontFamily="@font/montserrat_medium"                            android:layout_marginTop="20dp"
+                            android:fontFamily="@font/montserrat_medium"
+                            android:layout_marginTop="30dp"
                             android:layout_marginBottom="10dp"
                             android:layout_gravity="center"
                             android:textColor="@color/white"/>
@@ -108,21 +110,22 @@
                             android:backgroundTint="@color/light_green_2"
                             android:singleLine="true"
                             android:maxLines="1" />
+
+                        <Button
+                            android:id="@+id/add_survey_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="54dp"
+                            app:strokeWidth="0dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="30dp"
+                            android:backgroundTint="#AEAF50"
+                            android:fontFamily="@font/montserrat_semibold"
+                            android:text="@string/publish"
+                            android:textColor="#011314"
+                            android:textSize="18sp"/>
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
-                <Button
-                    android:id="@+id/add_survey_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="54dp"
-                    app:strokeWidth="0dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="18dp"
-                    android:backgroundTint="#AEAF50"
-                    android:fontFamily="@font/montserrat_semibold"
-                    android:text="@string/publish"
-                    android:textColor="#011314"
-                    android:textSize="18sp"/>
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

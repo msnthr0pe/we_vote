@@ -2,9 +2,10 @@
 
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/back">
+
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -12,13 +13,6 @@
         android:orientation="vertical"
         android:gravity="center"
         android:paddingTop="44dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/survey"
-            android:textSize="@dimen/titleTextSize"
-            android:textStyle="bold"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,11 +22,19 @@
             android:padding="@dimen/mediumLayoutPadding"
             android:gravity="center">
 
-            <ImageView
-                android:layout_width="240dp"
-                android:layout_height="240dp"
-                android:layout_weight="1"
-                android:src="@drawable/voting_pic"/>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/light_green"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp"
+                android:layout_marginVertical="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
             <TextView
                 android:id="@+id/voting_title"
@@ -41,12 +43,26 @@
                 android:layout_weight="1"
                 android:maxLines="4"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="@string/default_recycler_text" />
-
-            <CheckBox
-                android:id="@+id/first_checkbox"
+            <TextView
+                android:id="@+id/voting_title_2"
+                android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Переголосовать нельзя"
+                android:fontFamily="@font/montserrat_extralightitalic"
+                />
+
+            <CheckBox
+                android:layout_marginTop="20dp"
+                android:id="@+id/first_checkbox"
+                android:layout_width="match_parent"
+                android:textColor="@color/white"
+                android:layout_height="30dp"
                 android:button="@drawable/custom_checkbox"
                 android:padding="4dp"
                 android:layout_marginStart="50dp"
@@ -56,50 +72,61 @@
 
             <CheckBox
                 android:id="@+id/second_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textColor="@color/white"
                 android:button="@drawable/custom_checkbox"
                 android:padding="4dp"
                 android:layout_marginStart="50dp"
                 android:layout_gravity="start"
                 android:text="@string/default_value"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <CheckBox
                 android:id="@+id/third_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textColor="@color/white"
                 android:button="@drawable/custom_checkbox"
                 android:padding="4dp"
                 android:layout_marginStart="50dp"
                 android:layout_gravity="start"
                 android:text="@string/default_value"
-                android:layout_weight="1"/>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
             <Button
                 android:id="@+id/send_vote_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cast_a_vote"
                 app:icon="@drawable/ic_accept"
                 app:iconSize="30dp"
-                app:iconTint="?attr/colorSecondary"/>
-
+                app:iconTint="@color/dark"
+                android:layout_width="wrap_content"
+                android:layout_height="54dp"
+                app:strokeWidth="0dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#AEAF50"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="@string/cast_a_vote"
+                android:textColor="@color/dark"
+                android:textSize="18sp"/>
+            </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
-            app:itemRippleColor="@android:color/transparent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:labelVisibilityMode="unlabeled"
+            android:layout_height="50dp"
+            android:background="#01292B"
+            app:itemIconSize="20dp"
+            app:itemIconTint="@color/white"
             app:menu="@menu/menu_bottom_nav_user"
-            android:layout_gravity="bottom" />
+            app:itemRippleColor="@android:color/transparent"
+            app:labelVisibilityMode="unlabeled"
+            android:layout_gravity="bottom"/>
+
     </LinearLayout>
 
     <ProgressBar

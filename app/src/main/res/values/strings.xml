@@ -25,7 +25,7 @@
     <string name="log_out">Выйти</string>
     <string name="profile">Профиль</string>
     <string name="survey">Опрос</string>
-    <string name="cast_a_vote">Проголосовать</string>
+    <string name="cast_a_vote">Сохранить выбор</string>
     <string name="new_survey">Новый опрос</string>
     <string name="survey_contents">Вопрос</string>
     <string name="enter_survey_contents">Введите содержание опроса…</string>
