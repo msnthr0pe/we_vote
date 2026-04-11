@@ -5,22 +5,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@drawable/back"
     android:paddingTop="44dp">
 
     <TextView
         android:id="@+id/ChangeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
         android:text="@string/personal_info_change"
-        android:textStyle="bold"
+        android:textColor="@color/white"
         android:textSize="@dimen/titleTextSize"
         android:layout_weight="1"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_vertical"
+        android:padding="15dp"
         android:layout_weight="0.5">
 
         <TextView
@@ -29,14 +31,23 @@
             android:layout_height="wrap_content"
             android:text="@string/user_name"
             android:layout_weight="1"
-            android:gravity="bottom"
-            android:layout_marginBottom="10dp"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
             android:id="@+id/etNameChange"
-            android:layout_width="@dimen/editTextWidth"
-            android:layout_height="@dimen/editTextHeight"
-            android:hint="@string/enter_user_name" />
+            android:background="@drawable/edit_text_change"
+            android:paddingHorizontal="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/enter_user_name"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColorHint="@color/white_50"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
 
         <TextView
             android:id="@+id/dateTitle"
@@ -45,13 +56,25 @@
             android:text="@string/date_of_birth"
             android:layout_weight="1"
             android:gravity="bottom"
-            android:layout_marginBottom="10dp"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/etDateChange"
-            android:layout_width="@dimen/editTextWidth"
-            android:layout_height="@dimen/editTextHeight"
-            android:hint="@string/date_format" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/date_format"
+            android:background="@drawable/edit_text_change"
+            android:textColorHint="@color/white_50"
+
+            android:paddingHorizontal="14dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            />
 
         <TextView
             android:id="@+id/cityTitle"
@@ -60,13 +83,23 @@
             android:text="@string/city"
             android:layout_weight="1"
             android:gravity="bottom"
-            android:layout_marginBottom="10dp"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
             android:id="@+id/etCityChange"
-            android:layout_width="@dimen/editTextWidth"
-            android:layout_height="@dimen/editTextHeight"
-            android:hint="@string/enter_city_name" />
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/enter_city_name"
+            android:background="@drawable/edit_text_change"
+            android:textColorHint="@color/white_50"
+            android:paddingHorizontal="14dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
 
         <TextView
             android:id="@+id/passwordTitleChange"
@@ -75,14 +108,24 @@
             android:text="@string/password"
             android:layout_weight="1"
             android:gravity="bottom"
-            android:layout_marginBottom="10dp"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp"/>
 
         <EditText
             android:id="@+id/etPasswordChange"
-            android:layout_width="@dimen/editTextWidth"
-            android:layout_height="@dimen/editTextHeight"
             android:hint="@string/enter_new_password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text_change"
+            android:paddingHorizontal="14dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColorHint="@color/white_50"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
 
     </LinearLayout>
 
@@ -93,9 +136,17 @@
 
     <Button
         android:id="@+id/confirm_change_button"
-        android:layout_width="340dp"
-        android:layout_height="66dp"
-        android:text="@string/confirm" />
+        app:strokeWidth="0dp"
+        app:strokeColor="@android:color/transparent"
+        android:textColor="@color/dark"
+        android:backgroundTint="@color/neon"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/confirm"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="18sp"
+        />
 
     <Space
         android:layout_width="wrap_content"
@@ -104,11 +155,14 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        app:itemRippleColor="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:labelVisibilityMode="unlabeled"
+        android:layout_height="50dp"
+        android:background="#01292B"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/white"
         app:menu="@menu/menu_bottom_nav_user"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled"
         android:layout_gravity="bottom"/>
 
 </LinearLayout>

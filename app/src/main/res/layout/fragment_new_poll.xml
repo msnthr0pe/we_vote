@@ -118,10 +118,10 @@
                             app:strokeWidth="0dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="30dp"
-                            android:backgroundTint="#AEAF50"
+                            android:backgroundTint="@color/neon"
                             android:fontFamily="@font/montserrat_semibold"
                             android:text="@string/publish"
-                            android:textColor="#011314"
+                            android:textColor="@color/dark"
                             android:textSize="18sp"/>
 
                     </LinearLayout>

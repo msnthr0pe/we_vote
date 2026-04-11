@@ -5,14 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@color/dark"
     android:paddingTop="44dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/completed_survey"
-        android:textSize="@dimen/titleTextSize"
-        android:textStyle="bold"/>
+        android:textColor="@color/white"
+        android:textSize="@dimen/titleTextSize" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,61 +23,54 @@
         android:padding="@dimen/mediumLayoutPadding"
         android:orientation="vertical">
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
-
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:cardCornerRadius="20dp"
             app:strokeColor="?attr/colorPrimary"
-            app:strokeWidth="2dp"
-            app:cardBackgroundColor="?attr/ViewBackgroundFill">
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="@color/dark">
 
             <TextView
                 android:id="@+id/archived_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:maxLines="4"
                 android:background="@android:color/transparent"
                 android:text="@string/default_recycler_text"
                 android:textSize="18sp"
-                android:textAlignment="textStart" />
+                android:textAlignment="center" />
 
         </com.google.android.material.card.MaterialCardView>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="0.5"/>
 
         <com.example.we_vote.RelationBar
             android:id="@+id/archived_first_choice"
             android:layout_width="match_parent"
-            android:layout_height="74dp"
+            android:layout_height="60dp"
+            app:progressColor="@color/dark"
             app:text="@string/first_choice"
             app:progress="45"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="20dp"/>
 
         <com.example.we_vote.RelationBar
             android:id="@+id/archived_second_choice"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
+            app:progressColor="@color/dark"
             app:text="@string/second_choice"
             app:progress="25"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="20dp"/>
 
         <com.example.we_vote.RelationBar
             android:id="@+id/archived_third_choice"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
+            app:progressColor="@color/dark"
             app:text="@string/third_choice"
             app:progress="30"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="20dp"/>
 
         <Space
             android:layout_width="wrap_content"
@@ -84,27 +79,27 @@
 
         <Button
             android:id="@+id/archive_poll_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="18sp"
             android:text="@string/delete_from_archive"
             android:textColor="@color/white"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/red"/>
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:backgroundTint="@color/red"
+            app:cornerRadius="12dp"/>
 
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        app:itemRippleColor="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:labelVisibilityMode="unlabeled"
+        android:layout_height="50dp"
+        android:background="#01292B"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/white"
         app:menu="@menu/menu_bottom_nav_user"
+        app:itemRippleColor="@android:color/transparent"
+        app:labelVisibilityMode="unlabeled"
         android:layout_gravity="bottom"/>
 
 </LinearLayout>

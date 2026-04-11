@@ -72,12 +72,6 @@ class RelationBar @JvmOverloads constructor(
         updateView()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val fixedHeight = dpToPx(74f)
-        val newHeightSpec = MeasureSpec.makeMeasureSpec(fixedHeight, MeasureSpec.EXACTLY)
-        super.onMeasure(widthMeasureSpec, newHeightSpec)
-    }
-
 
     private fun setupView() {
         val textLayout = LinearLayout(context).apply {
@@ -93,6 +87,7 @@ class RelationBar @JvmOverloads constructor(
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             val titleText = getTitleTextFormat(titleText)
             text = titleText
+            textSize = 16f
         }
 
         percentTextView = TextView(
@@ -102,6 +97,7 @@ class RelationBar @JvmOverloads constructor(
         ).apply {
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             text = percentText
+            textSize = 16f
         }
 
         val percentSymbolTextView = TextView(
@@ -111,6 +107,7 @@ class RelationBar @JvmOverloads constructor(
         ).apply {
             layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             text = "%"
+            textSize = 16f
         }
 
         textLayout.addView(titleTextView)
