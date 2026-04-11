@@ -107,7 +107,7 @@
 
                 </LinearLayout>
 
-                <!-- Единый фрейм с кнопками: Личные данные, Мои заявки, Тема приложения -->
+                <!-- Единый фрейм с кнопками: Личные данные, Заявки, Тема приложения -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/light_green">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/question_label"
+        android:textColor="@color/white_50"
+        android:textSize="13sp"
+        android:fontFamily="@font/montserrat_regular"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:id="@+id/dialog_app_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:lineSpacingMultiplier="1.3"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/answer_options"
+        android:textColor="@color/white_50"
+        android:textSize="13sp"
+        android:fontFamily="@font/montserrat_regular"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@color/neon"
+            android:layout_marginEnd="10dp" />
+
+        <TextView
+            android:id="@+id/dialog_option_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="@font/montserrat_regular" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@color/neon"
+            android:layout_marginEnd="10dp" />
+
+        <TextView
+            android:id="@+id/dialog_option_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="@font/montserrat_regular" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="20dp">
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@color/neon"
+            android:layout_marginEnd="10dp" />
+
+        <TextView
+            android:id="@+id/dialog_option_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="@font/montserrat_regular" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dialog_app_close"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/close"
+        android:textColor="#011314"
+        android:fontFamily="@font/montserrat_medium"
+        android:backgroundTint="#AEAF50"
+        android:textSize="16sp"
+        app:cornerRadius="20dp"
+        app:strokeWidth="0dp" />
+
+</LinearLayout>

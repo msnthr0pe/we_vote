@@ -179,12 +179,54 @@
         <action
             android:id="@+id/action_profileFragment_to_titleFragment"
             app:destination="@id/titleFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_myApplicationsFragment"
+            app:destination="@id/myApplicationsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_newApplicationsFragment"
+            app:destination="@id/newApplicationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.example.we_vote.RegistrationFragment"
         android:label="RegistrationFragment"
         tools:layout="@layout/fragment_registration"/>
+    <fragment
+        android:id="@+id/myApplicationsFragment"
+        android:name="com.example.we_vote.MyApplicationsFragment"
+        android:label="MyApplicationsFragment"
+        tools:layout="@layout/fragment_my_applications">
+        <action
+            android:id="@+id/action_myApplicationsFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_myApplicationsFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_myApplicationsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_myApplicationsFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newApplicationsFragment"
+        android:name="com.example.we_vote.NewApplicationsFragment"
+        android:label="NewApplicationsFragment"
+        tools:layout="@layout/fragment_new_applications">
+        <action
+            android:id="@+id/action_newApplicationsFragment_to_mainScreenFragment"
+            app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_newApplicationsFragment_to_newPollFragment"
+            app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_newApplicationsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_newApplicationsFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
+    </fragment>
     <fragment
         android:id="@+id/votingFragment"
         android:name="com.example.we_vote.VotingFragment"

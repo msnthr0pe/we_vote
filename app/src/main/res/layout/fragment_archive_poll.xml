@@ -49,7 +49,7 @@
             android:id="@+id/archived_first_choice"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:progressColor="@color/dark"
+            app:progressColor="@color/neon"
             app:text="@string/first_choice"
             app:progress="45"
             android:layout_marginTop="20dp"/>
@@ -58,7 +58,7 @@
             android:id="@+id/archived_second_choice"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:progressColor="@color/dark"
+            app:progressColor="@color/neon"
             app:text="@string/second_choice"
             app:progress="25"
             android:layout_marginTop="20dp"/>
@@ -67,7 +67,7 @@
             android:id="@+id/archived_third_choice"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:progressColor="@color/dark"
+            app:progressColor="@color/neon"
             app:text="@string/third_choice"
             app:progress="30"
             android:layout_marginTop="20dp"/>

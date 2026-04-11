@@ -68,7 +68,16 @@
     <string name="user_data_error">Ошибка при получении пользователя: %1$s</string>
     <string name="enter_new_password">Введите новый пароль…</string>
     <string name="account_updated">Данные обновлены</string>
-    <string name="my_requests">Мои заявки</string>
+    <string name="my_requests">Заявки</string>
     <string name="theme_app">Тема приложения</string>
     <string name="first_choice">Первый вариант ответа</string>
+    <string name="new_requests">Новые заявки</string>
+    <string name="status_pending">Опрос подан на рассмотрение</string>
+    <string name="status_accepted">Опрос принят</string>
+    <string name="status_rejected">Опрос отклонён</string>
+    <string name="accept">Принять</string>
+    <string name="reject">Отклонить</string>
+    <string name="close">Закрыть</string>
+    <string name="answer_options">Варианты ответов:</string>
+    <string name="question_label">Вопрос</string>
 </resources>

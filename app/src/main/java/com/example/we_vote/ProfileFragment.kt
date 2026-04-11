@@ -52,6 +52,16 @@ class ProfileFragment : Fragment() {
         binding.alterData.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_personalInfoChangeFragment)
         }
+
+        binding.myRequests.setOnClickListener {
+            val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+            val access = prefs.getString("access", "user")
+            if (access == "admin" || access == "developer") {
+                findNavController().navigate(R.id.action_profileFragment_to_newApplicationsFragment)
+            } else {
+                findNavController().navigate(R.id.action_profileFragment_to_myApplicationsFragment)
+            }
+        }
     }
 
     private fun setupNavigation() {

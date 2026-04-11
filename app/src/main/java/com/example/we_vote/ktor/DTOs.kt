@@ -50,4 +50,20 @@ class DTOs {
     data class SurveyIdRequest(
         val id: Int
     )
+
+    data class ApplicationDTO(
+        val id: Int,
+        val title: String,
+        val firstChoice: String,
+        val secondChoice: String,
+        val thirdChoice: String,
+        val status: ApplicationStatus,
+        val userEmail: String
+    )
+}
+
+enum class ApplicationStatus(val displayName: String) {
+    PENDING("Опрос подан на рассмотрение"),
+    ACCEPTED("Опрос принят"),
+    REJECTED("Опрос отклонён")
 }
