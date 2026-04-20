@@ -1,14 +1,19 @@
 package com.example.we_vote
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.we_vote.databinding.FragmentPersonalInfoChangeBinding
@@ -53,19 +58,42 @@ class PersonalInfoChangeFragment : Fragment() {
 
     private fun setupDataChange() {
         val currentUserData = getUserData()
+
+        binding.etNameChange.setText(currentUserData.name)
+        binding.etDateChange.setText(currentUserData.dob)
+        binding.etCityChange.setText(currentUserData.city)
+
         binding.confirmChangeButton.setOnClickListener {
-            with (binding) {
-                val updatedUserData = DTOs.UserDTO(
-                    name = etNameChange.text.toString().ifEmpty { currentUserData.name },
-                    email = currentUserData.email,
-                    dob = etDateChange.text.toString().ifEmpty { currentUserData.dob },
-                    city = etCityChange.text.toString().ifEmpty { currentUserData.city },
-                    password = etPasswordChange.text.toString().ifEmpty { currentUserData.password },
-                    access = currentUserData.access,
-                )
-                executeQuery(updatedUserData)
-            }
+            val updatedUserData = DTOs.UserDTO(
+                name = binding.etNameChange.text.toString().ifEmpty { currentUserData.name },
+                email = currentUserData.email,
+                dob = binding.etDateChange.text.toString().ifEmpty { currentUserData.dob },
+                city = binding.etCityChange.text.toString().ifEmpty { currentUserData.city },
+                password = binding.etPasswordChange.text.toString().ifEmpty { currentUserData.password },
+                access = currentUserData.access,
+            )
+            showConfirmDialog(updatedUserData)
         }
+    }
+
+    private fun showConfirmDialog(updatedUserData: DTOs.UserDTO) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.are_you_sure_update)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+
+        dialogView.findViewById<Button>(R.id.dialog_confirm).setOnClickListener {
+            dialog.dismiss()
+            executeQuery(updatedUserData)
+        }
+        dialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun getUserData() : DTOs.UserDTO {
