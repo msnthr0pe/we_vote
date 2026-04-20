@@ -74,15 +74,9 @@ class ArchiveFragment : Fragment() {
         binding.archiveProgressBar.isVisible = true
         lifecycleScope.launch {
             try {
-                // surveys = withContext(Dispatchers.IO) {
-                //    ApiClient.authApi.getArchivedSurveys()
-                // }
-
-                // Тестовые данные для архива
-                surveys = mutableListOf(
-                    DTOs.SurveyDTO(10, "Архивный опрос 1", "Вариант А", "Вариант Б", "Вариант В"),
-                    DTOs.SurveyDTO(11, "Архивный опрос 2", "Да", "Нет", "Возможно")
-                )
+                surveys = withContext(Dispatchers.IO) {
+                    ApiClient.authApi.getArchivedSurveys()
+                }
 
                 adapter = SurveyAdapter(surveys, access, getString(R.string.results),
                     getString(R.string.delete_from_archive),{ survey ->
@@ -137,32 +131,27 @@ class ArchiveFragment : Fragment() {
     }
 
     private fun deleteSurvey(idSurvey: Int) {
-        /*
         val call = ApiClient.authApi.deleteSurveyInfo(DTOs.SurveyIdRequest(idSurvey))
         call.enqueue(object : Callback<Void> {
             override fun onResponse(
                 call: Call<Void?>,
                 response: Response<Void?>,
             ) {
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(), "Опрос удалён", Toast.LENGTH_SHORT).show()
+                if (!response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Ошибка при удалении", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void?>, t: Throwable) {
-                Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
             }
-
         })
-        */
-        Toast.makeText(requireContext(), "Опрос удалён (тестовый режим)", Toast.LENGTH_SHORT).show()
     }
 
     private fun getVotingStatistics(surveyDTO: DTOs.SurveyDTO, onResult: (DTOs.SurveyVotesDTO?) -> Unit) {
-        /*
         val call = ApiClient.authApi.getSurveyVotes(DTOs.SurveyIdRequest(surveyDTO.id))
 
-        call.enqueue(object : Callback<DTOs.SurveyVotesDTO>{
+        call.enqueue(object : Callback<DTOs.SurveyVotesDTO> {
             override fun onResponse(
                 call: Call<DTOs.SurveyVotesDTO?>,
                 response: Response<DTOs.SurveyVotesDTO?>,
@@ -182,12 +171,6 @@ class ArchiveFragment : Fragment() {
                 onResult(null)
             }
         })
-        */
-        // Тестовая статистика
-        onResult(DTOs.SurveyVotesDTO(
-            votes = mapOf(1 to 10, 2 to 20, 3 to 30),
-            votesPercentage = mapOf(1 to 16, 2 to 33, 3 to 50)
-        ))
     }
 
     override fun onResume() {

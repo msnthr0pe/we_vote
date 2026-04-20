@@ -4,19 +4,25 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.we_vote.databinding.FragmentMyApplicationsBinding
-import com.example.we_vote.ktor.ApplicationStatus
+import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.DTOs
 import com.example.we_vote.recycler.MyApplicationsAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyApplicationsFragment : Fragment() {
 
@@ -52,43 +58,25 @@ class MyApplicationsFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        val testData = mutableListOf(
-            DTOs.ApplicationDTO(
-                id = 1,
-                title = "Нужно ли добавить велодорожки вдоль набережной?",
-                firstChoice = "Да, обязательно",
-                secondChoice = "Нет, это лишнее",
-                thirdChoice = "Нужно изучить вопрос",
-                status = ApplicationStatus.PENDING,
-                userEmail = "test@example.com"
-            ),
-            DTOs.ApplicationDTO(
-                id = 2,
-                title = "Стоит ли открыть детскую площадку в центральном парке?",
-                firstChoice = "Да",
-                secondChoice = "Нет",
-                thirdChoice = "Не важно",
-                status = ApplicationStatus.ACCEPTED,
-                userEmail = "test@example.com"
-            ),
-            DTOs.ApplicationDTO(
-                id = 3,
-                title = "Следует ли запретить движение транспорта в историческом центре?",
-                firstChoice = "Да, запретить полностью",
-                secondChoice = "Разрешить только общественный транспорт",
-                thirdChoice = "Оставить как есть",
-                status = ApplicationStatus.REJECTED,
-                userEmail = "test@example.com"
-            )
-        )
+        val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+        val email = prefs.getString("email", "") ?: ""
 
-        val adapter = MyApplicationsAdapter(testData) { application ->
-            showDetailDialog(application)
+        lifecycleScope.launch {
+            try {
+                val applications = withContext(Dispatchers.IO) {
+                    ApiClient.authApi.getUserApplications(DTOs.EmailDTO(email))
+                }
+                val adapter = MyApplicationsAdapter(applications) { application ->
+                    showDetailDialog(application)
+                }
+                binding.recyclerMyApplications.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerMyApplications.adapter = adapter
+                binding.emptyText.isVisible = applications.isEmpty()
+            } catch (e: Exception) {
+                Log.e("WE_VOTE", "Error loading applications: ${e.message}")
+                Toast.makeText(requireContext(), "Ошибка загрузки заявок: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
-
-        binding.recyclerMyApplications.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerMyApplications.adapter = adapter
-        binding.emptyText.isVisible = testData.isEmpty()
     }
 
     private fun showDetailDialog(application: DTOs.ApplicationDTO) {

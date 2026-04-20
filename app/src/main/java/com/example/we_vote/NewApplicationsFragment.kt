@@ -4,19 +4,29 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.we_vote.databinding.FragmentNewApplicationsBinding
+import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.ApplicationStatus
 import com.example.we_vote.ktor.DTOs
 import com.example.we_vote.recycler.NewApplicationsAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class NewApplicationsFragment : Fragment() {
 
@@ -55,61 +65,48 @@ class NewApplicationsFragment : Fragment() {
     }
 
     private fun setupRecycler() {
-        applications = mutableListOf(
-            DTOs.ApplicationDTO(
-                id = 1,
-                title = "Нужно ли добавить велодорожки вдоль набережной?",
-                firstChoice = "Да, обязательно",
-                secondChoice = "Нет, это лишнее",
-                thirdChoice = "Нужно изучить вопрос",
-                status = ApplicationStatus.PENDING,
-                userEmail = "user1@example.com"
-            ),
-            DTOs.ApplicationDTO(
-                id = 2,
-                title = "Стоит ли открыть детскую площадку в центральном парке?",
-                firstChoice = "Да",
-                secondChoice = "Нет",
-                thirdChoice = "Не важно",
-                status = ApplicationStatus.ACCEPTED,
-                userEmail = "user2@example.com"
-            ),
-            DTOs.ApplicationDTO(
-                id = 3,
-                title = "Следует ли запретить движение транспорта в историческом центре?",
-                firstChoice = "Да, запретить полностью",
-                secondChoice = "Разрешить только общественный транспорт",
-                thirdChoice = "Оставить как есть",
-                status = ApplicationStatus.REJECTED,
-                userEmail = "user3@example.com"
-            ),
-            DTOs.ApplicationDTO(
-                id = 4,
-                title = "Нужно ли организовать бесплатный Wi-Fi в общественных пространствах города?",
-                firstChoice = "Да, везде",
-                secondChoice = "Только в парках",
-                thirdChoice = "Нет необходимости",
-                status = ApplicationStatus.PENDING,
-                userEmail = "user4@example.com"
-            )
-        )
+        lifecycleScope.launch {
+            try {
+                applications = withContext(Dispatchers.IO) {
+                    ApiClient.authApi.getApplications()
+                }
 
-        adapter = NewApplicationsAdapter(
-            items = applications,
-            onItemClick = { application -> showDetailDialog(application) },
-            onAccept = { application, position -> updateStatus(application, position, ApplicationStatus.ACCEPTED) },
-            onReject = { application, position -> updateStatus(application, position, ApplicationStatus.REJECTED) }
-        )
+                adapter = NewApplicationsAdapter(
+                    items = applications,
+                    onItemClick = { application -> showDetailDialog(application) },
+                    onAccept = { application, position -> updateStatus(application, position, ApplicationStatus.ACCEPTED) },
+                    onReject = { application, position -> updateStatus(application, position, ApplicationStatus.REJECTED) }
+                )
 
-        binding.recyclerNewApplications.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerNewApplications.adapter = adapter
-        binding.emptyText.isVisible = applications.isEmpty()
+                binding.recyclerNewApplications.layoutManager = LinearLayoutManager(requireContext())
+                binding.recyclerNewApplications.adapter = adapter
+                binding.emptyText.isVisible = applications.isEmpty()
+            } catch (e: Exception) {
+                Log.e("WE_VOTE", "Error loading applications: ${e.message}")
+                Toast.makeText(requireContext(), "Ошибка загрузки заявок: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun updateStatus(application: DTOs.ApplicationDTO, position: Int, newStatus: ApplicationStatus) {
-        val updated = application.copy(status = newStatus)
-        applications[position] = updated
-        adapter.notifyItemChanged(position)
+        val call = ApiClient.authApi.updateApplication(
+            DTOs.ApplicationStatusUpdateDTO(id = application.id, status = newStatus.name)
+        )
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    val updated = application.copy(status = newStatus)
+                    applications[position] = updated
+                    adapter.notifyItemChanged(position)
+                } else {
+                    Toast.makeText(requireContext(), "Ошибка обновления статуса", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun showDetailDialog(application: DTOs.ApplicationDTO) {

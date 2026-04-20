@@ -45,20 +45,16 @@ class LoginFragment : Fragment() {
 //        }
 
         binding.btnLoginContinue.setOnClickListener {
-            // Тестовые данные пользователя для входа
-            val prefs = requireContext().getSharedPreferences(
-                "credentials",
-                Context.MODE_PRIVATE
-            )
-            prefs.edit {
-                putString("email", "test@example.com")
-                putString("name", "Тестовый Пользователь")
-                putString("dob", "01.01.2000")
-                putString("city", "Москва")
-                putString("access", "admin") // или "user"
-                apply()
+            with(binding) {
+                val login = etEmail.text.toString()
+                val password = etPasswordLogin.text.toString()
+                if (login.isNotEmpty() && password.isNotEmpty()) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    loginUser(login, password)
+                } else {
+                    Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
+                }
             }
-            findNavController().navigate(R.id.action_loginFragment_to_mainScreenFragment)
         }
 
         binding.tvRegister.setOnClickListener {
@@ -69,9 +65,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginUser(login: String, password: String) {
-        /*
-        val call =
-            ApiClient.authApi.login(DTOs.CredentialsDTO(login, password))
+        val call = ApiClient.authApi.login(DTOs.CredentialsDTO(login, password))
 
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -112,11 +106,10 @@ class LoginFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(requireContext(), "${getString(R.string.network_error)  } ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${getString(R.string.network_error)} ${t.message}", Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE
             }
         })
-        */
     }
 
     override fun onDestroyView() {

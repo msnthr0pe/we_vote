@@ -60,6 +60,15 @@ class DTOs {
         val status: ApplicationStatus,
         val userEmail: String
     )
+
+    data class EmailDTO(
+        val email: String
+    )
+
+    data class ApplicationStatusUpdateDTO(
+        val id: Int,
+        val status: String
+    )
 }
 
 enum class ApplicationStatus(val displayName: String) {

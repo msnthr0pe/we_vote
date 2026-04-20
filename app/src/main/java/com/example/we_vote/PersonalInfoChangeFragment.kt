@@ -2,19 +2,21 @@ package com.example.we_vote
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.edit
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.we_vote.databinding.FragmentPersonalInfoChangeBinding
 import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.DTOs
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PersonalInfoChangeFragment : Fragment() {
 
@@ -79,12 +81,10 @@ class PersonalInfoChangeFragment : Fragment() {
     }
 
     private fun updatePrefs(userDTO: DTOs.UserDTO) {
-
         val prefs = requireContext().getSharedPreferences(
             "credentials",
             Context.MODE_PRIVATE
         )
-
         prefs.edit {
             putString("email", userDTO.email)
             putString("name", userDTO.name)
@@ -96,31 +96,23 @@ class PersonalInfoChangeFragment : Fragment() {
     }
 
     private fun executeQuery(userDTO: DTOs.UserDTO) {
-        /*
-        val call = ApiClient.authApi.updateUser(userDTO)
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(
-                call: Call<Void?>,
-                response: Response<Void?>,
-            ) {
+        lifecycleScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    ApiClient.authApi.updateUser(userDTO).execute()
+                }
                 if (response.isSuccessful) {
                     updatePrefs(userDTO)
-                    Toast.makeText(requireContext(),
-                        getString(R.string.account_updated), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.account_updated), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_personalInfoChangeFragment_to_profileFragment)
+                } else {
+                    Toast.makeText(requireContext(), "Ошибка при обновлении данных", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: Exception) {
+                Log.e("WE_VOTE", "Update user error", e)
+                Toast.makeText(requireContext(), "Ошибка сети: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-
-            override fun onFailure(call: Call<Void?>, t: Throwable) {
-                Toast.makeText(requireContext(),
-                    getString(R.string.data_load_error), Toast.LENGTH_SHORT).show()
-            }
-
-        })
-        */
-        updatePrefs(userDTO)
-        Toast.makeText(requireContext(), getString(R.string.account_updated) + " (тестовый режим)", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.action_personalInfoChangeFragment_to_profileFragment)
+        }
     }
 
     override fun onResume() {

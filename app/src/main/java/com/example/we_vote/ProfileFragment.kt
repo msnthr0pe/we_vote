@@ -30,18 +30,10 @@ class ProfileFragment : Fragment() {
     private fun getUserData() {
         val prefs = requireActivity().getSharedPreferences("credentials",
             Context.MODE_PRIVATE)
-        val access = prefs.getString("access", "user")
-        
-        if (access == "developer") {
-            // Тестовые данные для разработчика
-            binding.nameUser.text = "Dev Test User"
-            binding.userCity.text = "Test City"
-        } else {
-            val name = prefs.getString("name", "")
-            val city = prefs.getString("city", "")
-            binding.nameUser.text = name
-            binding.userCity.text = city
-        }
+        val name = prefs.getString("name", "")
+        val city = prefs.getString("city", "")
+        binding.nameUser.text = name
+        binding.userCity.text = city
     }
 
     private fun setupButtons() {

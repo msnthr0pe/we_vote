@@ -2,6 +2,7 @@ package com.example.we_vote
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +10,12 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.we_vote.databinding.FragmentVotingBinding
 import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.DTOs
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 class VotingFragment : Fragment() {
 
@@ -37,39 +37,22 @@ class VotingFragment : Fragment() {
             binding.thirdCheckbox,
         )
 
-//        setupNavigation()
-//        getArgs()
-//        configureCheckboxLogic()
-//        binding.sendVoteBtn.setOnClickListener {
-//            if (currentVoteId == 0) {
-//                Toast.makeText(activity, "Выберите один из вариантов", Toast.LENGTH_SHORT).show()
-//            } else {
-//                binding.progressBarVoting.isVisible = true
-//                uploadVote()
-//                binding.progressBarVoting.isVisible = false
-//            }
-//        }
+        getArgs()
+        configureCheckboxLogic()
+
+        binding.sendVoteBtn.setOnClickListener {
+            if (currentVoteId == 0) {
+                Toast.makeText(activity, "Выберите один из вариантов", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.progressBarVoting.isVisible = true
+                uploadVote()
+            }
+        }
         return binding.root
     }
 
-//    private fun setupNavigation() {
-//        val prefs = requireActivity().getSharedPreferences("credentials",
-//            Context.MODE_PRIVATE)
-//        val access = prefs.getString("access", "user")
-//        VotingUtil.setBottomBar(access, binding.bottomNav)
-//
-//        binding.bottomNav.setOnItemSelectedListener { item ->
-//            VotingUtil.setupNavigation(this, item.itemId,
-//                R.id.action_votingFragment_to_mainScreenFragment,
-//                R.id.action_votingFragment_to_newPollFragment,
-//                R.id.action_votingFragment_to_profileFragment,
-//                R.id.action_votingFragment_to_archiveFragment)
-//        }
-//    }
-
     private fun getArgs() {
         val args by navArgs<VotingFragmentArgs>()
-
         surveyId = args.id
         binding.votingTitle.text = args.title
         binding.firstCheckbox.text = args.firstChoice
@@ -78,7 +61,7 @@ class VotingFragment : Fragment() {
     }
 
     private fun configureCheckboxLogic() {
-        checkBoxes.forEachIndexed {index, element ->
+        checkBoxes.forEachIndexed { index, element ->
             element.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     currentVoteId = index + 1
@@ -97,49 +80,47 @@ class VotingFragment : Fragment() {
     }
 
     private fun uploadVote() {
-        /*
-        val prefs = requireContext().getSharedPreferences(
-            "credentials",
-            Context.MODE_PRIVATE
-        )
+        lifecycleScope.launch {
+            try {
+                val prefs = requireContext().getSharedPreferences(
+                    "credentials",
+                    Context.MODE_PRIVATE
+                )
+                val userEmail = prefs.getString("email", "") ?: ""
 
-        val call = ApiClient.authApi.addUserSurvey(
-            DTOs.UsersSurveysDTO(
-                userEmail = prefs.getString("email", "") ?: "",
-                surveyId = surveyId,
-                vote = currentVoteId
-            )
-        )
-        call.enqueue(object : Callback<Void>{
-            override fun onResponse(
-                call: Call<Void>,
-                response: Response<Void>
-            ) {
-                if (response.isSuccessful) {
-                    Toast.makeText(activity,
-                        getString(R.string.successful_voting_message), Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
-                } else {
-                    Toast.makeText(activity, getString(R.string.voting_error), Toast.LENGTH_SHORT).show()
-                }
-            }
+                val voteData = DTOs.UsersSurveysDTO(
+                    userEmail = userEmail,
+                    surveyId = surveyId,
+                    vote = currentVoteId
+                )
 
-            override fun onFailure(call: Call<Void?>, t: Throwable) {
+                // Отправляем через Retrofit
+                ApiClient.authApi.addUserSurvey(voteData).enqueue(object : retrofit2.Callback<Void> {
+                    override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                        binding.progressBarVoting.isVisible = false
+                        if (response.isSuccessful) {
+                            Toast.makeText(activity,
+                                getString(R.string.successful_voting_message), Toast.LENGTH_SHORT).show()
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        } else {
+                            Toast.makeText(activity, getString(R.string.voting_error), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                        binding.progressBarVoting.isVisible = false
+                        Log.e("VotingFragment", "Error: ${t.message}")
+                        Toast.makeText(activity, getString(R.string.voting_error), Toast.LENGTH_SHORT).show()
+                    }
+                })
+
+            } catch (e: Exception) {
+                Log.e("VotingFragment", "Error: ${e.message}")
                 Toast.makeText(activity, getString(R.string.voting_error), Toast.LENGTH_SHORT).show()
+                binding.progressBarVoting.isVisible = false
             }
-
-        })
-        */
-        Toast.makeText(activity, getString(R.string.successful_voting_message) + " (тестовый режим)", Toast.LENGTH_SHORT).show()
-        parentFragmentManager.popBackStack()
+        }
     }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        if (_binding != null) {
-//            binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

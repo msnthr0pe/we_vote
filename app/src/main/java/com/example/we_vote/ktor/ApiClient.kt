@@ -11,5 +11,6 @@ object ApiClient {
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
     val authApi: AuthApi = retrofit.create(AuthApi::class.java)
 }

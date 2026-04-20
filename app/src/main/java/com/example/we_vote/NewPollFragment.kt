@@ -60,7 +60,6 @@ class NewPollFragment : Fragment() {
         secondChoice: String,
         thirdChoice: String,
     ) {
-        /*
         val call = ApiClient.authApi.addSurvey(DTOs.SurveyDTO(
             -1, title, firstChoice, secondChoice, thirdChoice)
         )
@@ -84,12 +83,7 @@ class NewPollFragment : Fragment() {
                 Toast.makeText(requireContext(), "${getString(R.string.network_error)} ${t.message}", Toast.LENGTH_SHORT).show()
                 binding.progressBar.visibility = View.GONE
             }
-
         })
-        */
-        binding.progressBar.visibility = View.GONE
-        Toast.makeText(requireContext(), getString(R.string.survey_created) + " (тестовый режим)", Toast.LENGTH_SHORT).show()
-        parentFragmentManager.popBackStack()
     }
 
     fun setupNavigation() {
