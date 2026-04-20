@@ -98,6 +98,9 @@ class NewApplicationsFragment : Fragment() {
                     val updated = application.copy(status = newStatus)
                     applications[position] = updated
                     adapter.notifyItemChanged(position)
+                    if (newStatus == ApplicationStatus.ACCEPTED) {
+                        publishSurvey(application)
+                    }
                 } else {
                     Toast.makeText(requireContext(), "Ошибка обновления статуса", Toast.LENGTH_SHORT).show()
                 }
@@ -105,6 +108,23 @@ class NewApplicationsFragment : Fragment() {
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun publishSurvey(application: DTOs.ApplicationDTO) {
+        val call = ApiClient.authApi.addSurvey(
+            DTOs.SurveyDTO(-1, application.title, application.firstChoice, application.secondChoice, application.thirdChoice)
+        )
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (!response.isSuccessful) {
+                    Toast.makeText(requireContext(), "Заявка принята, но опрос не опубликован", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(requireContext(), "Ошибка публикации опроса: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

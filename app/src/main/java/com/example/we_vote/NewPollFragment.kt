@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.we_vote.databinding.FragmentNewPollBinding
 import com.example.we_vote.ktor.ApiClient
+import com.example.we_vote.ktor.ApplicationStatus
 import com.example.we_vote.ktor.DTOs
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,7 +47,14 @@ class NewPollFragment : Fragment() {
                     thirdChoice.isNotEmpty()
                 ) {
                     binding.progressBar.visibility = View.VISIBLE
-                    addNewSurvey(title, firstChoice, secondChoice, thirdChoice)
+                    val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
+                    val access = prefs.getString("access", "user")
+                    if (access == "admin" || access == "developer") {
+                        addNewSurvey(title, firstChoice, secondChoice, thirdChoice)
+                    } else {
+                        val email = prefs.getString("email", "") ?: ""
+                        submitApplication(title, firstChoice, secondChoice, thirdChoice, email)
+                    }
                 } else {
                     Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
                 }
@@ -72,6 +80,39 @@ class NewPollFragment : Fragment() {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(),
                         getString(R.string.survey_created), Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.popBackStack()
+                } else {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.survey_creation_error), Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void?>, t: Throwable) {
+                Toast.makeText(requireContext(), "${getString(R.string.network_error)} ${t.message}", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun submitApplication(
+        title: String,
+        firstChoice: String,
+        secondChoice: String,
+        thirdChoice: String,
+        email: String,
+    ) {
+        val call = ApiClient.authApi.addApplication(DTOs.ApplicationDTO(
+            -1, title, firstChoice, secondChoice, thirdChoice, ApplicationStatus.PENDING, email)
+        )
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(
+                call: Call<Void>,
+                response: Response<Void>
+            ) {
+                binding.progressBar.visibility = View.GONE
+                if (response.isSuccessful) {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.application_sent), Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(requireContext(),

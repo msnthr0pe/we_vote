@@ -60,6 +60,7 @@
     <string name="clear_search_history">Очистить историю</string>
     <string name="search_history_empty">История запросов пуста</string>
     <string name="survey_created">Голосование добавлено</string>
+    <string name="application_sent">Заявка отправлена на рассмотрение</string>
     <string name="survey_creation_error">Ошибка создания голосования</string>
     <string name="network_error">Ошибка сети:</string>
     <string name="account_created">Учётная запись создана</string>
