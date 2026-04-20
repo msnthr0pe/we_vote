@@ -26,8 +26,7 @@ class SurveyAdapter(private var surveys: List<DTOs.SurveyDTO>, val access: Strin
             this.titleText.text = item.title
             greenBtn.text = greenButtonText
             
-            // Гарантируем видимость кнопки архивации
-            redBtn.isVisible = true
+            redBtn.isVisible = access == "admin" || access == "developer"
             
             redBtn.setOnClickListener {
                 onRedButtonClick(item, position, itemCount)

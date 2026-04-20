@@ -50,8 +50,6 @@ class MainScreenFragment : Fragment() {
     private lateinit var access: String
     private lateinit var surveys: MutableList<DTOs.SurveyDTO>
     private val searchQuery = MutableStateFlow("")
-    private lateinit var historyRecycler: RecyclerView
-    var isHistory = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,59 +66,45 @@ class MainScreenFragment : Fragment() {
     }
 
     private fun setupSearchHistory() {
-        historyRecycler = binding.historyRecycler
-        historyRecycler.layoutManager = LinearLayoutManager(activity)
-
         binding.clearSearchHistory.setOnClickListener {
             if (_binding != null) {
-                binding.historyPlaceholder.visibility = View.GONE
                 clearSearchHistory()
-                makeMainRecyclerVisible()
+                setupHistory()
             }
         }
 
-        binding.btnHistory.setOnClickListener {
+        binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
             if (_binding != null) {
-                if (isHistory) {
-                    binding.btnHistory.text = getString(R.string.surveys)
+                if (hasFocus && binding.searchEditText.text.isNullOrEmpty()) {
                     setupHistory()
-                    binding.historyLayout.visibility = View.VISIBLE
-                    binding.mainRecycler.isVisible = false
-                    isHistory = false
-                } else {
-                    makeMainRecyclerVisible()
+                    binding.historyDropdown.visibility = View.VISIBLE
+                } else if (!hasFocus && binding.searchEditText.text.isNullOrEmpty()) {
+                    binding.historyDropdown.visibility = View.GONE
                 }
             }
         }
-        binding.btnHistory.visibility = View.VISIBLE
     }
 
     private fun makeMainRecyclerVisible() {
         if (_binding != null) {
-            binding.historyPlaceholder.visibility = View.GONE
-            binding.historyLayout.visibility = View.GONE
-            binding.btnHistory.text = getString(R.string.search_history)
+            binding.historyDropdown.visibility = View.GONE
             binding.mainRecycler.isVisible = true
-            isHistory = true
         }
     }
 
     private fun setupHistory() {
         if (_binding == null) return
 
-        val searchEditText = binding.searchEditText
         val history = loadSearchHistory()
-        if (history.isNotEmpty()) {
-            binding.clearSearchHistory.visibility = View.VISIBLE
-            binding.historyPlaceholder.visibility = View.GONE
-        } else {
-            binding.clearSearchHistory.visibility = View.GONE
-            binding.historyPlaceholder.visibility = View.VISIBLE
-        }
-        historyRecycler.adapter = HistoryAdapter(history) { selected ->
-            searchEditText.setText(selected)
-            searchEditText.setSelection(selected.length)
-            searchEditText.clearFocus()
+        val hasHistory = history.isNotEmpty()
+        binding.clearSearchHistory.visibility = if (hasHistory) View.VISIBLE else View.GONE
+        binding.historyPlaceholder.visibility = if (hasHistory) View.GONE else View.VISIBLE
+        binding.historyRecycler.layoutManager = LinearLayoutManager(requireContext())
+        binding.historyRecycler.adapter = HistoryAdapter(history) { selected ->
+            binding.searchEditText.setText(selected)
+            binding.searchEditText.setSelection(selected.length)
+            binding.searchEditText.clearFocus()
+            binding.historyDropdown.visibility = View.GONE
         }
     }
 
@@ -135,6 +119,13 @@ class MainScreenFragment : Fragment() {
             }
         }
 
+        binding.searchEditText.setOnEditorActionListener { _, _, _ ->
+            val query = binding.searchEditText.text.toString()
+            getHistory(query)
+            setupHistory()
+            false
+        }
+
         binding.searchEditText.doOnTextChanged { s, start, before, count ->
             lifecycleScope.launch {
                 searchQuery.value = s.toString()
@@ -143,18 +134,20 @@ class MainScreenFragment : Fragment() {
                     .distinctUntilChanged()
                     .flowOn(Dispatchers.Default)
                     .collectLatest { query ->
-                        // Проверяем, жив ли фрагмент
                         if (isAdded && _binding != null) {
                             filterCards(query)
-                            binding.btnHistory.text = getString(R.string.search_history)
-                            binding.historyLayout.visibility = View.GONE
-                            isHistory = true
-                            binding.historyPlaceholder.visibility = View.GONE
                         }
                     }
             }
             if (_binding != null) {
                 clearButton.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
+                if (!s.isNullOrEmpty()) {
+                    binding.historyDropdown.visibility = View.GONE
+                    binding.mainRecycler.isVisible = true
+                } else if (binding.searchEditText.hasFocus()) {
+                    setupHistory()
+                    binding.historyDropdown.visibility = View.VISIBLE
+                }
             }
         }
     }
@@ -169,7 +162,7 @@ class MainScreenFragment : Fragment() {
             val history = loadSearchHistory()
             history.remove(query)
             history.add(0, query)
-            val trimmed = history.take(10)
+            val trimmed = history.take(5)
             saveSearchHistory(trimmed)
         }
     }
@@ -183,8 +176,6 @@ class MainScreenFragment : Fragment() {
         } else {
             surveys.filter { it.title.contains(query, ignoreCase = true) }
         }
-
-        getHistory(query)
 
         try {
             adapter.updateList(filtered)

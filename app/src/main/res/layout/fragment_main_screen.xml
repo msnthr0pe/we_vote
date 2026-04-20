@@ -63,7 +63,7 @@
                 android:maxLines="1"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white_50"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <!-- Кнопка очистки (ID ИЗ ОСНОВЫ - btn_clear_search) -->
             <ImageButton
@@ -92,22 +92,82 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <!-- Кнопка истории (ID ИЗ ОСНОВЫ - btn_history) -->
-    <Button
-        android:id="@+id/btn_history"
-        android:layout_width="wrap_content"
+    <!-- Выпадающая история поиска -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/history_dropdown"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-12dp"
-        android:text="@string/search_history"
-        android:textSize="14dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="4dp"
         android:visibility="gone"
-        android:fontFamily="@font/montserrat_semibold"
-        android:background="@android:color/transparent"
-        android:backgroundTint="@null"
-        android:textColor="#AEAF50"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="8dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.HistoryDropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_bellow_search" />
+        app:layout_constraintTop_toBottomOf="@id/cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Шапка: "Недавние" + "Очистить" -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Недавние"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/montserrat_regular" />
+
+                <TextView
+                    android:id="@+id/clear_search_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clear_search_history"
+                    android:textColor="@color/light_green"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:padding="4dp" />
+
+            </LinearLayout>
+
+            <!-- Разделитель -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/black" />
+
+            <!-- Список запросов -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/history_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <!-- Пустое состояние -->
+            <TextView
+                android:id="@+id/history_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="@string/search_history_empty"
+                android:textColor="#60FFFFFF"
+                android:textSize="13sp"
+                android:fontFamily="@font/montserrat_medium"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <!-- Основной контейнер с RecyclerView и всеми состояниями -->
     <FrameLayout
@@ -118,7 +178,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_history">
+        app:layout_constraintTop_toBottomOf="@id/text_bellow_search">
 
         <!-- RecyclerView для опросов (ID ИЗ ОСНОВЫ - main_recycler) -->
         <androidx.recyclerview.widget.RecyclerView
@@ -180,38 +240,6 @@
                 android:fontFamily="@font/montserrat_semibold"
                 android:text="@string/retry_load" />
         </LinearLayout>
-
-        <!-- История поиска (ID ИЗ ОСНОВЫ - history_layout, history_recycler, clear_search_history) -->
-        <LinearLayout
-            android:id="@+id/history_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/history_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/clear_search_history"
-                android:layout_width="wrap_content"
-                android:layout_height="54dp"
-                android:textSize="12dp"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/clear_search_history" />
-        </LinearLayout>
-
-        <!-- Placeholder истории (ID ИЗ ОСНОВЫ - history_placeholder) -->
-        <TextView
-            android:id="@+id/history_placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/search_history_empty"
-            android:visibility="gone" />
 
     </FrameLayout>
 
