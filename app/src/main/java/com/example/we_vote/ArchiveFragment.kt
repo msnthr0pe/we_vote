@@ -14,28 +14,28 @@ import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.we_vote.databinding.FragmentArchiveBinding
 import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.DTOs
-import com.example.we_vote.recycler.SurveyAdapter
+import com.example.we_vote.recycler.ArchiveAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.coroutines.resume
 
 class ArchiveFragment : Fragment() {
 
     private var _binding: FragmentArchiveBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: SurveyAdapter
+    private lateinit var adapter: ArchiveAdapter
     private lateinit var access: String
-    private lateinit var surveys: MutableList<DTOs.SurveyDTO>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,8 +50,7 @@ class ArchiveFragment : Fragment() {
     }
 
     private fun setupNavigation() {
-        val prefs = requireActivity().getSharedPreferences("credentials",
-            Context.MODE_PRIVATE)
+        val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
         access = prefs.getString("access", "user").toString()
         VotingUtil.setBottomBar(access, binding.bottomNav)
 
@@ -74,28 +73,18 @@ class ArchiveFragment : Fragment() {
         binding.archiveProgressBar.isVisible = true
         lifecycleScope.launch {
             try {
-                surveys = withContext(Dispatchers.IO) {
+                val surveys = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getArchivedSurveys()
                 }
 
-                adapter = SurveyAdapter(surveys, access, getString(R.string.results),
-                    getString(R.string.delete_from_archive),{ survey ->
+                val items = surveys.map { survey ->
+                    val stats = fetchSurveyStats(survey)
+                    ArchiveAdapter.ArchiveItem(survey, stats)
+                }
 
-                    getVotingStatistics(survey) { votingStatistics ->
-                        val action = ArchiveFragmentDirections.actionArchiveFragmentToArchivePollFragment(
-                            id = survey.id,
-                            title = survey.title,
-                            firstChoice = survey.firstChoice,
-                            firstChoiceValue = votingStatistics?.votesPercentage?.get(1) ?: 0,
-                            secondChoice = survey.secondChoice,
-                            secondChoiceValue = votingStatistics?.votesPercentage?.get(2) ?: 0,
-                            thirdChoice = survey.thirdChoice,
-                            thirdChoiceValue = votingStatistics?.votesPercentage?.get(3) ?: 0,
-                        )
-                        findNavController().navigate(action)
-                    }
-
-                }, {survey, position, surveyAmount ->  showEditDialog(survey, position, surveyAmount)})
+                adapter = ArchiveAdapter(items, access) { survey, position, _ ->
+                    showDeleteDialog(survey, position)
+                }
                 recyclerView.adapter = adapter
 
             } catch (e: Exception) {
@@ -105,7 +94,21 @@ class ArchiveFragment : Fragment() {
         }
     }
 
-    private fun showEditDialog(survey: DTOs.SurveyDTO, position: Int, surveyAmount: Int) {
+    private suspend fun fetchSurveyStats(survey: DTOs.SurveyDTO): DTOs.SurveyVotesDTO? =
+        suspendCancellableCoroutine { continuation ->
+            val call = ApiClient.authApi.getSurveyVotes(DTOs.SurveyIdRequest(survey.id))
+            call.enqueue(object : Callback<DTOs.SurveyVotesDTO> {
+                override fun onResponse(call: Call<DTOs.SurveyVotesDTO?>, response: Response<DTOs.SurveyVotesDTO?>) {
+                    continuation.resume(if (response.isSuccessful) response.body() else null)
+                }
+                override fun onFailure(call: Call<DTOs.SurveyVotesDTO?>, t: Throwable) {
+                    continuation.resume(null)
+                }
+            })
+            continuation.invokeOnCancellation { call.cancel() }
+        }
+
+    private fun showDeleteDialog(survey: DTOs.SurveyDTO, position: Int) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
         val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
         val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
@@ -118,9 +121,7 @@ class ArchiveFragment : Fragment() {
         btnConfirm.setOnClickListener {
             dialog.dismiss()
             deleteSurvey(survey.id)
-            surveys.removeAt(position)
-            adapter.notifyItemRemoved(position)
-            adapter.notifyItemRangeChanged(position, surveyAmount)
+            adapter.removeItem(position)
         }
 
         btnCancel.setOnClickListener {
@@ -133,42 +134,13 @@ class ArchiveFragment : Fragment() {
     private fun deleteSurvey(idSurvey: Int) {
         val call = ApiClient.authApi.deleteSurveyInfo(DTOs.SurveyIdRequest(idSurvey))
         call.enqueue(object : Callback<Void> {
-            override fun onResponse(
-                call: Call<Void?>,
-                response: Response<Void?>,
-            ) {
+            override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                 if (!response.isSuccessful) {
                     Toast.makeText(requireContext(), "Ошибка при удалении", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<Void?>, t: Throwable) {
                 Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun getVotingStatistics(surveyDTO: DTOs.SurveyDTO, onResult: (DTOs.SurveyVotesDTO?) -> Unit) {
-        val call = ApiClient.authApi.getSurveyVotes(DTOs.SurveyIdRequest(surveyDTO.id))
-
-        call.enqueue(object : Callback<DTOs.SurveyVotesDTO> {
-            override fun onResponse(
-                call: Call<DTOs.SurveyVotesDTO?>,
-                response: Response<DTOs.SurveyVotesDTO?>,
-            ) {
-                if (response.isSuccessful) {
-                    onResult(response.body())
-                } else {
-                    onResult(null)
-                }
-            }
-
-            override fun onFailure(
-                call: Call<DTOs.SurveyVotesDTO?>,
-                t: Throwable,
-            ) {
-                Toast.makeText(activity, "Ошибка: ${t.message}", Toast.LENGTH_SHORT).show()
-                onResult(null)
             }
         })
     }
