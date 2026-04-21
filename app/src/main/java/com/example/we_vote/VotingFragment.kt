@@ -99,6 +99,7 @@ class VotingFragment : Fragment() {
                     override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
                         binding.progressBarVoting.isVisible = false
                         if (response.isSuccessful) {
+                            saveVotedSurvey(userEmail, surveyId)
                             Toast.makeText(activity,
                                 getString(R.string.successful_voting_message), Toast.LENGTH_SHORT).show()
                             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -120,6 +121,13 @@ class VotingFragment : Fragment() {
                 binding.progressBarVoting.isVisible = false
             }
         }
+    }
+
+    private fun saveVotedSurvey(email: String, surveyId: Int) {
+        val prefs = requireContext().getSharedPreferences("voting_state", Context.MODE_PRIVATE)
+        val key = "voted_$email"
+        val existing = prefs.getStringSet(key, emptySet()) ?: emptySet()
+        prefs.edit().putStringSet(key, existing + surveyId.toString()).apply()
     }
 
     override fun onDestroyView() {

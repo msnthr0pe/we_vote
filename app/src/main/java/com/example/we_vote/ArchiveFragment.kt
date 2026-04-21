@@ -75,7 +75,7 @@ class ArchiveFragment : Fragment() {
             try {
                 val surveys = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getArchivedSurveys()
-                }
+                }.sortedByDescending { it.id }
 
                 val items = surveys.map { survey ->
                     val stats = fetchSurveyStats(survey)

@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.we_vote.databinding.FragmentMainScreenBinding
 import com.example.we_vote.ktor.ApiClient
 import com.example.we_vote.ktor.DTOs
-import com.example.we_vote.recycler.SurveyAdapter
+import com.example.we_vote.recycler.MainSurveyAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -46,7 +46,7 @@ class MainScreenFragment : Fragment() {
     private var _binding: FragmentMainScreenBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: SurveyAdapter
+    private lateinit var adapter: MainSurveyAdapter
     private lateinit var access: String
     private lateinit var surveys: MutableList<DTOs.SurveyDTO>
     private val searchQuery = MutableStateFlow("")
@@ -228,8 +228,10 @@ class MainScreenFragment : Fragment() {
                 // Проверяем, что фрагмент еще активен после получения данных
                 if (!isAdded || _binding == null) return@launch
 
-                adapter = SurveyAdapter(surveys, access, getString(R.string.vote),
-                    getString(R.string.end_survey),{ survey ->
+                val votedIds = loadVotedIds()
+                adapter = MainSurveyAdapter(
+                    surveys, access, votedIds,
+                    onVoteClick = { survey ->
                         val action = MainScreenFragmentDirections.actionMainScreenFragmentToVotingFragment(
                             id = survey.id,
                             title = survey.title,
@@ -238,7 +240,14 @@ class MainScreenFragment : Fragment() {
                             thirdChoice = survey.thirdChoice,
                         )
                         findNavController().navigate(action)
-                    }, {survey, position, surveyAmount -> showEditDialog(survey, position, surveyAmount) })
+                    },
+                    onArchiveClick = { survey, position, surveyAmount ->
+                        showEditDialog(survey, position, surveyAmount)
+                    },
+                    onFetchResults = { surveyId, onResult ->
+                        fetchSurveyResults(surveyId, onResult)
+                    }
+                )
 
                 recyclerView.adapter = adapter
                 binding.layoutError.visibility = View.GONE
@@ -255,6 +264,28 @@ class MainScreenFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun loadVotedIds(): MutableSet<Int> {
+        val email = requireActivity()
+            .getSharedPreferences("credentials", Context.MODE_PRIVATE)
+            .getString("email", "") ?: ""
+        val prefs = requireContext().getSharedPreferences("voting_state", Context.MODE_PRIVATE)
+        return prefs.getStringSet("voted_$email", emptySet())
+            .orEmpty()
+            .mapNotNullTo(mutableSetOf()) { it.toIntOrNull() }
+    }
+
+    private fun fetchSurveyResults(surveyId: Int, onResult: (DTOs.SurveyVotesDTO?) -> Unit) {
+        val call = ApiClient.authApi.getSurveyVotes(DTOs.SurveyIdRequest(surveyId))
+        call.enqueue(object : Callback<DTOs.SurveyVotesDTO> {
+            override fun onResponse(call: Call<DTOs.SurveyVotesDTO?>, response: Response<DTOs.SurveyVotesDTO?>) {
+                onResult(if (response.isSuccessful) response.body() else null)
+            }
+            override fun onFailure(call: Call<DTOs.SurveyVotesDTO?>, t: Throwable) {
+                onResult(null)
+            }
+        })
     }
 
     private fun showEditDialog(survey: DTOs.SurveyDTO, position: Int, surveyAmount: Int) {

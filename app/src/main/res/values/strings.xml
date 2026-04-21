@@ -82,4 +82,7 @@
     <string name="close">Закрыть</string>
     <string name="answer_options">Варианты ответов:</string>
     <string name="question_label">Вопрос</string>
+    <string name="already_voted">Вы уже проголосовали</string>
+    <string name="current_results">Текущие результаты</string>
+    <string name="hide_results">Скрыть результаты</string>
 </resources>
