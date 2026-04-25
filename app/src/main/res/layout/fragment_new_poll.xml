@@ -9,16 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
         android:paddingTop="44dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/new_survey"
             android:textColor="@color/white"
             android:textSize="@dimen/titleTextSize"
             android:fontFamily="@font/montserrat_semibold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:text="@string/new_survey_subtitle"
+            android:textColor="@color/white_50"
+            android:textSize="13sp" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -31,15 +40,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/mediumLayoutPadding"
-                android:gravity="center">
+                android:paddingTop="16dp"
+                android:paddingBottom="24dp">
 
+                <!-- Question card -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/light_green"
                     app:cardCornerRadius="20dp"
                     app:strokeWidth="0dp"
-                    android:layout_marginVertical="20dp">
+                    android:layout_marginBottom="16dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -47,85 +58,201 @@
                         android:orientation="vertical"
                         android:padding="20dp">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/survey_contents"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_gravity="center"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/montserrat_medium"
-                            android:textColor="@color/white"/>
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="14dp">
+
+                            <TextView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:text="?"
+                                android:gravity="center"
+                                android:textColor="@color/dark"
+                                android:textSize="15sp"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:background="@drawable/badge_number" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="@string/survey_contents"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/montserrat_semibold" />
+
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/new_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:lines="4"
+                            android:minLines="4"
                             android:maxLines="4"
+                            android:gravity="top|start"
+                            android:inputType="textMultiLine"
+                            android:hint="@string/enter_survey_contents"
                             android:textColor="@color/white"
                             android:textColorHint="@color/white_50"
-                            android:backgroundTint="@color/light_green_2" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/choice"
-                            android:textSize="16sp"
-                            android:fontFamily="@font/montserrat_medium"
-                            android:layout_marginTop="30dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"/>
-
-                        <EditText
-                            android:id="@+id/new_first_choice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/white_50"
-                            android:backgroundTint="@color/light_green_2"
-                            android:singleLine="true"
-                            android:maxLines="1"
-                            android:layout_marginBottom="10dp"/>
-
-                        <EditText
-                            android:id="@+id/new_second_choice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/white_50"
-                            android:backgroundTint="@color/light_green_2"
-                            android:singleLine="true"
-                            android:maxLines="1"
-                            android:layout_marginBottom="10dp"/>
-
-                        <EditText
-                            android:id="@+id/new_third_choice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/white_50"
-                            android:backgroundTint="@color/light_green_2"
-                            android:singleLine="true"
-                            android:maxLines="1" />
-
-                        <Button
-                            android:id="@+id/add_survey_btn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="54dp"
-                            app:strokeWidth="0dp"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="30dp"
-                            android:backgroundTint="@color/neon"
-                            android:fontFamily="@font/montserrat_semibold"
-                            android:text="@string/publish"
-                            android:textColor="@color/dark"
-                            android:textSize="18sp"/>
+                            android:textSize="15sp"
+                            android:background="@drawable/input_bg_dark"
+                            android:cursorVisible="true" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <!-- Answer options card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/light_green"
+                    app:cardCornerRadius="20dp"
+                    app:strokeWidth="0dp"
+                    android:layout_marginBottom="24dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="@string/choice"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:fontFamily="@font/montserrat_semibold" />
+
+                        </LinearLayout>
+
+                        <!-- Option 1 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="12dp">
+
+                            <TextView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:text="1"
+                                android:gravity="center"
+                                android:textColor="@color/dark"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:background="@drawable/badge_number"
+                                android:layout_marginEnd="12dp" />
+
+                            <EditText
+                                android:id="@+id/new_first_choice"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:maxLines="1"
+                                android:hint="@string/enter_first_choice"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white_50"
+                                android:textSize="15sp"
+                                android:background="@drawable/input_bg_dark" />
+
+                        </LinearLayout>
+
+                        <!-- Option 2 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="12dp">
+
+                            <TextView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:text="2"
+                                android:gravity="center"
+                                android:textColor="@color/dark"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:background="@drawable/badge_number"
+                                android:layout_marginEnd="12dp" />
+
+                            <EditText
+                                android:id="@+id/new_second_choice"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:maxLines="1"
+                                android:hint="@string/enter_second_choice"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white_50"
+                                android:textSize="15sp"
+                                android:background="@drawable/input_bg_dark" />
+
+                        </LinearLayout>
+
+                        <!-- Option 3 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:text="3"
+                                android:gravity="center"
+                                android:textColor="@color/dark"
+                                android:textSize="13sp"
+                                android:fontFamily="@font/montserrat_semibold"
+                                android:background="@drawable/badge_number"
+                                android:layout_marginEnd="12dp" />
+
+                            <EditText
+                                android:id="@+id/new_third_choice"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:maxLines="1"
+                                android:hint="@string/enter_third_choice"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/white_50"
+                                android:textSize="15sp"
+                                android:background="@drawable/input_bg_dark" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <Button
+                    android:id="@+id/add_survey_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    app:strokeWidth="0dp"
+                    app:cornerRadius="14dp"
+                    android:backgroundTint="@color/neon"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:text="@string/publish"
+                    android:textColor="@color/dark"
+                    android:textSize="18sp"
+                    android:textAllCaps="false" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
@@ -140,7 +267,7 @@
             app:menu="@menu/menu_bottom_nav_user"
             app:itemRippleColor="@android:color/transparent"
             app:labelVisibilityMode="unlabeled"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom" />
 
     </LinearLayout>
 

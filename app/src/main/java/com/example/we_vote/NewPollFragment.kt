@@ -134,12 +134,18 @@ class NewPollFragment : Fragment() {
         VotingUtil.setBottomBar(access, binding.bottomNav)
         binding.bottomNav.menu.findItem(R.id.nav_new_poll).isChecked = true
 
+        val requestAction = if (access == "admin" || access == "developer")
+            R.id.action_newPollFragment_to_newApplicationsFragment
+        else
+            R.id.action_newPollFragment_to_myApplicationsFragment
+
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_newPollFragment_to_mainScreenFragment,
                 R.id.action_newPollFragment_self,
                 R.id.action_newPollFragment_to_profileFragment,
-                R.id.action_newPollFragment_to_archiveFragment)
+                R.id.action_newPollFragment_to_archiveFragment,
+                requestAction)
         }
     }
 

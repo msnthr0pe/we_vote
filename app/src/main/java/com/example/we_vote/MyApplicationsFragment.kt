@@ -52,8 +52,16 @@ class MyApplicationsFragment : Fragment() {
                 R.id.action_myApplicationsFragment_to_mainScreenFragment,
                 R.id.action_myApplicationsFragment_to_newPollFragment,
                 R.id.action_myApplicationsFragment_to_profileFragment,
-                R.id.action_myApplicationsFragment_to_archiveFragment
+                R.id.action_myApplicationsFragment_to_archiveFragment,
+                R.id.action_myApplicationsFragment_self
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (_binding != null) {
+            binding.bottomNav.menu.findItem(R.id.nav_request)?.isChecked = true
         }
     }
 

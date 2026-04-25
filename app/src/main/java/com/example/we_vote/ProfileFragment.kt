@@ -44,16 +44,6 @@ class ProfileFragment : Fragment() {
         binding.alterData.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_personalInfoChangeFragment)
         }
-
-        binding.myRequests.setOnClickListener {
-            val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
-            val access = prefs.getString("access", "user")
-            if (access == "admin" || access == "developer") {
-                findNavController().navigate(R.id.action_profileFragment_to_newApplicationsFragment)
-            } else {
-                findNavController().navigate(R.id.action_profileFragment_to_myApplicationsFragment)
-            }
-        }
     }
 
     private fun setupNavigation() {
@@ -61,13 +51,19 @@ class ProfileFragment : Fragment() {
             Context.MODE_PRIVATE)
         val access = prefs.getString("access", "user")
         VotingUtil.setBottomBar(access, binding.bottomNav)
-        
+
+        val requestAction = if (access == "admin" || access == "developer")
+            R.id.action_profileFragment_to_newApplicationsFragment
+        else
+            R.id.action_profileFragment_to_myApplicationsFragment
+
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_profileFragment_to_mainScreenFragment,
                 R.id.action_profileFragment_to_newPollFragment,
                 R.id.action_profileFragment_self,
-                R.id.action_profileFragment_to_archiveFragment)
+                R.id.action_profileFragment_to_archiveFragment,
+                requestAction)
         }
     }
 

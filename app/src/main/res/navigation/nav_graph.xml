@@ -35,6 +35,12 @@
         <action
             android:id="@+id/action_archiveFragment_self"
             app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_to_myApplicationsFragment"
+            app:destination="@id/myApplicationsFragment" />
+        <action
+            android:id="@+id/action_archiveFragment_to_newApplicationsFragment"
+            app:destination="@id/newApplicationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/archivePollFragment"
@@ -119,6 +125,12 @@
         <action
             android:id="@+id/action_mainScreenFragment_self"
             app:destination="@id/mainScreenFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_myApplicationsFragment"
+            app:destination="@id/myApplicationsFragment" />
+        <action
+            android:id="@+id/action_mainScreenFragment_to_newApplicationsFragment"
+            app:destination="@id/newApplicationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/newPollFragment"
@@ -137,6 +149,12 @@
         <action
             android:id="@+id/action_newPollFragment_self"
             app:destination="@id/newPollFragment" />
+        <action
+            android:id="@+id/action_newPollFragment_to_myApplicationsFragment"
+            app:destination="@id/myApplicationsFragment" />
+        <action
+            android:id="@+id/action_newPollFragment_to_newApplicationsFragment"
+            app:destination="@id/newApplicationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalInfoChangeFragment"
@@ -208,6 +226,9 @@
         <action
             android:id="@+id/action_myApplicationsFragment_to_archiveFragment"
             app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_myApplicationsFragment_self"
+            app:destination="@id/myApplicationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/newApplicationsFragment"
@@ -226,6 +247,9 @@
         <action
             android:id="@+id/action_newApplicationsFragment_to_archiveFragment"
             app:destination="@id/archiveFragment" />
+        <action
+            android:id="@+id/action_newApplicationsFragment_self"
+            app:destination="@id/newApplicationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/votingFragment"

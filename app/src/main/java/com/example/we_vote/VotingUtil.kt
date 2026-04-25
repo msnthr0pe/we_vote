@@ -16,14 +16,14 @@ object VotingUtil {
     }
 
     fun setupNavigation(fragment: Fragment, itemId: Int, vararg actionIdInOrder: Int): Boolean {
-        // Убеждаемся, что передано ровно 4 ID действий для 4 кнопок
-        if (actionIdInOrder.size != 4) return false
-        
+        if (actionIdInOrder.size != 5) return false
+
         return when (itemId) {
             R.id.nav_home ->  navigate(fragment, actionIdInOrder[0])
             R.id.nav_new_poll -> navigate(fragment, actionIdInOrder[1])
             R.id.nav_profile -> navigate(fragment, actionIdInOrder[2])
             R.id.nav_archive -> navigate(fragment, actionIdInOrder[3])
+            R.id.nav_request -> navigate(fragment, actionIdInOrder[4])
             else -> false
         }
     }

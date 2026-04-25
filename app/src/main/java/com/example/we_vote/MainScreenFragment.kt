@@ -192,15 +192,20 @@ class MainScreenFragment : Fragment() {
         access = prefs.getString("access", "user") ?: "user"
         VotingUtil.setBottomBar(access, binding.bottomNav)
 
-        // Безопасно устанавливаем checked состояние
         binding.bottomNav.menu.findItem(R.id.nav_home)?.isChecked = true
+
+        val requestAction = if (access == "admin" || access == "developer")
+            R.id.action_mainScreenFragment_to_newApplicationsFragment
+        else
+            R.id.action_mainScreenFragment_to_myApplicationsFragment
 
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_mainScreenFragment_self,
                 R.id.action_mainScreenFragment_to_newPollFragment,
                 R.id.action_mainScreenFragment_to_profileFragment,
-                R.id.action_mainScreenFragment_to_archiveFragment)
+                R.id.action_mainScreenFragment_to_archiveFragment,
+                requestAction)
         }
     }
 

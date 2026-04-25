@@ -27,6 +27,7 @@
     <string name="survey">Опрос</string>
     <string name="cast_a_vote">Сохранить выбор</string>
     <string name="new_survey">Новый опрос</string>
+    <string name="new_survey_subtitle">Заполните форму для создания голосования</string>
     <string name="survey_contents">Вопрос</string>
     <string name="enter_survey_contents">Введите содержание опроса…</string>
     <string name="choice">Варианты ответов </string>

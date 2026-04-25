@@ -54,12 +54,18 @@ class ArchiveFragment : Fragment() {
         access = prefs.getString("access", "user").toString()
         VotingUtil.setBottomBar(access, binding.bottomNav)
 
+        val requestAction = if (access == "admin" || access == "developer")
+            R.id.action_archiveFragment_to_newApplicationsFragment
+        else
+            R.id.action_archiveFragment_to_myApplicationsFragment
+
         binding.bottomNav.setOnItemSelectedListener { item ->
             VotingUtil.setupNavigation(this, item.itemId,
                 R.id.action_archiveFragment_to_mainScreenFragment,
                 R.id.action_archiveFragment_to_newPollFragment,
                 R.id.action_archiveFragment_to_profileFragment,
-                R.id.action_archiveFragment_self)
+                R.id.action_archiveFragment_self,
+                requestAction)
         }
     }
 
