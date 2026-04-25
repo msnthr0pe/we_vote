@@ -1,10 +1,8 @@
 package com.example.we_vote
 
 import android.app.AlertDialog
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,93 +12,81 @@ import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.we_vote.databinding.FragmentMyApplicationsBinding
-import com.example.we_vote.ktor.ApiClient
-import com.example.we_vote.ktor.DTOs
+import com.example.we_vote.domain.model.SurveyApplication
 import com.example.we_vote.recycler.MyApplicationsAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MyApplicationsFragment : Fragment() {
 
     private var _binding: FragmentMyApplicationsBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: MyApplicationsViewModel by viewModels {
+        val app = requireActivity().application as WeVoteApplication
+        MyApplicationsViewModel.Factory(
+            app.container.getUserApplicationsUseCase,
+            app.container.deleteApplicationUseCase,
+            app.container.preferences,
+        )
+    }
+
     private lateinit var adapter: MyApplicationsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentMyApplicationsBinding.inflate(layoutInflater, container, false)
 
         setupNavigation()
         setupRecycler()
+        observeState()
+
+        viewModel.loadApplications()
 
         return binding.root
     }
 
-    private fun setupNavigation() {
-        val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
-        val access = prefs.getString("access", "user")
-        VotingUtil.setBottomBar(access, binding.bottomNav)
-
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            VotingUtil.setupNavigation(
-                this, item.itemId,
-                R.id.action_myApplicationsFragment_to_mainScreenFragment,
-                R.id.action_myApplicationsFragment_to_newPollFragment,
-                R.id.action_myApplicationsFragment_to_profileFragment,
-                R.id.action_myApplicationsFragment_to_archiveFragment,
-                R.id.action_myApplicationsFragment_self
-            )
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (_binding != null) {
-            binding.bottomNav.menu.findItem(R.id.nav_request)?.isChecked = true
-        }
-    }
-
     private fun setupRecycler() {
-        val prefs = requireActivity().getSharedPreferences("credentials", Context.MODE_PRIVATE)
-        val email = prefs.getString("email", "") ?: ""
+        adapter = MyApplicationsAdapter(
+            items = emptyList(),
+            onItemClick = { app -> showDetailDialog(app) },
+            onCancel = { app, position -> showCancelConfirmDialog(app, position) },
+        )
+        binding.recyclerMyApplications.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerMyApplications.adapter = adapter
+    }
 
-        lifecycleScope.launch {
-            try {
-                val applications = withContext(Dispatchers.IO) {
-                    ApiClient.authApi.getUserApplications(DTOs.EmailDTO(email))
+    private fun observeState() {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is MyApplicationsViewModel.State.Loading -> Unit
+                is MyApplicationsViewModel.State.Success -> {
+                    adapter.updateItems(state.applications)
+                    binding.emptyText.isVisible = state.applications.isEmpty()
                 }
+                is MyApplicationsViewModel.State.Error -> {
+                    Toast.makeText(requireContext(), "Ошибка: ${state.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
-                adapter = MyApplicationsAdapter(
-                    items = applications,
-                    onItemClick = { application -> showDetailDialog(application) },
-                    onCancel = { application, position -> showCancelConfirmDialog(application, position) }
-                )
-                binding.recyclerMyApplications.layoutManager = LinearLayoutManager(requireContext())
-                binding.recyclerMyApplications.adapter = adapter
-                binding.emptyText.isVisible = applications.isEmpty()
-            } catch (e: Exception) {
-                Log.e("WE_VOTE", "Error loading applications: ${e.message}")
-                Toast.makeText(requireContext(), "Ошибка загрузки заявок: ${e.message}", Toast.LENGTH_SHORT).show()
+        viewModel.cancelResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Toast.makeText(requireContext(), getString(R.string.application_cancelled), Toast.LENGTH_SHORT).show()
+            }.onFailure {
+                Toast.makeText(requireContext(), "Ошибка отмены заявки", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun showCancelConfirmDialog(application: DTOs.ApplicationDTO, position: Int) {
+    private fun showCancelConfirmDialog(application: SurveyApplication, position: Int) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
-        dialogView.findViewById<TextView>(R.id.dialog_message).text =
-            getString(R.string.cancel_application_confirm)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.cancel_application_confirm)
         val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
         btnConfirm.text = getString(R.string.cancel_application)
-        val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
 
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogView)
@@ -109,37 +95,14 @@ class MyApplicationsFragment : Fragment() {
 
         btnConfirm.setOnClickListener {
             dialog.dismiss()
-            cancelApplication(application, position)
+            viewModel.cancelApplication(application.id, position)
         }
-        btnCancel.setOnClickListener { dialog.dismiss() }
+        dialogView.findViewById<Button>(R.id.dialog_cancel).setOnClickListener { dialog.dismiss() }
 
         dialog.show()
     }
 
-    private fun cancelApplication(application: DTOs.ApplicationDTO, position: Int) {
-        val call = ApiClient.authApi.deleteApplication(
-            DTOs.ApplicationIdDTO(id = application.id)
-        )
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (!isAdded || _binding == null) return
-                if (response.isSuccessful) {
-                    adapter.removeAt(position)
-                    binding.emptyText.isVisible = adapter.itemCount == 0
-                    Toast.makeText(requireContext(), getString(R.string.application_cancelled), Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(requireContext(), "Ошибка отмены заявки", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-                if (!isAdded || _binding == null) return
-                Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    private fun showDetailDialog(application: DTOs.ApplicationDTO) {
+    private fun showDetailDialog(application: SurveyApplication) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_application_detail, null)
         dialogView.findViewById<TextView>(R.id.dialog_app_title).text = application.title
         dialogView.findViewById<TextView>(R.id.dialog_option_1).text = application.firstChoice
@@ -150,12 +113,30 @@ class MyApplicationsFragment : Fragment() {
             .setView(dialogView)
             .create()
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
-
-        dialogView.findViewById<Button>(R.id.dialog_app_close).setOnClickListener {
-            dialog.dismiss()
-        }
+        dialogView.findViewById<Button>(R.id.dialog_app_close).setOnClickListener { dialog.dismiss() }
 
         dialog.show()
+    }
+
+    private fun setupNavigation() {
+        val access = (requireActivity().application as WeVoteApplication).container.preferences.getAccess()
+        VotingUtil.setBottomBar(access, binding.bottomNav)
+
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            VotingUtil.setupNavigation(
+                this, item.itemId,
+                R.id.action_myApplicationsFragment_to_mainScreenFragment,
+                R.id.action_myApplicationsFragment_to_newPollFragment,
+                R.id.action_myApplicationsFragment_to_profileFragment,
+                R.id.action_myApplicationsFragment_to_archiveFragment,
+                R.id.action_myApplicationsFragment_self,
+            )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (_binding != null) binding.bottomNav.menu.findItem(R.id.nav_request)?.isChecked = true
     }
 
     override fun onDestroyView() {

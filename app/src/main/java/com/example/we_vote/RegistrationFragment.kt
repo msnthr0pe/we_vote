@@ -1,97 +1,66 @@
 package com.example.we_vote
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.we_vote.databinding.FragmentRegistrationBinding
-import com.example.we_vote.ktor.ApiClient
-import com.example.we_vote.ktor.DTOs
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: RegistrationViewModel by viewModels {
+        val app = requireActivity().application as WeVoteApplication
+        RegistrationViewModel.Factory(app.container.registerUseCase)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
 
-        setupUserCreation()
-        
-        // Обработка кнопки Назад
-        binding.btBack.setOnClickListener {
-            findNavController().navigateUp()
+        binding.btBack.setOnClickListener { findNavController().navigateUp() }
+
+        binding.btnRegister.setOnClickListener {
+            val name = binding.etNameRegister.text.toString()
+            val email = binding.etEmailRegister.text.toString()
+            val dob = binding.etDateRegister.text.toString()
+            val city = binding.etCityRegister.text.toString()
+            val password = binding.etPasswordRegister.text.toString()
+
+            if (name.isNotEmpty() && email.isNotEmpty() && dob.isNotEmpty()
+                && city.isNotEmpty() && password.isNotEmpty()
+            ) {
+                viewModel.register(name, email, dob, city, password)
+            } else {
+                Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is RegistrationViewModel.State.Loading -> binding.progressBar.visibility = View.VISIBLE
+                is RegistrationViewModel.State.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), getString(R.string.account_created), Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
+                is RegistrationViewModel.State.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), getString(R.string.account_creation_error), Toast.LENGTH_SHORT).show()
+                }
+                else -> Unit
+            }
         }
 
         return binding.root
-    }
-
-    private fun setupUserCreation() {
-        binding.btnRegister.setOnClickListener {
-            with(binding) {
-                val name = etNameRegister.text.toString()
-                val email = etEmailRegister.text.toString()
-                val dob = etDateRegister.text.toString()
-                val city = etCityRegister.text.toString()
-                val password = etPasswordRegister.text.toString()
-
-                if (
-                    name.isNotEmpty() &&
-                    email.isNotEmpty() &&
-                    dob.isNotEmpty() &&
-                    city.isNotEmpty() &&
-                    password.isNotEmpty()
-                ) {
-                    binding.progressBar.visibility = View.VISIBLE
-                    registerNewUser(name, email, dob, city, password)
-                } else {
-                    Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    private fun registerNewUser(
-        name: String,
-        email: String,
-        dob: String,
-        city: String,
-        password: String
-    ) {
-        val call = ApiClient.authApi.register(DTOs.UserDTO(
-            name, email, dob, city, password, "user")
-        )
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(
-                call: Call<Void>,
-                response: Response<Void>
-            ) {
-                binding.progressBar.visibility = View.GONE
-                if (response.isSuccessful) {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.account_created), Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
-                } else {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.account_creation_error), Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<Void?>, t: Throwable) {
-                Toast.makeText(requireContext(), "${getString(R.string.network_error)} ${t.message}", Toast.LENGTH_SHORT).show()
-                binding.progressBar.visibility = View.GONE
-            }
-
-        })
     }
 
     override fun onDestroyView() {

@@ -10,19 +10,20 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.we_vote.R
 import com.example.we_vote.RelationBar
-import com.example.we_vote.ktor.DTOs
+import com.example.we_vote.domain.model.Survey
+import com.example.we_vote.domain.model.SurveyVotes
 import com.google.android.material.button.MaterialButton
 
 class MainSurveyAdapter(
-    private var surveys: List<DTOs.SurveyDTO>,
+    private var surveys: List<Survey>,
     private val access: String?,
     private val votedIds: MutableSet<Int>,
-    private val onVoteClick: (DTOs.SurveyDTO) -> Unit,
-    private val onArchiveClick: (DTOs.SurveyDTO, Int, Int) -> Unit,
-    private val onFetchResults: (surveyId: Int, onResult: (DTOs.SurveyVotesDTO?) -> Unit) -> Unit
+    private val onVoteClick: (Survey) -> Unit,
+    private val onArchiveClick: (Survey, Int, Int) -> Unit,
+    private val onFetchResults: (surveyId: Int, onResult: (SurveyVotes?) -> Unit) -> Unit,
 ) : RecyclerView.Adapter<MainSurveyAdapter.MainViewHolder>() {
 
-    private val resultsCache = mutableMapOf<Int, DTOs.SurveyVotesDTO?>()
+    private val resultsCache = mutableMapOf<Int, SurveyVotes?>()
     private val expandedResults = mutableSetOf<Int>()
 
     inner class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -30,7 +31,6 @@ class MainSurveyAdapter(
         val voteRow: LinearLayout = itemView.findViewById(R.id.vote_row)
         val voteBtn: MaterialButton = itemView.findViewById(R.id.vote_btn)
         val votedSection: LinearLayout = itemView.findViewById(R.id.voted_section)
-        val alreadyVotedText: TextView = itemView.findViewById(R.id.already_voted_text)
         val currentResultsBtn: MaterialButton = itemView.findViewById(R.id.current_results_btn)
         val resultsSection: LinearLayout = itemView.findViewById(R.id.results_section)
         val bar1: RelationBar = itemView.findViewById(R.id.result_bar_1)
@@ -38,7 +38,7 @@ class MainSurveyAdapter(
         val bar3: RelationBar = itemView.findViewById(R.id.result_bar_3)
         val archiveBtn: ImageButton = itemView.findViewById(R.id.voting_archive_btn)
 
-        fun bind(survey: DTOs.SurveyDTO, position: Int) {
+        fun bind(survey: Survey, position: Int) {
             titleText.text = survey.title
 
             val hasVoted = survey.id in votedIds
@@ -52,24 +52,17 @@ class MainSurveyAdapter(
                     if (isExpanded) R.string.hide_results else R.string.current_results
                 )
 
-                if (isExpanded) {
-                    val stats = resultsCache[survey.id]
-                    bindBars(survey, stats)
-                }
+                if (isExpanded) bindBars(survey, resultsCache[survey.id])
 
                 currentResultsBtn.setOnClickListener {
-                    val surveyId = survey.id
-                    if (surveyId in resultsCache) {
-                        if (surveyId in expandedResults) {
-                            expandedResults.remove(surveyId)
-                        } else {
-                            expandedResults.add(surveyId)
-                        }
+                    if (survey.id in resultsCache) {
+                        if (survey.id in expandedResults) expandedResults.remove(survey.id)
+                        else expandedResults.add(survey.id)
                         notifyItemChanged(position)
                     } else {
-                        onFetchResults(surveyId) { stats ->
-                            resultsCache[surveyId] = stats
-                            expandedResults.add(surveyId)
+                        onFetchResults(survey.id) { votes ->
+                            resultsCache[survey.id] = votes
+                            expandedResults.add(survey.id)
                             notifyItemChanged(position)
                         }
                     }
@@ -81,27 +74,22 @@ class MainSurveyAdapter(
             val isAdmin = access == "admin" || access == "developer"
             archiveBtn.isVisible = isAdmin
             if (isAdmin) {
-                archiveBtn.setOnClickListener {
-                    onArchiveClick(survey, position, itemCount)
-                }
+                archiveBtn.setOnClickListener { onArchiveClick(survey, position, itemCount) }
             }
         }
 
-        private fun bindBars(survey: DTOs.SurveyDTO, stats: DTOs.SurveyVotesDTO?) {
+        private fun bindBars(survey: Survey, votes: SurveyVotes?) {
             bar1.titleText = survey.firstChoice
-            bar1.progress = stats?.votesPercentage?.get(1) ?: 0
-
+            bar1.progress = votes?.votesPercentage?.get(1) ?: 0
             bar2.titleText = survey.secondChoice
-            bar2.progress = stats?.votesPercentage?.get(2) ?: 0
-
+            bar2.progress = votes?.votesPercentage?.get(2) ?: 0
             bar3.titleText = survey.thirdChoice
-            bar3.progress = stats?.votesPercentage?.get(3) ?: 0
+            bar3.progress = votes?.votesPercentage?.get(3) ?: 0
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_vote, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_vote, parent, false)
         return MainViewHolder(view)
     }
 
@@ -111,14 +99,8 @@ class MainSurveyAdapter(
 
     override fun getItemCount(): Int = surveys.size
 
-    fun updateList(newList: List<DTOs.SurveyDTO>) {
+    fun updateList(newList: List<Survey>) {
         surveys = newList
         notifyDataSetChanged()
-    }
-
-    fun markVoted(surveyId: Int) {
-        votedIds.add(surveyId)
-        val position = surveys.indexOfFirst { it.id == surveyId }
-        if (position >= 0) notifyItemChanged(position)
     }
 }

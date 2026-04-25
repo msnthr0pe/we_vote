@@ -9,14 +9,14 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.we_vote.R
-import com.example.we_vote.ktor.ApplicationStatus
-import com.example.we_vote.ktor.DTOs
+import com.example.we_vote.domain.model.ApplicationStatus
+import com.example.we_vote.domain.model.SurveyApplication
 
 class NewApplicationsAdapter(
-    private val items: MutableList<DTOs.ApplicationDTO>,
-    private val onItemClick: (DTOs.ApplicationDTO) -> Unit,
-    private val onAccept: (DTOs.ApplicationDTO, Int) -> Unit,
-    private val onReject: (DTOs.ApplicationDTO, Int) -> Unit
+    private val items: MutableList<SurveyApplication>,
+    private val onItemClick: (SurveyApplication) -> Unit,
+    private val onAccept: (SurveyApplication, Int) -> Unit,
+    private val onReject: (SurveyApplication, Int) -> Unit,
 ) : RecyclerView.Adapter<NewApplicationsAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,7 +28,7 @@ class NewApplicationsAdapter(
         val btnAccept: Button = itemView.findViewById(R.id.btn_accept)
         val btnReject: Button = itemView.findViewById(R.id.btn_reject)
 
-        fun bind(item: DTOs.ApplicationDTO, position: Int) {
+        fun bind(item: SurveyApplication, position: Int) {
             titleText.text = item.title
 
             when (item.status) {
@@ -63,8 +63,7 @@ class NewApplicationsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_application, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_application, parent, false)
         return ViewHolder(view)
     }
 
@@ -74,7 +73,7 @@ class NewApplicationsAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun updateList(newItems: List<DTOs.ApplicationDTO>) {
+    fun updateList(newItems: List<SurveyApplication>) {
         items.clear()
         items.addAll(newItems)
         notifyDataSetChanged()

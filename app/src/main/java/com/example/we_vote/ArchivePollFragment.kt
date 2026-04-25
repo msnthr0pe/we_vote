@@ -1,7 +1,6 @@
 package com.example.we_vote
 
 import android.app.AlertDialog
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,12 +15,6 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.we_vote.databinding.FragmentArchivePollBinding
-import com.example.we_vote.ktor.ApiClient
-import com.example.we_vote.ktor.DTOs
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import kotlin.getValue
 
 class ArchivePollFragment : Fragment() {
 
@@ -47,9 +40,7 @@ class ArchivePollFragment : Fragment() {
     }
 
     private fun setupNavigation() {
-        val prefs = requireActivity().getSharedPreferences("credentials",
-            Context.MODE_PRIVATE)
-        access = prefs.getString("access", "user").toString()
+        access = (requireActivity().application as WeVoteApplication).container.preferences.getAccess()
         binding.archivePollDelete.isVisible = access == "admin"
         VotingUtil.setBottomBar(access, binding.bottomNav)
 
