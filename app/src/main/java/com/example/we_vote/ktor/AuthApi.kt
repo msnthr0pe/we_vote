@@ -52,4 +52,7 @@ interface AuthApi {
 
     @POST("addapplication")
     fun addApplication(@Body request: DTOs.ApplicationDTO): Call<Void>
+
+    @POST("deleteapplication")
+    fun deleteApplication(@Body request: DTOs.ApplicationIdDTO): Call<Void>
 }

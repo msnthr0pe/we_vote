@@ -77,7 +77,7 @@ class NewApplicationsFragment : Fragment() {
             try {
                 applications = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getApplications()
-                }
+                }.toMutableList()
 
                 adapter = NewApplicationsAdapter(
                     items = applications,

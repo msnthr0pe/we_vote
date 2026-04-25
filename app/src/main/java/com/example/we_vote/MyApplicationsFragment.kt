@@ -23,11 +23,15 @@ import com.example.we_vote.recycler.MyApplicationsAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MyApplicationsFragment : Fragment() {
 
     private var _binding: FragmentMyApplicationsBinding? = null
     private val binding get() = _binding!!
+    private lateinit var adapter: MyApplicationsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,9 +78,12 @@ class MyApplicationsFragment : Fragment() {
                 val applications = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getUserApplications(DTOs.EmailDTO(email))
                 }
-                val adapter = MyApplicationsAdapter(applications) { application ->
-                    showDetailDialog(application)
-                }
+
+                adapter = MyApplicationsAdapter(
+                    items = applications,
+                    onItemClick = { application -> showDetailDialog(application) },
+                    onCancel = { application, position -> showCancelConfirmDialog(application, position) }
+                )
                 binding.recyclerMyApplications.layoutManager = LinearLayoutManager(requireContext())
                 binding.recyclerMyApplications.adapter = adapter
                 binding.emptyText.isVisible = applications.isEmpty()
@@ -85,6 +92,51 @@ class MyApplicationsFragment : Fragment() {
                 Toast.makeText(requireContext(), "Ошибка загрузки заявок: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showCancelConfirmDialog(application: DTOs.ApplicationDTO, position: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text =
+            getString(R.string.cancel_application_confirm)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
+        btnConfirm.text = getString(R.string.cancel_application)
+        val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+
+        btnConfirm.setOnClickListener {
+            dialog.dismiss()
+            cancelApplication(application, position)
+        }
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
+    }
+
+    private fun cancelApplication(application: DTOs.ApplicationDTO, position: Int) {
+        val call = ApiClient.authApi.deleteApplication(
+            DTOs.ApplicationIdDTO(id = application.id)
+        )
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (!isAdded || _binding == null) return
+                if (response.isSuccessful) {
+                    adapter.removeAt(position)
+                    binding.emptyText.isVisible = adapter.itemCount == 0
+                    Toast.makeText(requireContext(), getString(R.string.application_cancelled), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Ошибка отмены заявки", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                if (!isAdded || _binding == null) return
+                Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun showDetailDialog(application: DTOs.ApplicationDTO) {

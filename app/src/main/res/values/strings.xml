@@ -75,6 +75,9 @@
     <string name="theme_app">Тема приложения</string>
     <string name="first_choice">Первый вариант ответа</string>
     <string name="new_requests">Новые заявки</string>
+    <string name="cancel_application">Отменить заявку</string>
+    <string name="cancel_application_confirm">Вы уверены, что хотите отменить заявку? Это действие нельзя отменить.</string>
+    <string name="application_cancelled">Заявка отменена</string>
     <string name="status_pending">Опрос подан на рассмотрение</string>
     <string name="status_accepted">Опрос принят</string>
     <string name="status_rejected">Опрос отклонён</string>

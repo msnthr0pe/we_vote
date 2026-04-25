@@ -50,6 +50,10 @@ class NewApplicationsAdapter(
                     statusDot.background.setTint(Color.parseColor("#DD2C00"))
                     buttonsLayout.isVisible = false
                 }
+                ApplicationStatus.CANCELLED -> {
+                    statusLayout.isVisible = false
+                    buttonsLayout.isVisible = false
+                }
             }
 
             btnAccept.setOnClickListener { onAccept(item, position) }

@@ -69,10 +69,15 @@ class DTOs {
         val id: Int,
         val status: String
     )
+
+    data class ApplicationIdDTO(
+        val id: Int
+    )
 }
 
 enum class ApplicationStatus(val displayName: String) {
     PENDING("Опрос подан на рассмотрение"),
     ACCEPTED("Опрос принят"),
-    REJECTED("Опрос отклонён")
+    REJECTED("Опрос отклонён"),
+    CANCELLED("Заявка отменена")
 }
