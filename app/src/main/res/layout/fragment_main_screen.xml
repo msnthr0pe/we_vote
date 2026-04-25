@@ -203,12 +203,13 @@
         <!-- Нет результатов (ID ИЗ ОСНОВЫ - no_results) -->
         <TextView
             android:id="@+id/no_results"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:padding="16dp"
+            android:layout_gravity="center"
             android:text="@string/nothing_found"
+            android:textColor="@color/white_50"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_regular"
             android:visibility="gone" />
 
         <!-- Ошибка загрузки (ID ИЗ ОСНОВЫ - layout_error, tv_error, btn_retry) -->

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
@@ -81,7 +82,7 @@ class ArchiveFragment : Fragment() {
             try {
                 val surveys = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getArchivedSurveys()
-                }.sortedByDescending { it.id }
+                }
 
                 if (!isAdded || _binding == null) return@launch
 
@@ -123,7 +124,9 @@ class ArchiveFragment : Fragment() {
 
     private fun showDeleteDialog(survey: DTOs.SurveyDTO, position: Int) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_window, null)
+        dialogView.findViewById<TextView>(R.id.dialog_message).text = getString(R.string.are_you_sure_delete)
         val btnConfirm = dialogView.findViewById<Button>(R.id.dialog_confirm)
+        btnConfirm.text = getString(R.string.delete)
         val btnCancel = dialogView.findViewById<Button>(R.id.dialog_cancel)
 
         val dialog = AlertDialog.Builder(requireContext())

@@ -256,6 +256,7 @@ class MainScreenFragment : Fragment() {
 
                 recyclerView.adapter = adapter
                 binding.layoutError.visibility = View.GONE
+                binding.noResults.isVisible = surveys.isEmpty()
 
             } catch (e: Exception) {
                 // Проверяем, что фрагмент еще активен
