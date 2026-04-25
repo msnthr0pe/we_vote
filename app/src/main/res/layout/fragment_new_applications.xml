@@ -17,6 +17,77 @@
         android:textSize="@dimen/titleTextSize"
         android:fontFamily="@font/montserrat_semibold" />
 
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingHorizontal="12dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="4dp">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/filter_chip_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleSelection="true"
+            app:singleLine="true"
+            app:chipSpacingHorizontal="8dp">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_pending"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="@string/filter_new"
+                android:textColor="@color/dark"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="13sp"
+                android:checked="true"
+                app:chipBackgroundColor="@color/chip_background"
+                app:chipStrokeColor="@color/chip_stroke"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="18dp"
+                app:checkedIconVisible="false"
+                app:chipIconVisible="false"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_accepted"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="@string/filter_accepted"
+                android:textColor="@color/dark"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="13sp"
+                app:chipBackgroundColor="@color/chip_background"
+                app:chipStrokeColor="@color/chip_stroke"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="18dp"
+                app:checkedIconVisible="false"
+                app:chipIconVisible="false"
+                app:ensureMinTouchTargetSize="false" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_rejected"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="@string/filter_rejected"
+                android:textColor="@color/dark"
+                android:fontFamily="@font/montserrat_medium"
+                android:textSize="13sp"
+                app:chipBackgroundColor="@color/chip_background"
+                app:chipStrokeColor="@color/chip_stroke"
+                app:chipStrokeWidth="1dp"
+                app:chipCornerRadius="18dp"
+                app:checkedIconVisible="false"
+                app:chipIconVisible="false"
+                app:ensureMinTouchTargetSize="false" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

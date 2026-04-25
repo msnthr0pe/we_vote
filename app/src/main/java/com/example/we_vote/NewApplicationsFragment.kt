@@ -33,8 +33,9 @@ class NewApplicationsFragment : Fragment() {
     private var _binding: FragmentNewApplicationsBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var applications: MutableList<DTOs.ApplicationDTO>
+    private val allApplications: MutableList<DTOs.ApplicationDTO> = mutableListOf()
     private lateinit var adapter: NewApplicationsAdapter
+    private var currentFilter = ApplicationStatus.PENDING
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +44,7 @@ class NewApplicationsFragment : Fragment() {
         _binding = FragmentNewApplicationsBinding.inflate(layoutInflater, container, false)
 
         setupNavigation()
+        setupFilter()
         setupRecycler()
 
         return binding.root
@@ -72,23 +74,43 @@ class NewApplicationsFragment : Fragment() {
         }
     }
 
+    private fun setupFilter() {
+        binding.filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isEmpty()) return@setOnCheckedStateChangeListener
+            currentFilter = when (checkedIds.first()) {
+                R.id.chip_accepted -> ApplicationStatus.ACCEPTED
+                R.id.chip_rejected -> ApplicationStatus.REJECTED
+                else               -> ApplicationStatus.PENDING
+            }
+            applyFilter()
+        }
+    }
+
+    private fun applyFilter() {
+        if (!::adapter.isInitialized) return
+        val filtered = allApplications.filter { it.status == currentFilter }
+        adapter.updateList(filtered)
+        binding.emptyText.isVisible = filtered.isEmpty()
+    }
+
     private fun setupRecycler() {
+        adapter = NewApplicationsAdapter(
+            items = mutableListOf(),
+            onItemClick = { application -> showDetailDialog(application) },
+            onAccept = { application, _ -> updateStatus(application, ApplicationStatus.ACCEPTED) },
+            onReject = { application, _ -> updateStatus(application, ApplicationStatus.REJECTED) }
+        )
+        binding.recyclerNewApplications.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerNewApplications.adapter = adapter
+
         lifecycleScope.launch {
             try {
-                applications = withContext(Dispatchers.IO) {
+                val loaded = withContext(Dispatchers.IO) {
                     ApiClient.authApi.getApplications()
-                }.toMutableList()
-
-                adapter = NewApplicationsAdapter(
-                    items = applications,
-                    onItemClick = { application -> showDetailDialog(application) },
-                    onAccept = { application, position -> updateStatus(application, position, ApplicationStatus.ACCEPTED) },
-                    onReject = { application, position -> updateStatus(application, position, ApplicationStatus.REJECTED) }
-                )
-
-                binding.recyclerNewApplications.layoutManager = LinearLayoutManager(requireContext())
-                binding.recyclerNewApplications.adapter = adapter
-                binding.emptyText.isVisible = applications.isEmpty()
+                }
+                allApplications.clear()
+                allApplications.addAll(loaded)
+                applyFilter()
             } catch (e: Exception) {
                 Log.e("WE_VOTE", "Error loading applications: ${e.message}")
                 Toast.makeText(requireContext(), "Ошибка загрузки заявок: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -96,25 +118,25 @@ class NewApplicationsFragment : Fragment() {
         }
     }
 
-    private fun updateStatus(application: DTOs.ApplicationDTO, position: Int, newStatus: ApplicationStatus) {
+    private fun updateStatus(application: DTOs.ApplicationDTO, newStatus: ApplicationStatus) {
         val call = ApiClient.authApi.updateApplication(
             DTOs.ApplicationStatusUpdateDTO(id = application.id, status = newStatus.name)
         )
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (!isAdded || _binding == null) return
                 if (response.isSuccessful) {
-                    val updated = application.copy(status = newStatus)
-                    applications[position] = updated
-                    adapter.notifyItemChanged(position)
-                    if (newStatus == ApplicationStatus.ACCEPTED) {
-                        publishSurvey(application)
-                    }
+                    val idx = allApplications.indexOfFirst { it.id == application.id }
+                    if (idx != -1) allApplications[idx] = application.copy(status = newStatus)
+                    applyFilter()
+                    if (newStatus == ApplicationStatus.ACCEPTED) publishSurvey(application)
                 } else {
                     Toast.makeText(requireContext(), "Ошибка обновления статуса", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
+                if (!isAdded || _binding == null) return
                 Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
@@ -130,7 +152,6 @@ class NewApplicationsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Заявка принята, но опрос не опубликован", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<Void>, t: Throwable) {
                 Toast.makeText(requireContext(), "Ошибка публикации опроса: ${t.message}", Toast.LENGTH_SHORT).show()
             }

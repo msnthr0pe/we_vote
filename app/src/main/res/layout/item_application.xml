@@ -73,7 +73,7 @@
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat_semibold"
             android:backgroundTint="@android:color/transparent"
-            android:textSize="13sp"
+            android:textSize="11sp"
             android:visibility="gone"
             app:cornerRadius="14dp"
             app:strokeWidth="1dp"

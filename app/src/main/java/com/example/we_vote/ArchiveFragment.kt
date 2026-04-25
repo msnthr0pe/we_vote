@@ -83,9 +83,13 @@ class ArchiveFragment : Fragment() {
                     ApiClient.authApi.getArchivedSurveys()
                 }.sortedByDescending { it.id }
 
-                val items = surveys.map { survey ->
+                if (!isAdded || _binding == null) return@launch
+
+                val items = mutableListOf<ArchiveAdapter.ArchiveItem>()
+                for (survey in surveys) {
                     val stats = fetchSurveyStats(survey)
-                    ArchiveAdapter.ArchiveItem(survey, stats)
+                    if (!isAdded || _binding == null) return@launch
+                    items.add(ArchiveAdapter.ArchiveItem(survey, stats))
                 }
 
                 adapter = ArchiveAdapter(items, access) { survey, position, _ ->
@@ -95,8 +99,11 @@ class ArchiveFragment : Fragment() {
 
             } catch (e: Exception) {
                 Log.e("WE_VOTE", "Ошибка: ${e.message}")
+            } finally {
+                if (isAdded && _binding != null) {
+                    binding.archiveProgressBar.isVisible = false
+                }
             }
-            binding.archiveProgressBar.isVisible = false
         }
     }
 
@@ -141,11 +148,13 @@ class ArchiveFragment : Fragment() {
         val call = ApiClient.authApi.deleteSurveyInfo(DTOs.SurveyIdRequest(idSurvey))
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
+                if (!isAdded) return
                 if (!response.isSuccessful) {
                     Toast.makeText(requireContext(), "Ошибка при удалении", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<Void?>, t: Throwable) {
+                if (!isAdded) return
                 Toast.makeText(requireContext(), "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

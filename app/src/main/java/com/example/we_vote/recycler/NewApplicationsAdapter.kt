@@ -73,4 +73,10 @@ class NewApplicationsAdapter(
     }
 
     override fun getItemCount(): Int = items.size
+
+    fun updateList(newItems: List<DTOs.ApplicationDTO>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 }
