@@ -12,8 +12,8 @@ import com.example.we_vote.domain.repository.ApplicationRepository
 
 class ApplicationRepositoryImpl(private val api: AuthApi) : ApplicationRepository {
 
-    override suspend fun getApplications(): List<SurveyApplication> =
-        api.getApplications().map { it.toDomain() }
+    override suspend fun getApplications(email: String): List<SurveyApplication> =
+        api.getApplications(EmailDto(email)).map { it.toDomain() }
 
     override suspend fun getUserApplications(email: String): List<SurveyApplication> =
         api.getUserApplications(EmailDto(email)).map { it.toDomain() }

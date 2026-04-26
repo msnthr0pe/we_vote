@@ -136,8 +136,8 @@
                             android:gravity="center_vertical|start"
                             android:paddingStart="16dp"
                             app:strokeWidth="0dp"
-                            android:textColor="@color/white"
-                            />
+                            android:textColor="@color/white" />
+
 
 <!--                        &lt;!&ndash; Тема приложения с Toggle &ndash;&gt;-->
 <!--                        <LinearLayout-->

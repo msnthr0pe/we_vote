@@ -38,7 +38,9 @@ class MainScreenViewModel(
         viewModelScope.launch {
             _surveysState.value = SurveysState.Loading
             try {
-                allSurveys = getSurveysUseCase()
+                val access = preferences.getAccess()
+                val city = if (access == "developer") "" else preferences.getCity()
+                allSurveys = getSurveysUseCase(city)
                 _surveysState.value = SurveysState.Success(allSurveys)
             } catch (e: Exception) {
                 _surveysState.value = SurveysState.Error

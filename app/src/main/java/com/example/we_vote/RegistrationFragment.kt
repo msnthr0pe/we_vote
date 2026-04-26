@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Filter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,7 +19,7 @@ class RegistrationFragment : Fragment() {
 
     private val viewModel: RegistrationViewModel by viewModels {
         val app = requireActivity().application as WeVoteApplication
-        RegistrationViewModel.Factory(app.container.registerUseCase)
+        RegistrationViewModel.Factory(app.container.registerUseCase, app.container.getCitiesUseCase)
     }
 
     override fun onCreateView(
@@ -27,6 +29,12 @@ class RegistrationFragment : Fragment() {
         _binding = FragmentRegistrationBinding.inflate(layoutInflater, container, false)
 
         binding.btBack.setOnClickListener { findNavController().navigateUp() }
+
+        viewModel.cities.observe(viewLifecycleOwner) { cities ->
+            val adapter = buildCityAdapter(cities)
+            binding.etCityRegister.setAdapter(adapter)
+            binding.etCityRegister.setOnClickListener { binding.etCityRegister.showDropDown() }
+        }
 
         binding.btnRegister.setOnClickListener {
             val name = binding.etNameRegister.text.toString()
@@ -62,6 +70,16 @@ class RegistrationFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun buildCityAdapter(cities: List<String>) =
+        object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, cities) {
+            override fun getFilter() = object : Filter() {
+                override fun performFiltering(c: CharSequence?) = FilterResults().also {
+                    it.values = cities; it.count = cities.size
+                }
+                override fun publishResults(c: CharSequence?, r: FilterResults?) = notifyDataSetChanged()
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

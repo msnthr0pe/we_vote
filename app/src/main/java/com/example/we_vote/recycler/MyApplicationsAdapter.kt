@@ -22,6 +22,7 @@ class MyApplicationsAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleText: TextView = itemView.findViewById(R.id.app_title)
+        val cityText: TextView = itemView.findViewById(R.id.app_city)
         val statusLayout: View = itemView.findViewById(R.id.status_layout)
         val statusDot: View = itemView.findViewById(R.id.status_dot)
         val statusText: TextView = itemView.findViewById(R.id.app_status)
@@ -29,6 +30,12 @@ class MyApplicationsAdapter(
 
         fun bind(item: SurveyApplication) {
             titleText.text = item.title
+            if (item.userCity.isNotBlank()) {
+                cityText.text = itemView.context.getString(R.string.applicant_city) + " " + item.userCity
+                cityText.isVisible = true
+            } else {
+                cityText.isVisible = false
+            }
             statusLayout.isVisible = true
             statusText.text = item.status.displayName
 

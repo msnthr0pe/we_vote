@@ -44,6 +44,7 @@ class ProfileFragment : Fragment() {
         binding.alterData.setOnClickListener {
             findNavController().navigate(R.id.action_profileFragment_to_personalInfoChangeFragment)
         }
+
     }
 
     private fun setupNavigation() {

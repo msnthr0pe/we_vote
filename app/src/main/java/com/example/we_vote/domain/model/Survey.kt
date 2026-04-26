@@ -6,4 +6,5 @@ data class Survey(
     val firstChoice: String,
     val secondChoice: String,
     val thirdChoice: String,
+    val city: String,
 )

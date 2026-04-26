@@ -12,6 +12,7 @@ fun ApplicationDto.toDomain() = SurveyApplication(
     thirdChoice = thirdChoice,
     status = runCatching { ApplicationStatus.valueOf(status) }.getOrDefault(ApplicationStatus.PENDING),
     userEmail = userEmail,
+    userCity = userCity,
 )
 
 fun SurveyApplication.toDto() = ApplicationDto(
@@ -22,4 +23,5 @@ fun SurveyApplication.toDto() = ApplicationDto(
     thirdChoice = thirdChoice,
     status = status.name,
     userEmail = userEmail,
+    userCity = userCity,
 )

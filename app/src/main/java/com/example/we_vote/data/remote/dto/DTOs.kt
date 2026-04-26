@@ -14,12 +14,15 @@ data class UserDto(
     val access: String,
 )
 
+data class CityDto(val name: String)
+
 data class SurveyDto(
     val id: Int,
     val title: String,
     val firstChoice: String,
     val secondChoice: String,
     val thirdChoice: String,
+    val city: String,
 )
 
 data class TitleDto(val title: String)
@@ -45,6 +48,7 @@ data class ApplicationDto(
     val thirdChoice: String,
     val status: String,
     val userEmail: String,
+    val userCity: String = "",
 )
 
 data class EmailDto(val email: String)

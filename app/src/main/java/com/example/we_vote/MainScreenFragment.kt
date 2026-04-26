@@ -98,6 +98,8 @@ class MainScreenFragment : Fragment() {
                 is MainScreenViewModel.SurveysState.Success -> {
                     binding.progressBarMain.isVisible = false
                     binding.layoutError.visibility = View.GONE
+                    val activeIds = state.surveys.map { it.id }.toSet()
+                    adapter.refreshVotedIds(viewModel.preferences.getVotedIds().filterTo(mutableSetOf()) { it in activeIds })
                     adapter.updateList(state.surveys)
                     binding.noResults.isVisible = state.surveys.isEmpty()
                     binding.mainRecycler.isVisible = state.surveys.isNotEmpty()

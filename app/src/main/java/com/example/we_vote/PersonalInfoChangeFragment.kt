@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.Filter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toDrawable
@@ -23,7 +25,11 @@ class PersonalInfoChangeFragment : Fragment() {
 
     private val viewModel: PersonalInfoChangeViewModel by viewModels {
         val app = requireActivity().application as WeVoteApplication
-        PersonalInfoChangeViewModel.Factory(app.container.updateUserUseCase, app.container.preferences)
+        PersonalInfoChangeViewModel.Factory(
+            app.container.updateUserUseCase,
+            app.container.preferences,
+            app.container.getCitiesUseCase,
+        )
     }
 
     override fun onCreateView(
@@ -33,6 +39,14 @@ class PersonalInfoChangeFragment : Fragment() {
         _binding = FragmentPersonalInfoChangeBinding.inflate(layoutInflater, container, false)
 
         setupForm()
+
+        viewModel.cities.observe(viewLifecycleOwner) { cities ->
+            val current = viewModel.preferences.getCity()
+            val adapter = buildCityAdapter(cities)
+            binding.etCityChange.setAdapter(adapter)
+            binding.etCityChange.setOnClickListener { binding.etCityChange.showDropDown() }
+            if (binding.etCityChange.text.isEmpty()) binding.etCityChange.setText(current)
+        }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -89,7 +103,15 @@ class PersonalInfoChangeFragment : Fragment() {
         dialog.show()
     }
 
-
+    private fun buildCityAdapter(cities: List<String>) =
+        object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, cities) {
+            override fun getFilter() = object : Filter() {
+                override fun performFiltering(c: CharSequence?) = FilterResults().also {
+                    it.values = cities; it.count = cities.size
+                }
+                override fun publishResults(c: CharSequence?, r: FilterResults?) = notifyDataSetChanged()
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -8,4 +8,5 @@ data class SurveyApplication(
     val thirdChoice: String,
     val status: ApplicationStatus,
     val userEmail: String,
+    val userCity: String = "",
 )

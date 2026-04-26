@@ -103,4 +103,9 @@ class MainSurveyAdapter(
         surveys = newList
         notifyDataSetChanged()
     }
+
+    fun refreshVotedIds(newIds: Set<Int>) {
+        votedIds.clear()
+        votedIds.addAll(newIds)
+    }
 }

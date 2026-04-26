@@ -30,6 +30,7 @@ class NewApplicationsFragment : Fragment() {
             app.container.getApplicationsUseCase,
             app.container.updateApplicationStatusUseCase,
             app.container.addSurveyUseCase,
+            app.container.preferences,
         )
     }
 

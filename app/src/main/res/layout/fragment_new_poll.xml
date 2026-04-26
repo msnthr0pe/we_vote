@@ -241,6 +241,50 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- City card — shown only for admin/developer, controlled in Fragment -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/city_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/light_green"
+                    app:cardCornerRadius="20dp"
+                    app:strokeWidth="0dp"
+                    android:layout_marginBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="@string/city"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/montserrat_semibold" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/city_dropdown"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:hint="@string/select_city"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white_50"
+                            android:textSize="15sp"
+                            android:background="@drawable/input_bg_dark"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
                 <Button
                     android:id="@+id/add_survey_btn"
                     android:layout_width="match_parent"

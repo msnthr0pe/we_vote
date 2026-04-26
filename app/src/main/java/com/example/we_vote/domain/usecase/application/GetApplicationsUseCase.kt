@@ -4,5 +4,5 @@ import com.example.we_vote.domain.model.SurveyApplication
 import com.example.we_vote.domain.repository.ApplicationRepository
 
 class GetApplicationsUseCase(private val repository: ApplicationRepository) {
-    suspend operator fun invoke(): List<SurveyApplication> = repository.getApplications()
+    suspend operator fun invoke(email: String): List<SurveyApplication> = repository.getApplications(email)
 }

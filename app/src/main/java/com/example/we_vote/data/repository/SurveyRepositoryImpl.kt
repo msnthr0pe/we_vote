@@ -3,6 +3,7 @@ package com.example.we_vote.data.repository
 import com.example.we_vote.data.mapper.toDomain
 import com.example.we_vote.data.mapper.toDto
 import com.example.we_vote.data.remote.api.AuthApi
+import com.example.we_vote.data.remote.dto.CityDto
 import com.example.we_vote.data.remote.dto.SurveyIdDto
 import com.example.we_vote.data.remote.dto.TitleDto
 import com.example.we_vote.data.remote.dto.UsersSurveysDto
@@ -12,11 +13,11 @@ import com.example.we_vote.domain.repository.SurveyRepository
 
 class SurveyRepositoryImpl(private val api: AuthApi) : SurveyRepository {
 
-    override suspend fun getSurveys(): List<Survey> =
-        api.getSurveys().map { it.toDomain() }
+    override suspend fun getSurveys(city: String): List<Survey> =
+        api.getSurveys(CityDto(city)).map { it.toDomain() }
 
-    override suspend fun getArchivedSurveys(): List<Survey> =
-        api.getArchivedSurveys().map { it.toDomain() }
+    override suspend fun getArchivedSurveys(city: String): List<Survey> =
+        api.getArchivedSurveys(CityDto(city)).map { it.toDomain() }
 
     override suspend fun getSurveyVotes(surveyId: Int): SurveyVotes? =
         runCatching { api.getSurveyVotes(SurveyIdDto(surveyId)).toDomain() }.getOrNull()

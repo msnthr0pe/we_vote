@@ -29,6 +29,7 @@ class ArchiveFragment : Fragment() {
             app.container.getArchivedSurveysUseCase,
             app.container.getSurveyVotesUseCase,
             app.container.deleteSurveyUseCase,
+            app.container.preferences,
         )
     }
 
@@ -66,6 +67,7 @@ class ArchiveFragment : Fragment() {
                 is ArchiveViewModel.State.Success -> {
                     binding.archiveProgressBar.isVisible = false
                     adapter.updateItems(state.items)
+                    binding.emptyArchiveText.isVisible = state.items.isEmpty()
                 }
                 is ArchiveViewModel.State.Error -> {
                     binding.archiveProgressBar.isVisible = false

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Filter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +22,7 @@ class NewPollFragment : Fragment() {
             app.container.addSurveyUseCase,
             app.container.addApplicationUseCase,
             app.container.preferences,
+            app.container.getCitiesUseCase,
         )
     }
 
@@ -31,14 +34,31 @@ class NewPollFragment : Fragment() {
 
         setupNavigation()
 
+        val access = (requireActivity().application as WeVoteApplication).container.preferences.getAccess()
+        val isAdmin = access == "admin" || access == "developer"
+
+        if (isAdmin) {
+            binding.cityCard.visibility = View.VISIBLE
+            viewModel.cities.observe(viewLifecycleOwner) { cities ->
+                val adapter = buildCityAdapter(cities)
+                binding.cityDropdown.setAdapter(adapter)
+                binding.cityDropdown.setOnClickListener { binding.cityDropdown.showDropDown() }
+            }
+        }
+
         binding.addSurveyBtn.setOnClickListener {
             val title = binding.newTitle.text.toString()
             val first = binding.newFirstChoice.text.toString()
             val second = binding.newSecondChoice.text.toString()
             val third = binding.newThirdChoice.text.toString()
+            val city = if (isAdmin) binding.cityDropdown.text.toString() else ""
 
-            if (title.isNotEmpty() && first.isNotEmpty() && second.isNotEmpty() && third.isNotEmpty()) {
-                viewModel.submit(title, first, second, third)
+            val fieldsValid = title.isNotEmpty() && first.isNotEmpty()
+                    && second.isNotEmpty() && third.isNotEmpty()
+            val cityValid = !isAdmin || city.isNotEmpty()
+
+            if (fieldsValid && cityValid) {
+                viewModel.submit(title, first, second, third, city)
             } else {
                 Toast.makeText(activity, "Заполните все поля", Toast.LENGTH_SHORT).show()
             }
@@ -89,6 +109,16 @@ class NewPollFragment : Fragment() {
             )
         }
     }
+
+    private fun buildCityAdapter(cities: List<String>) =
+        object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line, cities) {
+            override fun getFilter() = object : Filter() {
+                override fun performFiltering(c: CharSequence?) = FilterResults().also {
+                    it.values = cities; it.count = cities.size
+                }
+                override fun publishResults(c: CharSequence?, r: FilterResults?) = notifyDataSetChanged()
+            }
+        }
 
     override fun onResume() {
         super.onResume()

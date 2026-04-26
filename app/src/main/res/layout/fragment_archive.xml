@@ -39,6 +39,17 @@
             android:visibility="visible"
             android:background="@android:color/transparent" />
 
+        <TextView
+            android:id="@+id/empty_archive_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_archived_surveys"
+            android:textColor="#80FFFFFF"
+            android:textSize="15sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:visibility="gone" />
+
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

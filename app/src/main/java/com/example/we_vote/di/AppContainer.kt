@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.we_vote.data.local.PreferencesManager
 import com.example.we_vote.data.remote.ApiClient
 import com.example.we_vote.data.repository.ApplicationRepositoryImpl
+import com.example.we_vote.data.repository.CityRepositoryImpl
 import com.example.we_vote.data.repository.SurveyRepositoryImpl
 import com.example.we_vote.data.repository.UserRepositoryImpl
 import com.example.we_vote.domain.usecase.application.AddApplicationUseCase
@@ -11,6 +12,9 @@ import com.example.we_vote.domain.usecase.application.DeleteApplicationUseCase
 import com.example.we_vote.domain.usecase.application.GetApplicationsUseCase
 import com.example.we_vote.domain.usecase.application.GetUserApplicationsUseCase
 import com.example.we_vote.domain.usecase.application.UpdateApplicationStatusUseCase
+import com.example.we_vote.domain.usecase.city.AddCityUseCase
+import com.example.we_vote.domain.usecase.city.DeleteCityUseCase
+import com.example.we_vote.domain.usecase.city.GetCitiesUseCase
 import com.example.we_vote.domain.usecase.survey.AddSurveyUseCase
 import com.example.we_vote.domain.usecase.survey.ArchiveSurveyUseCase
 import com.example.we_vote.domain.usecase.survey.DeleteSurveyUseCase
@@ -32,6 +36,12 @@ class AppContainer(context: Context) {
     private val surveyRepository = SurveyRepositoryImpl(api)
     private val userRepository = UserRepositoryImpl(api)
     private val applicationRepository = ApplicationRepositoryImpl(api)
+    private val cityRepository = CityRepositoryImpl(api)
+
+    // City use cases
+    val getCitiesUseCase = GetCitiesUseCase(cityRepository)
+    val addCityUseCase = AddCityUseCase(cityRepository)
+    val deleteCityUseCase = DeleteCityUseCase(cityRepository)
 
     // Survey use cases
     val getSurveysUseCase = GetSurveysUseCase(surveyRepository)

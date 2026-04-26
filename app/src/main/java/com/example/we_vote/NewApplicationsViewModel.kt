@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.we_vote.data.local.PreferencesManager
 import com.example.we_vote.domain.model.ApplicationStatus
 import com.example.we_vote.domain.model.Survey
 import com.example.we_vote.domain.model.SurveyApplication
@@ -17,6 +18,7 @@ class NewApplicationsViewModel(
     private val getApplicationsUseCase: GetApplicationsUseCase,
     private val updateApplicationStatusUseCase: UpdateApplicationStatusUseCase,
     private val addSurveyUseCase: AddSurveyUseCase,
+    private val preferences: PreferencesManager,
 ) : ViewModel() {
 
     sealed class State {
@@ -36,7 +38,7 @@ class NewApplicationsViewModel(
         viewModelScope.launch {
             _state.value = State.Loading
             try {
-                val apps = getApplicationsUseCase()
+                val apps = getApplicationsUseCase(preferences.getEmail())
                 allApplications.clear()
                 allApplications.addAll(apps)
                 applyFilter(currentFilter)
@@ -71,7 +73,7 @@ class NewApplicationsViewModel(
     private suspend fun publishSurvey(application: SurveyApplication) {
         runCatching {
             addSurveyUseCase(
-                Survey(-1, application.title, application.firstChoice, application.secondChoice, application.thirdChoice)
+                Survey(-1, application.title, application.firstChoice, application.secondChoice, application.thirdChoice, application.userCity)
             )
         }
     }
@@ -80,10 +82,11 @@ class NewApplicationsViewModel(
         private val getApplicationsUseCase: GetApplicationsUseCase,
         private val updateApplicationStatusUseCase: UpdateApplicationStatusUseCase,
         private val addSurveyUseCase: AddSurveyUseCase,
+        private val preferences: PreferencesManager,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return NewApplicationsViewModel(getApplicationsUseCase, updateApplicationStatusUseCase, addSurveyUseCase) as T
+            return NewApplicationsViewModel(getApplicationsUseCase, updateApplicationStatusUseCase, addSurveyUseCase, preferences) as T
         }
     }
 }

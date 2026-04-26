@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.we_vote.data.local.PreferencesManager
 import com.example.we_vote.domain.model.Survey
 import com.example.we_vote.domain.model.SurveyVotes
 import com.example.we_vote.domain.usecase.survey.DeleteSurveyUseCase
@@ -16,6 +17,7 @@ class ArchiveViewModel(
     private val getArchivedSurveysUseCase: GetArchivedSurveysUseCase,
     private val getSurveyVotesUseCase: GetSurveyVotesUseCase,
     private val deleteSurveyUseCase: DeleteSurveyUseCase,
+    private val preferences: PreferencesManager,
 ) : ViewModel() {
 
     data class ArchiveItem(val survey: Survey, val votes: SurveyVotes?)
@@ -38,7 +40,9 @@ class ArchiveViewModel(
         viewModelScope.launch {
             _state.value = State.Loading
             try {
-                val surveys = getArchivedSurveysUseCase()
+                val access = preferences.getAccess()
+                val city = if (access == "developer") "" else preferences.getCity()
+                val surveys = getArchivedSurveysUseCase(city)
                 currentItems.clear()
                 for (survey in surveys) {
                     val votes = getSurveyVotesUseCase(survey.id)
@@ -68,10 +72,11 @@ class ArchiveViewModel(
         private val getArchivedSurveysUseCase: GetArchivedSurveysUseCase,
         private val getSurveyVotesUseCase: GetSurveyVotesUseCase,
         private val deleteSurveyUseCase: DeleteSurveyUseCase,
+        private val preferences: PreferencesManager,
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return ArchiveViewModel(getArchivedSurveysUseCase, getSurveyVotesUseCase, deleteSurveyUseCase) as T
+            return ArchiveViewModel(getArchivedSurveysUseCase, getSurveyVotesUseCase, deleteSurveyUseCase, preferences) as T
         }
     }
 }

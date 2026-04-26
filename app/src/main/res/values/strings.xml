@@ -12,6 +12,7 @@
     <string name="date_format">Формат ввода: xx.xx.xxxx</string>
     <string name="city">Город</string>
     <string name="enter_city_name">Введите название города…</string>
+    <string name="select_city">Выберите город…</string>
     <string name="register">Зарегистрироваться</string>
     <string name="slogan">Твой взгляд формирует завтрашний день</string>
     <string name="night_theme">Тёмная тема</string>
@@ -95,4 +96,13 @@
     <string name="already_voted">Вы уже проголосовали</string>
     <string name="current_results">Текущие результаты</string>
     <string name="hide_results">Скрыть результаты</string>
+    <string name="applicant_city">Город заявителя:</string>
+    <string name="manage_cities">Управление городами</string>
+    <string name="add_city">Добавить</string>
+    <string name="enter_city_hint">Название города…</string>
+    <string name="cities_list_empty">Города ещё не добавлены</string>
+    <string name="city_added">Город добавлен</string>
+    <string name="city_deleted">Город удалён</string>
+    <string name="city_name_empty">Введите название города</string>
+    <string name="no_archived_surveys">Архивированных опросов нет</string>
 </resources>

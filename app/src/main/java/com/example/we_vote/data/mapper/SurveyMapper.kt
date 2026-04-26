@@ -11,6 +11,7 @@ fun SurveyDto.toDomain() = Survey(
     firstChoice = firstChoice,
     secondChoice = secondChoice,
     thirdChoice = thirdChoice,
+    city = city,
 )
 
 fun Survey.toDto() = SurveyDto(
@@ -19,6 +20,7 @@ fun Survey.toDto() = SurveyDto(
     firstChoice = firstChoice,
     secondChoice = secondChoice,
     thirdChoice = thirdChoice,
+    city = city,
 )
 
 fun SurveyVotesDto.toDomain() = SurveyVotes(

@@ -3,6 +3,7 @@ package com.example.we_vote.data.remote.api
 import com.example.we_vote.data.remote.dto.ApplicationDto
 import com.example.we_vote.data.remote.dto.ApplicationIdDto
 import com.example.we_vote.data.remote.dto.ApplicationStatusUpdateDto
+import com.example.we_vote.data.remote.dto.CityDto
 import com.example.we_vote.data.remote.dto.CredentialsDto
 import com.example.we_vote.data.remote.dto.EmailDto
 import com.example.we_vote.data.remote.dto.SurveyDto
@@ -26,11 +27,20 @@ interface AuthApi {
     @POST("register")
     suspend fun register(@Body request: UserDto): Response<Void>
 
-    @GET("getsurveys")
-    suspend fun getSurveys(): List<SurveyDto>
+    @POST("getsurveys")
+    suspend fun getSurveys(@Body request: CityDto): List<SurveyDto>
 
-    @GET("getarchivedsurveys")
-    suspend fun getArchivedSurveys(): List<SurveyDto>
+    @POST("getarchivedsurveys")
+    suspend fun getArchivedSurveys(@Body request: CityDto): List<SurveyDto>
+
+    @GET("getcities")
+    suspend fun getCities(): List<CityDto>
+
+    @POST("addcity")
+    suspend fun addCity(@Body request: CityDto): Response<Void>
+
+    @POST("deletecity")
+    suspend fun deleteCity(@Body request: CityDto): Response<Void>
 
     @POST("addusersurvey")
     suspend fun addUserSurvey(@Body request: UsersSurveysDto): Response<Void>
@@ -50,8 +60,8 @@ interface AuthApi {
     @POST("deletesurveyinfo")
     suspend fun deleteSurvey(@Body request: SurveyIdDto): Response<Void>
 
-    @GET("getapplications")
-    suspend fun getApplications(): List<ApplicationDto>
+    @POST("getapplications")
+    suspend fun getApplications(@Body request: EmailDto): List<ApplicationDto>
 
     @POST("getuserapplications")
     suspend fun getUserApplications(@Body request: EmailDto): List<ApplicationDto>
