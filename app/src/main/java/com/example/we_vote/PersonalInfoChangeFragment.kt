@@ -79,6 +79,7 @@ class PersonalInfoChangeFragment : Fragment() {
             .create()
         dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
 
+        dialogView.findViewById<Button>(R.id.dialog_confirm).text = getString(R.string.save)
         dialogView.findViewById<Button>(R.id.dialog_confirm).setOnClickListener {
             dialog.dismiss()
             viewModel.updateUser(user)
